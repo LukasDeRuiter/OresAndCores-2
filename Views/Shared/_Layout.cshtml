@@ -29,6 +29,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Mine" asp-action="Index">Go to the mine</a>
                         </li>
+                        
+                        @{ await Html.RenderPartialAsync("_LoginPartial"); }
                     </ul>
                 </div>
             </div>
