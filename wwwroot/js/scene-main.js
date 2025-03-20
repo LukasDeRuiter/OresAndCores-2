@@ -64,42 +64,36 @@ class SceneMain extends Phaser.Scene {
     }
 
     update() {
-                    // Get the camera's visible area
-    const cameraBounds = this.cameras.main.worldView;
+        const cameraBounds = this.cameras.main.worldView;
 
-    // Calculate the chunk coordinates based on the camera's view
-    const snappedChunkX = Math.floor(cameraBounds.centerX / (this.chunkSize * this.tileSize));
-    const snappedChunkY = Math.floor(cameraBounds.centerY / (this.chunkSize * this.tileSize));
+        const snappedChunkX = Math.floor(cameraBounds.centerX / (this.chunkSize * this.tileSize));
+        const snappedChunkY = Math.floor(cameraBounds.centerY / (this.chunkSize * this.tileSize));
 
-    // Create new chunks around the camera view
-    for (let x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
-        for (let y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
-            let existingChunk = this.getChunk(x, y);
 
-            if (existingChunk === null) {
-                let newChunk = new Chunk(this, x, y);
-                this.chunks.push(newChunk);
+        for (let x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
+            for (let y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
+                let existingChunk = this.getChunk(x, y);
+
+                if (existingChunk === null) {
+                    let newChunk = new Chunk(this, x, y);
+                    this.chunks.push(newChunk);
+                }
             }
         }
-    }
 
-    // Load and unload chunks based on proximity to the camera
-    for (let i = 0; i < this.chunks.length; i++) {
-        let chunk = this.chunks[i];
 
-        if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
-            chunk.load();
-        } else {
-            chunk.unload();
+        for (let i = 0; i < this.chunks.length; i++) {
+            let chunk = this.chunks[i];
+
+            if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
+                chunk.load();
+            } else {
+             chunk.unload();
+            }
         }
-    }
 
-    // Automatically follow the player with the camera
     this.cameras.main.centerOn(this.player.x, this.player.y);
-
     this.player.setDepth(1);
-
-    // Update player movement
     this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
     }
 }   
