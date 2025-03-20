@@ -1,3 +1,38 @@
+class Player extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y) {
+        super(scene, x, y, "player");   
+
+        this.scene = scene;
+
+        this.scene.add.existing(this);
+        this.scene.physics.add.existing(this);
+
+        this.setOrigin(0.5);
+        this.setDisplaySize(16, 16);
+        
+        this.body.setSize(16, 16);
+        this.body.setCollideWorldBounds(true);
+
+        this.speed = 100;
+    }
+
+    update(cursors) {
+        this.body.setVelocity(0);
+
+        if (cursors.W.isDown) {
+            this.body.setVelocityY(-this.speed);
+        } else if (cursors.S.isDown) {
+            this.body.setVelocityY(this.speed);
+        }
+
+        if(cursors.A.isDown) {
+            this.body.setVelocityX(-this.speed);
+        } else if (cursors.D.isDown) {
+            this.body.setVelocityX(this.speed);
+        }
+    }
+}
+
 class Chunk {
     constructor(scene, x, y) {
         this.scene = scene;
@@ -38,6 +73,7 @@ class Chunk {
                     }
 
                     var tile = new Tile(this.scene, tileX, tileY, key);
+                    //tile.setDepth(0);
                    
                     if (animationKey !== "") {
                         tile.play(animationKey);
