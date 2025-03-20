@@ -4,6 +4,7 @@ class SceneMain extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image("player", "assets/mine/sprites/player/player.png");
         this.load.spritesheet("sprWater", "assets/mine/sprites/tiles/sprWater.png", {
             frameWidth: 16,
             frameHeight: 16
@@ -14,6 +15,16 @@ class SceneMain extends Phaser.Scene {
     }
 
     create() {
+        this.physics.world.setBounds(0, 0, 1000, 1000);
+        this.cameras.main.setBounds(0, 0, 1000, 1000);
+
+        this.player = new Player(this, this.cameras.main.worldView.x + (this.cameras.main.worldView.width * 0.5),
+        this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5));
+
+        this.physics.world.enable(this.player);
+        this.cameras.main.startFollow(this.player);
+
+
         this.anims.create({
             key: "sprWater",
             frames: this.anims.generateFrameNumbers("sprWater"),
@@ -53,56 +64,42 @@ class SceneMain extends Phaser.Scene {
     }
 
     update() {
-        var snappedChunkX = (this.chunkSize * this.tileSize) * Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
-        var snappedChunkY = (this.chunkSize * this.tileSize) * Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
+                    // Get the camera's visible area
+    const cameraBounds = this.cameras.main.worldView;
 
-        snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
-        snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
+    // Calculate the chunk coordinates based on the camera's view
+    const snappedChunkX = Math.floor(cameraBounds.centerX / (this.chunkSize * this.tileSize));
+    const snappedChunkY = Math.floor(cameraBounds.centerY / (this.chunkSize * this.tileSize));
 
-        for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
-            for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
-                var existingChunk = this.getChunk(x, y);
+    // Create new chunks around the camera view
+    for (let x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
+        for (let y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
+            let existingChunk = this.getChunk(x, y);
 
-                if (existingChunk == null) {
-                    var newChunk = new Chunk(this, x, y);
-                    this.chunks.push(newChunk);
-                }
+            if (existingChunk === null) {
+                let newChunk = new Chunk(this, x, y);
+                this.chunks.push(newChunk);
             }
         }
-
-        for (var i = 0; i < this.chunks.length; i++) {
-            var chunk = this.chunks[i];
-
-            if (Phaser.Math.Distance.Between(
-                snappedChunkX,
-                snappedChunkY,
-                chunk.x,
-                chunk.y
-            ) < 3) {
-                if (chunk !== null) {
-                    chunk.load();
-                }
-            } else {
-                if (chunk !== null) {
-                    chunk.unload();
-                }
-            }
-
-        }
-
-        if (this.keyW.isDown) {
-            this.followPoint.y -= this.cameraSpeed;
-        }
-        if (this.keyS.isDown) {
-            this.followPoint.y += this.cameraSpeed;
-        }
-           if (this.keyA.isDown) {
-            this.followPoint.x -= this.cameraSpeed;
-        }
-           if (this.keyD.isDown) {
-            this.followPoint.x += this.cameraSpeed;
-        }
-
-        this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
     }
-}
+
+    // Load and unload chunks based on proximity to the camera
+    for (let i = 0; i < this.chunks.length; i++) {
+        let chunk = this.chunks[i];
+
+        if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
+            chunk.load();
+        } else {
+            chunk.unload();
+        }
+    }
+
+    // Automatically follow the player with the camera
+    this.cameras.main.centerOn(this.player.x, this.player.y);
+
+    this.player.setDepth(1);
+
+    // Update player movement
+    this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
+    }
+}   
