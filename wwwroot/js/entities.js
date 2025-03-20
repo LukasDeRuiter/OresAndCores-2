@@ -20,16 +20,26 @@ class Player extends Phaser.GameObjects.Sprite {
         this.body.setVelocity(0);
 
         if (cursors.W.isDown) {
+            this.anims.play("walk-up", true);
             this.body.setVelocityY(-this.speed);
         } else if (cursors.S.isDown) {
+            this.anims.play("walk-down", true);
             this.body.setVelocityY(this.speed);
         }
 
         if(cursors.A.isDown) {
+            this.anims.play("walk-left", true);
             this.body.setVelocityX(-this.speed);
+            this.setFlipX(true);
         } else if (cursors.D.isDown) {
+            this.anims.play("walk-right", true);
             this.body.setVelocityX(this.speed);
+            this.setFlipX(false);
         }
+
+         if (!cursors.W.isDown && !cursors.S.isDown && !cursors.A.isDown && !cursors.D.isDown) {
+        this.anims.stop();
+    }
     }
 }
 

@@ -4,7 +4,12 @@ class SceneMain extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("player", "assets/mine/sprites/player/player.png");
+        this.load.spritesheet("player", "assets/mine/sprites/player/test-spritesheet.png",
+            {
+                frameHeight: 64,
+                frameWidth: 64,
+            }
+        );
         this.load.spritesheet("sprWater", "assets/mine/sprites/tiles/sprWater.png", {
             frameWidth: 16,
             frameHeight: 16
@@ -17,6 +22,34 @@ class SceneMain extends Phaser.Scene {
     create() {
         this.physics.world.setBounds(0, 0, 1000, 1000);
         this.cameras.main.setBounds(0, 0, 1000, 1000);
+
+        this.anims.create({
+            key: "walk-down",
+            frames: this.anims.generateFrameNumbers("player", { start: 0, end: 2 }), 
+            frameRate: 8,
+            repeat: -1
+        });
+    
+        this.anims.create({
+            key: "walk-left",
+            frames: this.anims.generateFrameNumbers("player", { start: 1, end: 8 }), 
+            frameRate: 8,
+            repeat: -1
+        });
+    
+        this.anims.create({
+            key: "walk-right",
+            frames: this.anims.generateFrameNumbers("player", { start: 1, end: 8 }), 
+            frameRate: 8,
+            repeat: -1
+        });
+    
+        this.anims.create({
+            key: "walk-up",
+            frames: this.anims.generateFrameNumbers("player", { start: 9, end: 11 }), 
+            frameRate: 8,
+            repeat: -1
+        });
 
         this.player = new Player(this, this.cameras.main.worldView.x + (this.cameras.main.worldView.width * 0.5),
         this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5));
