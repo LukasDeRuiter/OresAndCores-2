@@ -1,11 +1,18 @@
 var config = {
     type: Phaser.AUTO,
-    width: 640,
+    width: 800,
     height: 640,
     backgroundColor: "black",
     scene: 
         SceneMain
     ,
+    physics: {
+        default: "arcade",
+        arcade: {
+            debug: true,
+            gravity: { y: 0 } 
+        }
+    },
     parent: "gameContainer",
     pixelArt: true,
     roundedPixels: true,
