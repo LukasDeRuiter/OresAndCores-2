@@ -17,6 +17,8 @@ class SceneMain extends Phaser.Scene {
 
         this.load.image("sprSand", "assets/mine/sprites/tiles/sprSand.png");
         this.load.image("sprGrass", "assets/mine/sprites/tiles/sprGrass.png");
+
+        this.load.image("rock", "assets/mine/sprites/objects/rock.png");
     }
 
     create() {
