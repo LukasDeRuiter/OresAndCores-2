@@ -80,6 +80,9 @@ class Chunk {
                         key = "sprSand";
                     } else if (perlinValue >= 0.3) {
                         key = "sprGrass";
+                        if(Math.random() < 0.1) {
+                            var object = new EnvironmentObject(this.scene, tileX + 8, tileY - 8, "rock");
+                        }
                     }
 
                     var tile = new Tile(this.scene, tileX, tileY, key);
@@ -99,10 +102,26 @@ class Chunk {
 }
 
 class Tile extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, key) {
+    constructor(scene, x, y, key, object = null) {
         super(scene, x, y, key);
         this.scene = scene;
         this.scene.add.existing(this);
         this.setOrigin(0);
+        
+        this.object = object;
     }
+}
+
+class EnvironmentObject extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, key) {
+        super(scene, x, y, key);
+        this.scene = scene;
+
+        this.scene.add.existing(this);
+    
+        this.setDepth(2);
+
+        this.setScale(16 / this.width, 16 / this.height);
+    }
+
 }
