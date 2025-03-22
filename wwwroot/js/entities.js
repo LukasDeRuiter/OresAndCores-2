@@ -5,7 +5,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.scene = scene;
 
         this.scene.add.existing(this);
-        this.scene.physics.add.existing(this);
+        this.scene.physics.world.enable(this); 
 
         this.setOrigin(0.5);
         this.setDisplaySize(16, 16);
@@ -14,6 +14,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.body.setCollideWorldBounds(true);
 
         this.speed = 100;
+        this.viewDirection = "down";
     }
 
     update(cursors) {
@@ -22,25 +23,46 @@ class Player extends Phaser.GameObjects.Sprite {
         if (cursors.W.isDown) {
             this.anims.play("walk-up", true);
             this.body.setVelocityY(-this.speed);
+            this.viewDirection = "up";
         } else if (cursors.S.isDown) {
             this.anims.play("walk-down", true);
             this.body.setVelocityY(this.speed);
+            this.viewDirection = "down";
         }
 
         if(cursors.A.isDown) {
             this.anims.play("walk-left", true);
             this.body.setVelocityX(-this.speed);
             this.setFlipX(true);
+            this.viewDirection = "left";
         } else if (cursors.D.isDown) {
             this.anims.play("walk-right", true);
             this.body.setVelocityX(this.speed);
+            this.viewDirection = "right";
             this.setFlipX(false);
         }
 
          if (!cursors.W.isDown && !cursors.S.isDown && !cursors.A.isDown && !cursors.D.isDown) {
         this.anims.stop();
     }
-    }
+}
+
+getBreakingPositionArea() {
+    let breakX = this.x;
+    let breakY = this.y;
+
+    if (this.viewDirection === "up") {
+     breakY -= 16;
+ } else if (this.viewDirection === "down") {
+     breakY += 16;
+ } else if (this.viewDirection === "left") {
+     breakX -= 16;
+ } else if (this.viewDirection === "right") {
+     breakX += 16;
+ }
+
+ return { x: breakX, y: breakY };
+ }
 }
 
 class Chunk {
@@ -51,6 +73,8 @@ class Chunk {
        
         this.tiles = this.scene.add.group();
         this.isLoaded = false;
+
+    
     }
 
     unload() {
@@ -82,6 +106,8 @@ class Chunk {
                         key = "sprGrass";
                         if(Math.random() < 0.1) {
                             var object = new EnvironmentObject(this.scene, tileX + 8, tileY - 8, "rock");
+                            console.log("test");
+                            this.scene.environmentObjects.add(object);
                         }
                     }
 
@@ -118,6 +144,7 @@ class EnvironmentObject extends Phaser.GameObjects.Sprite {
         this.scene = scene;
 
         this.scene.add.existing(this);
+        this.scene.physics.world.enable(this); 
     
         this.setDepth(2);
 
