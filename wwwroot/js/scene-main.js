@@ -80,10 +80,16 @@ class SceneMain extends Phaser.Scene {
 
         this.chunks = [];
 
+        this.environmentObjects = this.add.group();
+
+        console.log("Environment Objects Group: ", this.environmentObjects.getChildren()); 
+
         this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     }
 
     getChunk(x, y) {
@@ -127,8 +133,20 @@ class SceneMain extends Phaser.Scene {
             }
         }
 
+        if (Phaser.Input.Keyboard.JustDown(this.keyR)) {
+            let breakPosition = this.player.getBreakingPositionArea();
+
+            console.log(this.environmentObjects);
+            this.physics.world.overlap(this.player, this.environmentObjects, this.onObjectOverlap, null, this);
+        }
+
     this.cameras.main.centerOn(this.player.x, this.player.y);
     this.player.setDepth(1);
     this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
+    }
+
+    onObjectOverlap(player, environmentObject) {
+        console.log("oof");  // This will log when the player overlaps with an object.
+        // You can add any other logic you want when the overlap happens
     }
 }   
