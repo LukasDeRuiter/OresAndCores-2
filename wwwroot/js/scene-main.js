@@ -145,7 +145,8 @@
         }
 
         onObjectOverlap(tool, environmentObject) {
+            let rockItem = new InventoryItem("rock");
+            this.player.collectItem(rockItem);
             environmentObject.destroy();
-
         }
     }   
