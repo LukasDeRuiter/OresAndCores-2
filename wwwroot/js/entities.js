@@ -16,6 +16,8 @@ class Player extends Phaser.GameObjects.Sprite {
         this.speed = 100;
         this.viewDirection = "down";
 
+        this.inventory = new Inventory(scene);
+
         this.tool = null;
     }
 
@@ -90,6 +92,30 @@ getBreakingPositionArea() {
 
  return { x: breakX, y: breakY };
  }
+
+ collectItem(item) {
+    this.inventory.addItem(item);
+ }
+}
+
+class Inventory {
+    constructor(scene) {
+        this.scen = scene;
+        this.items = {};
+        
+        this.inventoryText = this.scene.add.text(10, 10, "Inventory: {}," {
+            fontSize: "16px",
+            fill: "#ffffff",
+        }).setScrollFactor(0);
+    }
+
+    addItem(InventoryItem) {
+
+    }
+
+    updateUI() {
+        this.inventoryText.setText(`Inventory: ${JSON.stringify(this.items)}`);
+    }
 }
 
 class Chunk {

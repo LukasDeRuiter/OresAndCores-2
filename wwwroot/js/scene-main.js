@@ -146,5 +146,6 @@
 
         onObjectOverlap(tool, environmentObject) {
             environmentObject.destroy();
+
         }
     }   
