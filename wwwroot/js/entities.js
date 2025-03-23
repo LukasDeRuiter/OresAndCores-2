@@ -15,6 +15,8 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.speed = 100;
         this.viewDirection = "down";
+
+        this.tool = null;
     }
 
     update(cursors) {
@@ -44,6 +46,31 @@ class Player extends Phaser.GameObjects.Sprite {
 
          if (!cursors.W.isDown && !cursors.S.isDown && !cursors.A.isDown && !cursors.D.isDown) {
         this.anims.stop();
+    }
+
+    if (this.tool) {
+        this.updateToolPosition();
+    }
+}
+
+showTool() {
+    if (!this.tool) {
+        let position = this.getBreakingPositionArea();
+        this.tool = new Tool(this.scene, position.x, position.y, "pickaxe", "rock");
+    }
+}
+
+hideTool() {
+    if (this.tool) {
+        this.tool.destroy();
+        this.tool = null;
+    }
+}
+
+updateToolPosition() {
+    if (this.tool) {
+        let position = this.getBreakingPositionArea();
+        this.tool.setPosition(position.x, position.y);
     }
 }
 
@@ -150,5 +177,17 @@ class EnvironmentObject extends Phaser.GameObjects.Sprite {
 
         this.setScale(16 / this.width, 16 / this.height);
     }
+}
 
+class Tool extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, toolType = 'pickaxe', key = "rock") {
+        super(scene, x, y, key);
+
+        this.scene = scene;
+        this.scene.add.existing(this);
+        this.scene.physics.world.enable(this);
+
+        this.setDepth(3);
+        this.setScale(16 / this.width, 16 / this.height);
+    }
 }
