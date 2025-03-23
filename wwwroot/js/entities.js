@@ -100,21 +100,37 @@ getBreakingPositionArea() {
 
 class Inventory {
     constructor(scene) {
-        this.scen = scene;
+        this.scene = scene;
         this.items = {};
         
-        this.inventoryText = this.scene.add.text(10, 10, "Inventory: {}," {
+        this.inventoryText = this.scene.add.text(10, 10, "Inventory: {},", {
             fontSize: "16px",
-            fill: "#ffffff",
+            fill: "#FF0000",
         }).setScrollFactor(0);
+
+         this.inventoryText.setDepth(1000); 
     }
 
-    addItem(InventoryItem) {
+    addItem(item) {
+        if (this.items[item.name]) {
+            this.items[item.name]++;
+        } else {
+            this.items[item.name] = 1;
+        }
 
+        this.updateUI();
     }
 
     updateUI() {
+        console.log("Inventory: ", JSON.stringify(this.items));
         this.inventoryText.setText(`Inventory: ${JSON.stringify(this.items)}`);
+    }
+}
+
+class InventoryItem {
+    constructor(name, icon = null) {
+        this.name = name;
+        this.icon = icon;
     }
 }
 
