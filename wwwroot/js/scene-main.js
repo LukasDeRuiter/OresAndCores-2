@@ -82,8 +82,6 @@
 
             this.environmentObjects = this.add.group();
 
-            console.log("Environment Objects Group: ", this.environmentObjects.getChildren()); 
-
             this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
             this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
             this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -91,7 +89,21 @@
 
             this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
             this.keyR.on('down', () => this.player.showTool());
-            this.keyR.on('up', () => this.player.hideTool());  
+            this.keyR.on('up', () => this.player.hideTool());
+            
+            this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+            this.keyE.on('down', () => this.toggleInventory());
+        }
+
+        toggleInventory() {
+            this.player.inventory.isVisible = !this.player.inventory.isVisible;
+            this.player.inventory.inventoryText.setVisible(this.player.inventory.isVisible);
+
+            if (this.player.inventory.isVisible){
+                this.physics.world.pause();
+            } else {
+                this.physics.world.resume();
+            }
         }
 
         getChunk(x, y) {

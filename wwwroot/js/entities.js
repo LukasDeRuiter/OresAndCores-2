@@ -102,11 +102,16 @@ class Inventory {
     constructor(scene) {
         this.scene = scene;
         this.items = {};
+
+        this.isVisible = false;
         
-        this.inventoryText = this.scene.add.text(10, 10, "Inventory: {},", {
+        this.inventoryText = this.scene.add.text(100, 100, "Inventory: {},", {
             fontSize: "16px",
-            fill: "#FF0000",
+            fill: "#FFFFFF",
+            backgroundColor: "rgba(0, 0, 0, 0.5)"
         }).setScrollFactor(0);
+
+        console.log(this.inventoryText);
 
          this.inventoryText.setDepth(1000); 
     }
@@ -122,7 +127,7 @@ class Inventory {
     }
 
     updateUI() {
-        console.log("Inventory: ", JSON.stringify(this.items));
+        console.log(this.inventoryText);
         this.inventoryText.setText(`Inventory: ${JSON.stringify(this.items)}`);
     }
 }
