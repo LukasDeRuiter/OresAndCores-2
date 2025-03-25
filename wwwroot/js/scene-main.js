@@ -100,6 +100,7 @@
             this.player.inventory.inventoryText.setVisible(this.player.inventory.isVisible);
 
             if (this.player.inventory.isVisible){
+                this.player.inventory.inventoryText.setPosition(200, 175); 
                 this.physics.world.pause();
             } else {
                 this.physics.world.resume();
@@ -153,6 +154,8 @@
 
         this.cameras.main.centerOn(this.player.x, this.player.y);
         this.player.setDepth(1);
+        
+        //this.player.inventory.inventoryText.setPosition(200, 175); 
         this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
         }
 

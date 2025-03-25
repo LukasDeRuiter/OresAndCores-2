@@ -111,9 +111,8 @@ class Inventory {
             backgroundColor: "rgba(0, 0, 0, 0.5)"
         }).setScrollFactor(0);
 
-        console.log(this.inventoryText);
 
-         this.inventoryText.setDepth(1000); 
+         this.inventoryText.setDepth(50); 
     }
 
     addItem(item) {
@@ -128,6 +127,7 @@ class Inventory {
 
     updateUI() {
         console.log(this.inventoryText);
+        console.log("Inventory text created at:", this.inventoryText.x, this.inventoryText.y);
         this.inventoryText.setText(`Inventory: ${JSON.stringify(this.items)}`);
     }
 }
