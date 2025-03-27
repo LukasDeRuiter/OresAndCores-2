@@ -85,6 +85,8 @@
             this.environmentObjects = this.add.group();
             this.droppedItems = this.add.group();
 
+            this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
             this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
             this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
             this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -123,6 +125,10 @@
         }
 
         update() {
+            if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
+                this.scene.start("SceneEnd");
+            }
+
             const cameraBounds = this.cameras.main.worldView;
 
             const snappedChunkX = Math.floor(cameraBounds.centerX / (this.chunkSize * this.tileSize));
