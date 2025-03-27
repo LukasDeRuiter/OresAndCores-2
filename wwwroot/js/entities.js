@@ -1,5 +1,5 @@
 class Player extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, inventory) {
         super(scene, x, y, "player");   
 
         this.scene = scene;
@@ -16,7 +16,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.speed = 100;
         this.viewDirection = "down";
 
-        this.inventory = new Inventory(scene);
+        this.inventory = inventory;
 
         this.tool = null;
     }

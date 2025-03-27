@@ -55,8 +55,12 @@
                 repeat: -1
             });
 
+            if (!this.registry.has("playerInventory")) {
+                this.registry.set("playerInventory", new Inventory(this));
+            }
+
             this.player = new Player(this, this.cameras.main.worldView.x + (this.cameras.main.worldView.width * 0.5),
-            this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5));
+            this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5), this.registry.get("playerInventory"));
 
             this.physics.world.enable(this.player);
             this.cameras.main.startFollow(this.player);
