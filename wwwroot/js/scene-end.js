@@ -16,8 +16,13 @@ class SceneEnd extends Phaser.Scene {
             .setPadding(10)
             .setInteractive();
 
-            restartButton.on("pointerdown", () => {
-                this.scene.start("SceneMain");
-            })
+        restartButton.on("pointerdown", () => {
+            this.scene.start("SceneMain");
+        })
+
+        saveButton.on("pointerdown", () => {
+            const inventory = this.registry.get("playerInventory");
+            console.log(inventory);
+        })
     }
 }
