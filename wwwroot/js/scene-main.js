@@ -19,6 +19,8 @@
             this.load.image("sprGrass", "assets/mine/sprites/tiles/sprGrass.png");
 
             this.load.image("rock", "assets/mine/sprites/objects/rock.png");
+
+            this.load.image("stone-item", "assets/mine/sprites/items/stone-item.png");
         }
 
         create() {
@@ -81,6 +83,7 @@
             this.chunks = [];
 
             this.environmentObjects = this.add.group();
+            this.droppedItems = this.add.group();
 
             this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
             this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -152,16 +155,27 @@
                 this.physics.world.overlap(this.player.tool, this.environmentObjects, this.onObjectOverlap, null, this);
             }
 
+        this.physics.world.overlap(this.player, this.droppedItems, this.pickUpItem, null, this);
+
         this.cameras.main.centerOn(this.player.x, this.player.y);
         this.player.setDepth(1);
-        
-        //this.player.inventory.inventoryText.setPosition(200, 175); 
+    
         this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
         }
 
         onObjectOverlap(tool, environmentObject) {
-            let rockItem = new InventoryItem("rock");
-            this.player.collectItem(rockItem);
+            let dropX = environmentObject.x + Phaser.Math.Between(-12, 12);
+            let dropY = environmentObject.y + Phaser.Math.Between(-12, 12);
+
+            let droppedItem = new Item(this, dropX, dropY, "stone-item", "rock");
             environmentObject.destroy();
+        }
+
+        pickUpItem(player, item) {
+            let rockItem = new InventoryItem(item.itemName);
+
+            this.player.collectItem(rockItem);
+
+            item.destroy();
         }
     }   
