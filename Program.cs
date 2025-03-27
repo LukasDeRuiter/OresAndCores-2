@@ -17,6 +17,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddOpenApi();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,4 +43,12 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+app.MapControllers();
+
+app.MapOpenApi();
+app.UseSwaggerUI(options => 
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Ores and Cores Api");
+    });
+    
 app.Run();
