@@ -3,9 +3,11 @@ var config = {
     width: 800,
     height: 640,
     backgroundColor: "black",
-    scene: 
-        SceneMain
-    ,
+    scene: [ 
+        SceneStart,
+        SceneMain,
+        SceneEnd,
+        ],
     physics: {
         default: "arcade",
         arcade: {
