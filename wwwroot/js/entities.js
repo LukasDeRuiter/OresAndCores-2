@@ -95,6 +95,7 @@ getBreakingPositionArea() {
 
  collectItem(item) {
     this.inventory.addItem(item);
+    console.log(item);
  }
 }
 
@@ -198,6 +199,24 @@ class Chunk {
 
             this.isLoaded = true;
         }
+    }
+}
+
+class Item extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, key, itemName) {
+        super(scene, x, y, key);
+        this.scene = scene;
+        this.itemName = itemName;
+
+        this.scene.add.existing(this);
+        this.scene.physics.world.enable(this);
+
+        this.setDepth (7);
+        this.setScale(16 / this.width, 16 / this.height);
+
+        this.body.setSize(16, 16);
+
+        this.scene.droppedItems.add(this);
     }
 }
 
