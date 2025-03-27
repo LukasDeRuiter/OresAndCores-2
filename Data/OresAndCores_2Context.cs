@@ -15,5 +15,7 @@ namespace OresAndCores_2.Data
         }
 
         public DbSet<OresAndCores_2.Models.Ore> Ore { get; set; } = default!;
+
+        public DbSet<OresAndCores_2.Models.Inventory> Inventory { get; set; } = default!;
     }
 }
