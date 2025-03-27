@@ -22,13 +22,13 @@ var config = {
 
 var game = new Phaser.Game(config);
 
-function sendScoreToServer(playerName, score) {
-    fetch('/api/game/SaveScore', {
+function saveInventoryToServer(inventory) {
+    fetch('api/mineApi/save', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ playerName: playerName, score: score })
+        body: JSON.stringify(inventory)
     })
     .then(response => response.json())
     .then(data => {

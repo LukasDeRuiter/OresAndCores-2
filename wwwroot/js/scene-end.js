@@ -23,6 +23,7 @@ class SceneEnd extends Phaser.Scene {
         saveButton.on("pointerdown", () => {
             const inventory = this.registry.get("playerInventory");
             console.log(inventory);
+            saveInventoryToServer(inventory.items);
         })
     }
 }
