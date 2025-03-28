@@ -82,6 +82,39 @@ namespace OresAndCores_2.Migrations
                     b.ToTable("Inventory");
                 });
 
+            modelBuilder.Entity("OresAndCores_2.Models.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Item");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "stone-item",
+                            Path = "assets/mine/sprites/items/stone-item.png",
+                            Value = 10
+                        });
+                });
+
             modelBuilder.Entity("OresAndCores_2.Models.Ore", b =>
                 {
                     b.Property<int>("Id")
