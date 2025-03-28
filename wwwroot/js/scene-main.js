@@ -18,7 +18,13 @@
             this.load.image("sprSand", "assets/mine/sprites/tiles/sprSand.png");
             this.load.image("sprGrass", "assets/mine/sprites/tiles/sprGrass.png");
 
-            this.load.image("rock", "assets/mine/sprites/objects/rock.png");
+    
+
+            if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
+                window.environmentObjects.forEach(environmentObject => {
+                    this.load.image(environmentObject.name, environmentObject.path);
+                });
+            }
 
             this.load.image("stone-item", "assets/mine/sprites/items/stone-item.png");
         }

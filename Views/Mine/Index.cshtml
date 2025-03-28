@@ -1,3 +1,5 @@
+@model List<EnvironmentObject>
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,9 +10,16 @@
 <script src="~/js/scene-start.js"></script>
 <script src="~/js/scene-main.js"></script>
 <script src="~/js/scene-end.js"></script>
-<script src="~/js/mine.js"></script>
 
 <div class="text-center text-light">
     <h2>Let's get mining!</h2>
     <div id="gameContainer" class="mx-auto d-block mb-4" style="width: 800px; height: 600px;"></div>
 </div>
+
+<script>
+    window.environmentObjects = @Html.Raw(Json.Serialize(Model));
+
+    console.log("Loaded Environment Objects:", window.environmentObjects);
+</script>
+
+<script src="~/js/mine.js"></script>
