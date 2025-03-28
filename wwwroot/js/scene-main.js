@@ -26,7 +26,11 @@
                 });
             }
 
-            this.load.image("stone-item", "assets/mine/sprites/items/stone-item.png");
+            if (window.items && Array.isArray(window.items)) {
+                window.items.forEach(item => {
+                    this.load.image(item.name, item.path);
+                });
+            }
         }
 
         create() {

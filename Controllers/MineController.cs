@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OresAndCores_2.Data;
+using OresAndCores_2.Models;
 using System.Text.Encodings.Web;
 
 namespace OresAndCores_2.Controllers;
@@ -17,8 +18,13 @@ public class MineController : Controller
     // GET: /Mine/
     public IActionResult Index()
     {
-        var environmentObjects = _context.EnvironmentObject.ToList();
+        var ViewModel = new GameViewModel
+        {
+             EnvironmentObjects = _context.EnvironmentObject.ToList(),
+             Items = _context.Item.ToList()
 
-        return View(environmentObjects);
+        };
+
+        return View(ViewModel);
     }
 }

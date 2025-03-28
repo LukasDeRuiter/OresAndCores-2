@@ -1,4 +1,4 @@
-@model List<EnvironmentObject>
+@model GameViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -17,9 +17,11 @@
 </div>
 
 <script>
-    window.environmentObjects = @Html.Raw(Json.Serialize(Model));
+    window.environmentObjects = @Html.Raw(Json.Serialize(Model.EnvironmentObjects));
+    window.items = @Html.Raw(Json.Serialize(Model.Items));
 
     console.log("Loaded Environment Objects:", window.environmentObjects);
+    console.log("Loaded Items:", window.items);
 </script>
 
 <script src="~/js/mine.js"></script>
