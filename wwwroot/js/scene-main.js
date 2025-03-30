@@ -18,6 +18,10 @@
             this.load.image("sprSand", "assets/mine/sprites/tiles/sprSand.png");
             this.load.image("sprGrass", "assets/mine/sprites/tiles/sprGrass.png");
 
+            this.load.image("item-shadow", "assets/mine/sprites/effects/item-shadow.png");
+
+            this.load.image("pickaxe", "assets/mine/sprites/tools/pickaxe.png");
+
     
 
             if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
@@ -196,6 +200,6 @@
 
             this.player.collectItem(rockItem);
 
-            item.destroy();
+            item.destroyItem();
         }
     }   
