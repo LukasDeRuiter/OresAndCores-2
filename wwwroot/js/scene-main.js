@@ -25,7 +25,7 @@
 
     
 
-            if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
+           if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
                 window.environmentObjects.forEach(environmentObject => {
                     this.load.image(environmentObject.name, environmentObject.path);
                 });
@@ -61,7 +61,7 @@
                 frames: this.anims.generateFrameNumbers("player", { start: 1, end: 8 }), 
                 frameRate: 8,
                 repeat: -1
-            });
+            }); 
         
             this.anims.create({
                 key: "walk-up",
@@ -191,10 +191,7 @@
         }
 
         onObjectOverlap(tool, environmentObject) {
-            let dropX = environmentObject.x + Phaser.Math.Between(-12, 12);
-            let dropY = environmentObject.y + Phaser.Math.Between(-12, 12);
-
-            let droppedItem = new Item(this, dropX, dropY, "stone-item", "rock");
+            environmentObject.dropItems();
             environmentObject.destroy();
         }
 

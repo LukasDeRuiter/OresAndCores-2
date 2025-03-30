@@ -17,7 +17,13 @@
 </div>
 
 <script>
-    window.environmentObjects = @Html.Raw(Json.Serialize(Model.EnvironmentObjects));
+    window.environmentObjects = @Html.Raw(Json.Serialize(Model.EnvironmentObjects.Select(e => new {
+        e.Id,
+        e.Name,
+        e.Path,
+        Items = e.GetItems()
+    })));
+
     window.items = @Html.Raw(Json.Serialize(Model.Items));
 
     console.log("Loaded Environment Objects:", window.environmentObjects);

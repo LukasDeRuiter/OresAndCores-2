@@ -20,16 +20,6 @@ var config = {
     roundedPixels: true,
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-    if (typeof window.environmentObjects !== "undefined" && Array.isArray(window.environmentObjects)) {
-        console.log("Environment Objects Loaded:", window.environmentObjects);
-        window.environmentObjects = environmentObjects; 
-    } else {
-        console.error("Environment objects are not defined or not an array.");
-        window.environmentObjects = [];
-    }
-});
-
 var game = new Phaser.Game(config);
 
 function saveInventoryToServer(inventory) {
