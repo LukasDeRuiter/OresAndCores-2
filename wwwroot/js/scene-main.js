@@ -15,8 +15,9 @@
                 frameHeight: 16
             });
 
-            this.load.image("sprSand", "assets/mine/sprites/tiles/sprSand.png");
-            this.load.image("sprGrass", "assets/mine/sprites/tiles/sprGrass.png");
+            this.load.image("cave-1", "assets/mine/sprites/tiles/cave-1.png");
+            this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
+            this.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
 
             this.load.image("item-shadow", "assets/mine/sprites/effects/item-shadow.png");
 
@@ -102,6 +103,8 @@
 
             this.environmentObjects = this.add.group();
             this.droppedItems = this.add.group();
+
+            this.physics.add.collider(this.player, this.environmentObjects);
 
             this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 

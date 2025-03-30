@@ -201,21 +201,18 @@ class Chunk {
                     var animationKey = "";
 
                     if (perlinValue < 0.2) {
-                        key = "sprWater";
-                        animationKey = "sprWater";
+                        key = "cave-3";
                     } else if (perlinValue >= 0.2 && perlinValue < 0.3) {
-                        key = "sprSand";
+                        key = "cave-2";
                     } else if (perlinValue >= 0.3) {
-                        key = "sprGrass";
+                        key = "cave-1";
                         if(Math.random() < 0.1) {
                             var object = new EnvironmentObject(this.scene, tileX + 8, tileY - 8, "rock");
-                            console.log("test");
                             this.scene.environmentObjects.add(object);
                         }
                     }
 
                     var tile = new Tile(this.scene, tileX, tileY, key);
-                    //tile.setDepth(0);
                    
                     if (animationKey !== "") {
                         tile.play(animationKey);
@@ -339,6 +336,7 @@ class EnvironmentObject extends Phaser.GameObjects.Sprite {
 
         this.scene.add.existing(this);
         this.scene.physics.world.enable(this); 
+        this.body.setImmovable(true);
     
         this.setDepth(2);
 
