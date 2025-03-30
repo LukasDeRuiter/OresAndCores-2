@@ -3,6 +3,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using OresAndCores_2.Data;
 using OresAndCores_2.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace OresAndCores_2.Controllers;
 
@@ -23,13 +24,21 @@ public class MineApiController : ControllerBase
     {
         var UserId = 1;
 
-        var inventoryObject = new Inventory
+        var userInventory = await _context.Inventory.FirstOrDefaultAsync(i => i.UserId == UserId);
+
+        if (userInventory != null) {
+            userInventory.Data = JsonSerializer.Serialize(inventory);
+            _context.Inventory.Update(userInventory);
+        } else {
+              var inventoryObject = new Inventory
         { 
             UserId = UserId,
             Data = JsonSerializer.Serialize(inventory)
         };
 
         _context.Inventory.Add(inventoryObject);
+        }
+        
         await _context.SaveChangesAsync();
 
         return Ok(new { message = "Inventory successfully saved!"});
