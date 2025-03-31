@@ -23,18 +23,22 @@ var config = {
 var game = new Phaser.Game(config);
 
 function saveInventoryToServer(inventory) {
-    fetch('api/mineApi/save', {
+    return fetch('api/mineApi/save', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(inventory)
     })
-    .then(response => response.json())
+    .then(response => {
+        return response.json();
+    })
     .then(data => {
         console.log("Server Response:", data);
+        return data;
     })
     .catch(error => {
         console.error("Error:", error);
+        return error;
     });
 }

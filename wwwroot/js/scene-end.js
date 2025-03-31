@@ -20,10 +20,20 @@ class SceneEnd extends Phaser.Scene {
             this.scene.start("SceneMain");
         })
 
-        saveButton.on("pointerdown", () => {
+        saveButton.on("pointerdown", async () => {
             const inventory = this.registry.get("playerInventory");
-            console.log(inventory);
-            saveInventoryToServer(inventory.items);
+            let response = await saveInventoryToServer(inventory.items);
+
+            const saveText = this.add.text(
+                400, 
+                400, 
+                response.message, 
+                { 
+                    fontSize: "32px", 
+                    fill: response.message === "Inventory successfully saved!" ? "#008000" : "#FF2C2C",
+                }
+            )
+            .setOrigin(0.5);
         })
     }
 }
