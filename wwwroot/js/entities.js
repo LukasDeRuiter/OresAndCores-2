@@ -123,7 +123,6 @@ getBreakingPositionArea() {
 
  collectItem(item) {
     this.inventory.addItem(item);
-    console.log(item);
  }
 }
 
@@ -131,17 +130,31 @@ class Inventory {
     constructor(scene) {
         this.scene = scene;
         this.items = {};
+        this.itemImages = {};
 
         this.isVisible = false;
-        
-        this.inventoryText = this.scene.add.text(100, 100, "Inventory: {},", {
-            fontSize: "16px",
-            fill: "#FFFFFF",
-            backgroundColor: "rgba(0, 0, 0, 0.5)"
-        }).setScrollFactor(0);
 
+        this.inventoryBackground = this.scene.add.rectangle(400, 300, 350, 250, 0X000000, 0.3).setOrigin(0.5).setDepth(50).setScrollFactor(0);
+        this.inventoryBackground.setVisible(this.isVisible);
 
-         this.inventoryText.setDepth(50); 
+        this.inventorySlots = [];
+        let rows = 4;
+        let cols = 6;
+        let slotSize = 32;
+        let startX = 300;
+        let startY = 200;       
+        let padding = 5;
+
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                let x = startX + col * (slotSize + padding);
+                let y = startY + row * (slotSize + padding);
+
+                let slot = this.scene.add.rectangle(x, y, slotSize, slotSize, 0xffffff, 0.3).setOrigin(0.5).setDepth(50).setScrollFactor(0);
+                slot.setVisible(this.isVisible);
+                this.inventorySlots.push(slot);
+            }
+        }
     }
 
     addItem(item) {
@@ -155,9 +168,56 @@ class Inventory {
     }
 
     updateUI() {
-        console.log(this.inventoryText);
-        console.log("Inventory text created at:", this.inventoryText.x, this.inventoryText.y);
-        this.inventoryText.setText(`Inventory: ${JSON.stringify(this.items)}`);
+        console.log(this.inventoryBackground);
+        this.inventoryBackground.setVisible(this.isVisible);
+        this.inventorySlots.forEach(slot => slot.setVisible(this.isVisible));
+
+
+        Object.values(this.itemImages).forEach(image => image.destroy());
+        this.itemImages = {};
+
+        let count = 0;
+
+        Object.entries(this.items).forEach(([itemName, itemCount]) => {
+            if (count >= this.inventorySlots.length) {
+                return;
+            }
+
+            let slot = this.inventorySlots[count];
+
+            let itemImage = this.scene.add.image(slot.x, slot.y, itemName).setOrigin(0.5).setDepth(51).setScrollFactor(0).setVisible(this.isVisible);
+            itemImage.setScale(32 / itemImage.width, 32 / itemImage.height);
+
+            this.itemImages[itemName] = itemImage;
+
+            let countText = this.scene.add.text(slot.x + 10, slot.y + 10, itemCount, {
+                fontSize: "12px",
+                fill: "#fff",
+                stroke: "#000",
+                strokeThickness: 3
+            }).setOrigin(0.5).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+
+            this.itemImages[itemName + "_count"] = countText;
+
+
+            count++;
+        })
+
+       
+
+
+
+    }
+
+    toggle() {
+        this.isVisible = !this.isVisible;
+        this.updateUI();
+
+        if (this.isVisible) {
+            this.scene.physics.world.pause();
+        } else {
+            this.scene.physics.world.resume();
+        }
     }
 }
 
