@@ -70,12 +70,16 @@
                 repeat: -1
             });
 
-            if (!this.registry.has("playerInventory")) {
-                this.registry.set("playerInventory", new Inventory(this));
-            }
+            let inventory =  new Inventory(this);
+
+            if (this.registry.has("playerInventory")) {
+                inventory.items =  this.registry.get("playerInventory").items;
+            } 
+
+            this.registry.set("playerInventory", inventory);
 
             this.player = new Player(this, this.cameras.main.worldView.x + (this.cameras.main.worldView.width * 0.5),
-            this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5), this.registry.get("playerInventory"));
+            this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5), inventory);
 
             this.physics.world.enable(this.player);
             this.cameras.main.startFollow(this.player);
@@ -122,15 +126,7 @@
         }
 
         toggleInventory() {
-            this.player.inventory.isVisible = !this.player.inventory.isVisible;
-            this.player.inventory.inventoryText.setVisible(this.player.inventory.isVisible);
-
-            if (this.player.inventory.isVisible){
-                this.player.inventory.inventoryText.setPosition(200, 175); 
-                this.physics.world.pause();
-            } else {
-                this.physics.world.resume();
-            }
+            this.player.inventory.toggle();
         }
 
         getChunk(x, y) {
