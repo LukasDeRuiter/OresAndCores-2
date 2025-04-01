@@ -19,11 +19,11 @@
             this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
             this.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
 
+            this.load.image("porthole", "assets/mine/sprites/objects/porthole.png")
+
             this.load.image("item-shadow", "assets/mine/sprites/effects/item-shadow.png");
 
             this.load.image("pickaxe", "assets/mine/sprites/tools/pickaxe.png");
-
-    
 
            if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
                 window.environmentObjects.forEach(environmentObject => {
@@ -105,10 +105,13 @@
 
             this.chunks = [];
 
+            this.spawnPorthole();
+
             this.environmentObjects = this.add.group();
             this.droppedItems = this.add.group();
 
             this.physics.add.collider(this.player, this.environmentObjects);
+            this.physics.add.collider(this.player, this.porthole);
 
             this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
@@ -139,6 +142,19 @@
             }
 
             return chunk;
+        }
+
+        spawnPorthole() {
+            const worldWidth = this.physics.world.bounds.width;
+            const worldHeight = this.physics.world.bounds.height;
+
+            let x = Phaser.Math.Between(16, worldWidth - 32);
+            let y = Phaser.Math.Between(16, worldHeight - 32);
+
+            console.log(x);
+            console.log(y);
+
+            this.porthole = new Porthole(this, x, y, this.level);
         }
 
         update() {

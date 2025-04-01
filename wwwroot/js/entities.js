@@ -306,7 +306,7 @@ class Chunk {
         if (!objectName) {
             return;
         }
-        
+
         const objectData = window.environmentObjects.find(objData => objData.name === objectName);
         let object = new EnvironmentObject(this.scene, x + 8, y - 8, objectName, objectData.items);
         this.scene.environmentObjects.add(object);
@@ -470,5 +470,21 @@ class Tool extends Phaser.GameObjects.Sprite {
 
         this.setDepth(3);
         this.setScale(16 / this.width, 16 / this.height);
+    }
+}
+
+class Porthole extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, level) {
+        super(scene, x, y, "porthole");
+        this.scene = scene;
+        this.scene.add.existing(this);
+        this.scene.physics.world.enable(this); 
+        this.body.setImmovable(true);
+        this.price = this.calculatePriceToNextLevel(level);
+        this.setDepth(100);
+    }
+
+    calculatePriceToNextLevel(level) {
+        return level * 100;
     }
 }
