@@ -15,6 +15,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.speed = 100;
         this.viewDirection = "down";
+        this.level = 1;
 
         this.inventory = inventory;
 
@@ -123,6 +124,11 @@ getBreakingPositionArea() {
 
  collectItem(item) {
     this.inventory.addItem(item);
+ }
+
+ levelUp() {
+    this.level += 1;
+    this.scene.updateEnvironment;
  }
 }
 
@@ -248,14 +254,14 @@ class Chunk {
         }
     }
 
-    load() {
+    load(level) {
         if (!this.isLoaded) {
             for (var x = 0; x < this.scene.chunkSize; x++) {
                 for (var y = 0; y < this.scene.chunkSize; y++) {
                     var tileX = (this.x * (this.scene.chunkSize * this.scene.tileSize)) + (x * this.scene.tileSize);
                     var tileY = (this.y * (this.scene.chunkSize * this.scene.tileSize)) + (y * this.scene.tileSize);
 
-                    var perlinValue = noise.perlin2(tileX / 100, tileY / 100);
+                    var perlinValue = noise.perlin2(tileX / 100, tileY / 100) * level;
 
                     var key = "";
                     var animationKey = "";
@@ -269,11 +275,7 @@ class Chunk {
 
                         const objectChance = Math.random() * 100;
 
-                        if(objectChance > 70 &&  objectChance <= 95) {
-                            this.createObject(tileX, tileY, "rock");
-                        } else if (objectChance > 95 && objectChance <= 100) {
-                            this.createObject(tileX, tileY, "copper-rock");
-                        }
+                        this.createObject(tileX, tileY, this.generateLevelObject(objectChance, level));
                     }
 
                     var tile = new Tile(this.scene, tileX, tileY, key);
@@ -290,7 +292,21 @@ class Chunk {
         }
     }
 
+    generateLevelObject(objectChance, level) {
+        if(level >= 1 && level <= 5) {
+            if (objectChance > 70 &&  objectChance <= 95) {
+                return "rock";
+            } else if (objectChance > 95 && objectChance <= 100) {
+                return "copper-rock";
+            }
+        }
+    }
+
     createObject(x, y, objectName) {
+        if (!objectName) {
+            return;
+        }
+        
         const objectData = window.environmentObjects.find(objData => objData.name === objectName);
         let object = new EnvironmentObject(this.scene, x + 8, y - 8, objectName, objectData.items);
         this.scene.environmentObjects.add(object);

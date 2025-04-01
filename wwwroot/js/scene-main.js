@@ -168,7 +168,7 @@
                 let chunk = this.chunks[i];
 
                 if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
-                    chunk.load();
+                    chunk.load(this.player.level);
                 } else {
                 chunk.unload();
                 }
