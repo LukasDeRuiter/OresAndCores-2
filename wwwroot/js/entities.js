@@ -229,16 +229,20 @@ class Inventory {
     }
     
     startItemDrag(slot, pointer) {
-        this.draggedItem = slot.item;
-        slot.setItem(null);
+        this.draggedItem = slot.itemImage;
         this.scene.input.on('pointermove', this.onPointerMove, this);
         this.scene.input.once('pointerup', this.onPointerUp, this);
     }
 
     onPointerMove(pointer) {
         if (this.draggedItem) {
-            this.draggedItem.itemImage.x = pointer.x;
-            this.draggedItem.itemImage.y = pointer.y;
+            const camera = this.scene.cameras.main;
+            const zoom = camera.zoom;
+
+            const adjustedX = pointer.worldX - camera.scrollX;
+            const adjustedY = pointer.worldY - camera.scrollY;
+            
+            this.draggedItem.setPosition(adjustedX, adjustedY);
         }
     }
 
@@ -311,7 +315,7 @@ class InventorySlot {
     updateSlotDisplay() {
         if (this.item) {
             if (!this.itemImage) {  
-            this.itemImage = this.scene.add.image(this.x, this.y, this.item.icon)
+            this.itemImage = this.scene.add.image(this.x, this.y, this.item.name)
             .setOrigin(0.5)
             .setScrollFactor(0)
             .setScale(this.slotSize / 32)
@@ -329,7 +333,7 @@ class InventorySlot {
 
     onPointerDown(pointer, localX, localY, event) {
         if(this.item) {
-            this.scene.startItemDrag(this.pointer);
+            this.scene.player.inventory.startItemDrag(this, pointer);
         }
     }
 
@@ -344,7 +348,6 @@ class InventorySlot {
     toggleVisible(isVisible) {
         this.slot.setVisible(isVisible);
         if (this.itemImage) {
-            console.log(this.itemImage);
             this.itemImage.setVisible(isVisible);
         }
     }
