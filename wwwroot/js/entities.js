@@ -144,6 +144,13 @@ class Inventory {
         this.inventoryBackground = this.scene.add.rectangle(400, 300, 350, 250, 0X000000, 0.3).setOrigin(0.5).setDepth(50).setScrollFactor(0);
         this.inventoryBackground.setVisible(this.isVisible);
 
+        this.levelText = this.scene.add.text(320, 350, "Current level: 1", {
+            fontSize: "16",
+            fill: "#fff",
+            stroke: "#000",
+            strokeThickness: 3,
+        }).setOrigin(0.5).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+
         this.inventorySlots = [];
         let rows = 4;
         let cols = 6;
@@ -175,9 +182,10 @@ class Inventory {
     }
 
     updateUI() {
-        console.log(this.inventoryBackground);
         this.inventoryBackground.setVisible(this.isVisible);
         this.inventorySlots.forEach(slot => slot.setVisible(this.isVisible));
+        this.levelText.setVisible(this.isVisible);
+        console.log(this.levelText.visible);
 
 
         Object.values(this.itemImages).forEach(image => image.destroy());

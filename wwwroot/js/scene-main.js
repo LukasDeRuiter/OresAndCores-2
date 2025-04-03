@@ -140,8 +140,8 @@
         }
 
         toggleInventory() {
+            this.player.inventory.levelText.setText(`Current level: ${this.player.level}`);
             this.player.inventory.toggle();
-            console.log(this.player.level);
         }
 
         getChunk(x, y) {
