@@ -71,15 +71,20 @@
             });
 
             let inventory =  new Inventory(this);
+            let playerLevel = 1;
 
             if (this.registry.has("playerInventory")) {
                 inventory.items =  this.registry.get("playerInventory").items;
             } 
 
+            if (this.registry.has("playerLevel")) {
+                playerLevel =  this.registry.get("playerLevel");
+            } 
+
             this.registry.set("playerInventory", inventory);
 
             this.player = new Player(this, this.cameras.main.worldView.x + (this.cameras.main.worldView.width * 0.5),
-            this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5), inventory);
+            this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5), inventory, playerLevel);
 
             this.physics.world.enable(this.player);
             this.cameras.main.startFollow(this.player);
@@ -126,10 +131,17 @@
             
             this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
             this.keyE.on('down', () => this.toggleInventory());
+
+            this.porthole.setInteractive();
+            this.input.on('pointerdown', (pointer) => {
+                if (pointer.button === 0);
+                this.checkPortholeInteraction();
+            })
         }
 
         toggleInventory() {
             this.player.inventory.toggle();
+            console.log(this.player.level);
         }
 
         getChunk(x, y) {
@@ -151,10 +163,22 @@
             let x = Phaser.Math.Between(16, worldWidth - 32);
             let y = Phaser.Math.Between(16, worldHeight - 32);
 
-            console.log(x);
-            console.log(y);
-
             this.porthole = new Porthole(this, x, y, this.level);
+        }
+
+        checkPortholeInteraction() {
+            let distance = Phaser.Math.Distance.Between(
+                this.player.x, 
+                this.player.y,
+                this.porthole.x,
+                this.porthole.y
+            );
+
+            if (distance <= 32) {
+                this.player.level += 1;
+                this.registry.set("playerLevel", this.player.level);
+                this.scene.restart();
+            }
         }
 
         update() {
