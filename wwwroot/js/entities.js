@@ -159,13 +159,14 @@ class Inventory {
         let startY = 200;       
         let padding = 5;
 
+        this.draggedItem = null;
+
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
                 let x = startX + col * (slotSize + padding);
                 let y = startY + row * (slotSize + padding);
 
-                let slot = this.scene.add.rectangle(x, y, slotSize, slotSize, 0xffffff, 0.3).setOrigin(0.5).setDepth(50).setScrollFactor(0);
-                slot.setVisible(this.isVisible);
+                let slot = new InventorySlot(this.scene, x, y, slotSize, this.isVisible);
                 this.inventorySlots.push(slot);
             }
         }
@@ -183,45 +184,89 @@ class Inventory {
 
     updateUI() {
         this.inventoryBackground.setVisible(this.isVisible);
-        this.inventorySlots.forEach(slot => slot.setVisible(this.isVisible));
+        this.inventorySlots.forEach((slot, index) => {
+            slot.toggleVisible(this.isVisible);
+            let itemName = Object.keys(this.items)[index];  
+
+            if (itemName) {
+                let item = new InventoryItem(itemName);
+                slot.setItem(item);
+            } else {
+                slot.setItem(null);
+            }
+        });
+
         this.levelText.setVisible(this.isVisible);
-        console.log(this.levelText.visible);
 
+        // Object.values(this.itemImages).forEach(image => image.destroy());
+        // this.itemImages = {};
 
-        Object.values(this.itemImages).forEach(image => image.destroy());
-        this.itemImages = {};
+        // let count = 0;
 
-        let count = 0;
+        // Object.entries(this.items).forEach(([itemName, itemCount]) => {
+        //     if (count >= this.inventorySlots.length) {
+        //         return;
+        //     }
 
-        Object.entries(this.items).forEach(([itemName, itemCount]) => {
-            if (count >= this.inventorySlots.length) {
-                return;
+        //     let slot = this.inventorySlots[count];
+
+        //     let itemImage = this.scene.add.image(slot.x, slot.y, itemName).setOrigin(0.5).setDepth(51).setScrollFactor(0).setVisible(this.isVisible);
+        //     itemImage.setScale(32 / itemImage.width, 32 / itemImage.height);
+
+        //     this.itemImages[itemName] = itemImage;
+
+        //     let countText = this.scene.add.text(slot.x + 10, slot.y + 10, itemCount, {
+        //         fontSize: "12px",
+        //         fill: "#fff",
+        //         stroke: "#000",
+        //         strokeThickness: 3
+        //     }).setOrigin(0.5).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+
+        //     this.itemImages[itemName + "_count"] = countText;
+
+        //     count++;
+        // })
+    }
+    
+    startItemDrag(slot, pointer) {
+        this.draggedItem = slot.item;
+        slot.setItem(null);
+        this.scene.input.on('pointermove', this.onPointerMove, this);
+        this.scene.input.once('pointerup', this.onPointerUp, this);
+    }
+
+    onPointerMove(pointer) {
+        if (this.draggedItem) {
+            this.draggedItem.itemImage.x = pointer.x;
+            this.draggedItem.itemImage.y = pointer.y;
+        }
+    }
+
+    onPointerUp(pointer) {
+        if (this.draggedItem) {
+            let dropSlot = this.getSlotUnderPointer(pointer);
+            if (dropSlot && dropSlot !== this.draggedItem.slot) {
+                dropSlot.setItem(this.draggedItem);
+            } else {
+                this.draggedItem.slot.setItem(this.draggedItem);
             }
 
-            let slot = this.inventorySlots[count];
+            this.draggedItem.itemImage.destroy();
+            this.draggedItem = null;
+        }
 
-            let itemImage = this.scene.add.image(slot.x, slot.y, itemName).setOrigin(0.5).setDepth(51).setScrollFactor(0).setVisible(this.isVisible);
-            itemImage.setScale(32 / itemImage.width, 32 / itemImage.height);
+        this.scene.input.off('pointermove', this.onPointerMove, this);
+    }
 
-            this.itemImages[itemName] = itemImage;
+    getSlotUnderPointer(pointer) {
+        for (let slot of this.inventorySlots) {
+            let bounds = slot.slot.getBounds();
+            if (bounds.contains(pointer.x, pointer.y)) {
+                return slot;
+            }
+        }
 
-            let countText = this.scene.add.text(slot.x + 10, slot.y + 10, itemCount, {
-                fontSize: "12px",
-                fill: "#fff",
-                stroke: "#000",
-                strokeThickness: 3
-            }).setOrigin(0.5).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
-
-            this.itemImages[itemName + "_count"] = countText;
-
-
-            count++;
-        })
-
-       
-
-
-
+        return null;
     }
 
     toggle() {
@@ -232,6 +277,75 @@ class Inventory {
             this.scene.physics.world.pause();
         } else {
             this.scene.physics.world.resume();
+        }
+    }
+}
+
+class InventorySlot {
+    constructor(scene, x, y, slotSize, isVisible) {
+        this.scene = scene;
+        this.x = x;
+        this.y = y;
+        this.slotSize = slotSize;
+        this.isVisible = isVisible;
+
+        this.slot = scene.add.rectangle(x, y, slotSize, slotSize, 0xaaaaaa)
+        .setOrigin(0.5)
+        .setScrollFactor(0)
+        .setInteractive()
+        .setDepth(52)
+        .setVisible(this.isVisible);
+
+        this.slot.on('pointerdown',  this.onPointerDown, this);
+        this.slot.on('pointerover', this.onPointerOver, this);
+        this.slot.on('pointerout', this.onPointerOut, this);
+
+        this.item = null;
+    }
+
+    setItem(item) {
+        this.item = item;
+        this.updateSlotDisplay();
+    }
+
+    updateSlotDisplay() {
+        if (this.item) {
+            if (!this.itemImage) {  
+            this.itemImage = this.scene.add.image(this.x, this.y, this.item.icon)
+            .setOrigin(0.5)
+            .setScrollFactor(0)
+            .setScale(this.slotSize / 32)
+            .setDepth(55)
+            .setVisible(this.isVisible);
+            }
+
+        } else {
+            if (this.itemImage) {
+                this.itemImage.destroy();
+                this.itemImage = null;
+            }
+        }
+    }
+
+    onPointerDown(pointer, localX, localY, event) {
+        if(this.item) {
+            this.scene.startItemDrag(this.pointer);
+        }
+    }
+
+    onPointerOver() {
+        this.slot.setStrokeStyle(2, 0x00ff00);
+    }
+
+    onPointerOut() {
+        this.slot.setStrokeStyle(0);
+    }
+
+    toggleVisible(isVisible) {
+        this.slot.setVisible(isVisible);
+        if (this.itemImage) {
+            console.log(this.itemImage);
+            this.itemImage.setVisible(isVisible);
         }
     }
 }
