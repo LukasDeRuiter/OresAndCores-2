@@ -227,7 +227,7 @@ class Inventory {
     onPointerUp(pointer) {
         if (this.draggedItem) {
             let dropSlot = this.getSlotUnderPointer(pointer);
-            if (dropSlot && dropSlot !== this.draggedItem.slot) {
+            if (dropSlot && dropSlot !== this.draggedItem.slot && !dropSlot.item) {
                 dropSlot.setItem(this.selectedSlot.item);
                 this.selectedSlot.setItem(null);
                 dropSlot.toggleVisible(this.isVisible);
