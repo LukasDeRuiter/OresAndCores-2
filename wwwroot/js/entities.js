@@ -177,6 +177,7 @@ class Inventory {
         for (let slot of this.inventorySlots) {
             if (slot.item && slot.item.name === item.name) {
                 this.items[item.name]++;
+                slot.updateTextAmount(this.items[item.name]);
                 this.updateUI();
                 
                 return;
@@ -185,10 +186,9 @@ class Inventory {
 
         for (let slot of this.inventorySlots) {
             if (!slot.item) {
-                slot.setItem(new InventoryItem(item.name));
                 this.items[item.name] = 1;
+                slot.setItem(new InventoryItem(item.name));
                 this.updateUI();
-                console.log('test');
 
                 return;
             }
@@ -220,6 +220,7 @@ class Inventory {
             const adjustedY = pointer.worldY - camera.scrollY;
             
             this.draggedItem.setPosition(adjustedX, adjustedY);
+            this.selectedSlot.itemText.setPosition(adjustedX + 20, adjustedY + 20);
         }
     }
 
@@ -232,10 +233,11 @@ class Inventory {
                 dropSlot.toggleVisible(this.isVisible);
             } else {
                 this.selectedSlot.setItem(this.selectedSlot.item);
+                this.draggedItem.setPosition(this.selectedSlot.x, this.selectedSlot.y);
+                this.selectedSlot.itemText.setPosition(this.selectedSlot.x + 20, this.selectedSlot.y + 20);
             }
 
             if (dropSlot && dropSlot.itemImage) {
-                console.log(dropSlot);
                 dropSlot.itemImage.setPosition(dropSlot.x, dropSlot.y);
             }
 
@@ -296,6 +298,8 @@ class InventorySlot {
         this.slot.on('pointerout', this.onPointerOut, this);
 
         this.item = null;
+        this.itemImage = null;
+        this.slotText = null
     }
 
     setItem(item) {
@@ -313,12 +317,30 @@ class InventorySlot {
             .setDepth(55)
             .setVisible(this.isVisible);
             }
-            console.log(this.itemImage);
 
+            console.log(this.scene.player.inventory.items);
+            console.log(this.scene.player.inventory.items[this.item.name]);
+
+            if (!this.itemText) {  
+                this.itemText = this.scene.add.text(this.x + 20, this.y + 20, this.scene.player.inventory.items[this.item.name], {
+                    fontSize: "14px",
+                    fill: "#fff",
+                    stroke: "#000",
+                    strokeThickness: 3,
+                }).setOrigin(1)
+                .setDepth(56)
+                .setScrollFactor(0)
+                .setVisible(this.isVisible);
+            }
         } else {
             if (this.itemImage) {
                 this.itemImage.destroy();
                 this.itemImage = null;
+            }
+
+            if(this.itemText) {
+                this.itemText.destroy();
+                this.itemText = null;
             }
         }
     }
@@ -339,9 +361,15 @@ class InventorySlot {
 
     toggleVisible(isVisible) {
         this.slot.setVisible(isVisible);
-        if (this.itemImage) {
+        if (this.item) {
             this.itemImage.setVisible(isVisible);
+            this.itemText.setVisible(isVisible);
         }
+    }
+
+    updateTextAmount(amount) {
+        console.log(this.itemText);
+        this.itemText.setText(amount);
     }
 }
 
