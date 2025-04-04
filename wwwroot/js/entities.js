@@ -404,27 +404,36 @@ class Chunk {
         if (!this.isLoaded) {
             for (var x = 0; x < this.scene.chunkSize; x++) {
                 for (var y = 0; y < this.scene.chunkSize; y++) {
+                    let worldWidth = this.scene.physics.world.bounds.width;
+                    let worldHeight = this.scene.physics.world.bounds.height;
+
+                    this.scene.physics.world.setBounds(0, 0, worldWidth, worldHeight);
+
                     var tileX = (this.x * (this.scene.chunkSize * this.scene.tileSize)) + (x * this.scene.tileSize);
                     var tileY = (this.y * (this.scene.chunkSize * this.scene.tileSize)) + (y * this.scene.tileSize);
 
-                    var perlinValue = noise.perlin2(tileX / 100, tileY / 100) * level;
-
                     var key = "";
-                    var animationKey = "";
+                    let isWalkable = true;
+                    var animationKey = ""; 
 
-                    if (perlinValue < 0.2) {
-                        key = "cave-3";
-                    } else if (perlinValue >= 0.2 && perlinValue < 0.3) {
-                        key = "cave-2";
-                    } else if (perlinValue >= 0.3) {
-                        key = "cave-1";
+                    if (tileX !== 0 && tileY !== 0 && tileX < worldWidth - this.scene.tileSize && tileY < worldHeight - this.scene.tileSize) {
+                        var perlinValue = noise.perlin2(tileX / 100, tileY / 100) * level;
 
-                        const objectChance = Math.random() * 100;
-
-                        this.createObject(tileX, tileY, this.generateLevelObject(objectChance, level));
+                        if (perlinValue < 0.2) {
+                            key = "cave-3";
+                        } else if (perlinValue >= 0.2 && perlinValue < 0.3) {
+                            key = "cave-2";
+                        } else if (perlinValue >= 0.3) {
+                            key = "cave-1";
+                            const objectChance = Math.random() * 100;
+                            this.createObject(tileX, tileY, this.generateLevelObject(objectChance, level));
+                        } 
+                    } else {
+                        key = "wall-1";
+                        isWalkable = false;
                     }
 
-                    var tile = new Tile(this.scene, tileX, tileY, key);
+                    var tile = new Tile(this.scene, tileX, tileY, key, isWalkable);
                    
                     if (animationKey !== "") {
                         tile.play(animationKey);
@@ -551,13 +560,17 @@ class Item extends Phaser.GameObjects.Sprite {
 }
 
 class Tile extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, key, object = null) {
+    constructor(scene, x, y, key, isWalkable) {
         super(scene, x, y, key);
         this.scene = scene;
         this.scene.add.existing(this);
         this.setOrigin(0);
         
-        this.object = object;
+        if (!isWalkable) {
+            this.scene.physics.world.enable(this);
+            this.body.setImmovable(true);
+            this.scene.staticGroup.add(this); 
+        }
     }
 }
 

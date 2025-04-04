@@ -18,6 +18,7 @@
             this.load.image("cave-1", "assets/mine/sprites/tiles/cave-1.png");
             this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
             this.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
+            this.load.image("wall-1", "assets/mine/sprites/tiles/wall-1.png");
 
             this.load.image("porthole", "assets/mine/sprites/objects/porthole.png")
 
@@ -39,8 +40,8 @@
         }
 
         create() {
-            this.physics.world.setBounds(0, 0, 1000, 1000);
-            this.cameras.main.setBounds(0, 0, 1000, 1000);
+            this.physics.world.setBounds(0, 0, 1008, 1008);
+            this.cameras.main.setBounds(0, 0, 1008, 1008);
 
             this.anims.create({
                 key: "walk-down",
@@ -110,13 +111,25 @@
 
             this.chunks = [];
 
+            let chunksPerRow = Math.ceil(this.physics.world.bounds.width / (this.chunkSize * this.tileSize));
+            let chunksPerColumn = Math.ceil(this.physics.world.bounds.height / (this.chunkSize * this.tileSize));
+
+            for (let x = 0; x < chunksPerRow; x++) {
+                for (let y = 0; y < chunksPerColumn; y++) {
+                    let newChunk = new Chunk(this, x, y);
+                    this.chunks.push(newChunk);
+                }
+            }
+
             this.spawnPorthole();
 
+            this.staticGroup = this.add.group();
             this.environmentObjects = this.add.group();
             this.droppedItems = this.add.group();
 
             this.physics.add.collider(this.player, this.environmentObjects);
             this.physics.add.collider(this.player, this.porthole);
+            this.physics.add.collider(this.player, this.staticGroup);
 
             this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
@@ -189,17 +202,13 @@
             const cameraBounds = this.cameras.main.worldView;
 
             const snappedChunkX = Math.floor(cameraBounds.centerX / (this.chunkSize * this.tileSize));
-            const snappedChunkY = Math.floor(cameraBounds.centerY / (this.chunkSize * this.tileSize));
+            const snappedChunkY = Math.floor(cameraBounds.centerY / (this.chunkSize * this.tileSize))
 
-
-            for (let x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
-                for (let y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
-                    let existingChunk = this.getChunk(x, y);
-
-                    if (existingChunk === null) {
-                        let newChunk = new Chunk(this, x, y);
-                        this.chunks.push(newChunk);
-                    }
+            for (let chunk of this.chunks) {
+                if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
+                    chunk.load(this.player.level);
+                } else {
+                    chunk.unload();
                 }
             }
 
