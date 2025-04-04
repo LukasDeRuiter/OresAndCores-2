@@ -160,6 +160,7 @@ class Inventory {
         let padding = 5;
 
         this.draggedItem = null;
+        this.selectedSlot = null;
 
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
@@ -173,63 +174,39 @@ class Inventory {
     }
 
     addItem(item) {
-        if (this.items[item.name]) {
-            this.items[item.name]++;
-        } else {
-            this.items[item.name] = 1;
+        for (let slot of this.inventorySlots) {
+            if (slot.item && slot.item.name === item.name) {
+                this.items[item.name]++;
+                this.updateUI();
+                
+                return;
+            }
         }
 
-        this.updateUI();
+        for (let slot of this.inventorySlots) {
+            if (!slot.item) {
+                slot.setItem(new InventoryItem(item.name));
+                this.items[item.name] = 1;
+                this.updateUI();
+                console.log('test');
+
+                return;
+            }
+        }
     }
 
     updateUI() {
         this.inventoryBackground.setVisible(this.isVisible);
         this.inventorySlots.forEach((slot, index) => {
             slot.toggleVisible(this.isVisible);
-            let itemName = Object.keys(this.items)[index];  
-
-            if (itemName) {
-                let item = new InventoryItem(itemName);
-                slot.setItem(item);
-            } else {
-                slot.setItem(null);
-            }
         });
 
         this.levelText.setVisible(this.isVisible);
-
-        // Object.values(this.itemImages).forEach(image => image.destroy());
-        // this.itemImages = {};
-
-        // let count = 0;
-
-        // Object.entries(this.items).forEach(([itemName, itemCount]) => {
-        //     if (count >= this.inventorySlots.length) {
-        //         return;
-        //     }
-
-        //     let slot = this.inventorySlots[count];
-
-        //     let itemImage = this.scene.add.image(slot.x, slot.y, itemName).setOrigin(0.5).setDepth(51).setScrollFactor(0).setVisible(this.isVisible);
-        //     itemImage.setScale(32 / itemImage.width, 32 / itemImage.height);
-
-        //     this.itemImages[itemName] = itemImage;
-
-        //     let countText = this.scene.add.text(slot.x + 10, slot.y + 10, itemCount, {
-        //         fontSize: "12px",
-        //         fill: "#fff",
-        //         stroke: "#000",
-        //         strokeThickness: 3
-        //     }).setOrigin(0.5).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
-
-        //     this.itemImages[itemName + "_count"] = countText;
-
-        //     count++;
-        // })
     }
     
     startItemDrag(slot, pointer) {
         this.draggedItem = slot.itemImage;
+        this.selectedSlot = slot;
         this.scene.input.on('pointermove', this.onPointerMove, this);
         this.scene.input.once('pointerup', this.onPointerUp, this);
     }
@@ -250,12 +227,19 @@ class Inventory {
         if (this.draggedItem) {
             let dropSlot = this.getSlotUnderPointer(pointer);
             if (dropSlot && dropSlot !== this.draggedItem.slot) {
-                dropSlot.setItem(this.draggedItem);
+                dropSlot.setItem(this.selectedSlot.item);
+                this.selectedSlot.setItem(null);
+                dropSlot.toggleVisible(this.isVisible);
             } else {
-                this.draggedItem.slot.setItem(this.draggedItem);
+                this.selectedSlot.setItem(this.selectedSlot.item);
             }
 
-            this.draggedItem.itemImage.destroy();
+            if (dropSlot && dropSlot.itemImage) {
+                console.log(dropSlot);
+                dropSlot.itemImage.setPosition(dropSlot.x, dropSlot.y);
+            }
+
+            this.selectedSlot = null;
             this.draggedItem = null;
         }
 
@@ -265,7 +249,14 @@ class Inventory {
     getSlotUnderPointer(pointer) {
         for (let slot of this.inventorySlots) {
             let bounds = slot.slot.getBounds();
-            if (bounds.contains(pointer.x, pointer.y)) {
+
+            const camera = this.scene.cameras.main;
+            const zoom = camera.zoom;
+
+            const adjustedX = pointer.worldX - camera.scrollX;
+            const adjustedY = pointer.worldY - camera.scrollY;
+
+            if (bounds.contains(adjustedX, adjustedY)) {
                 return slot;
             }
         }
@@ -322,6 +313,7 @@ class InventorySlot {
             .setDepth(55)
             .setVisible(this.isVisible);
             }
+            console.log(this.itemImage);
 
         } else {
             if (this.itemImage) {
