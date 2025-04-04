@@ -37,6 +37,10 @@
                     this.load.image(item.name, item.path);
                 });
             }
+
+            this.load.audio('pickaxe-hit-1', 'assets/mine/sounds/effects/pickaxe-hit.mp3');
+            this.load.audio('pickaxe-hit-2', 'assets/mine/sounds/effects/pickaxe-hit-2.mp3');
+            this.load.audio('pickaxe-hit-3', 'assets/mine/sounds/effects/pickaxe-hit-3.mp3');
         }
 
         create() {
@@ -236,6 +240,8 @@
         }
 
         onObjectOverlap(tool, environmentObject) {
+            const pickedSound = Phaser.Math.Between(1, 3);
+            this.sound.play(`pickaxe-hit-${pickedSound}`); 
             environmentObject.dropItems();
             environmentObject.destroy();
         }
