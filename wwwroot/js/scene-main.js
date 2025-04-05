@@ -143,6 +143,7 @@
             this.physics.add.collider(this.enemies, this.staticGroup);
             this.physics.add.collider(this.enemies, this.porthole);
             this.physics.add.collider(this.enemies, this.environmentObjects);
+            this.physics.add.collider(this.enemies, this.enemies);
 
             this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
