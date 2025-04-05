@@ -282,6 +282,7 @@
             }
 
             this.physics.world.overlap(this.player, this.droppedItems, this.pickUpItem, null, this);
+            this.physics.world.overlap(this.player, this.enemies, this.damagePlayer, null, this);
 
             this.cameras.main.centerOn(this.player.x, this.player.y);
             this.player.setDepth(1);
@@ -291,6 +292,10 @@
             this.enemies.children.iterate(enemy => {
                 if (enemy) enemy.update(time, delta);
             })
+        }
+
+        damagePlayer(player, enemy) {
+            this.scene.start("SceneDeath");
         }
 
         onObjectOverlap(tool, environmentObject) {

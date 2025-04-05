@@ -6,6 +6,7 @@ var config = {
     scene: [ 
         SceneStart,
         SceneMain,
+        SceneDeath,
         SceneEnd,
         ],
     physics: {
