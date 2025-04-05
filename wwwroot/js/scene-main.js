@@ -49,8 +49,10 @@
         }
 
         create() {
-            this.physics.world.setBounds(0, 0, 1008, 1008);
-            this.cameras.main.setBounds(0, 0, 1008, 1008);
+            const worldWidth = 1008;
+            const worldHeight = 1008;
+            this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
+            this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
             this.anims.create({
                 key: "walk-down",
@@ -93,8 +95,7 @@
 
             this.registry.set("playerInventory", inventory);
 
-            this.player = new Player(this, this.cameras.main.worldView.x + (this.cameras.main.worldView.width * 0.5),
-            this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5), inventory, playerLevel);
+            this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
 
             this.physics.world.enable(this.player);
             this.cameras.main.startFollow(this.player);
