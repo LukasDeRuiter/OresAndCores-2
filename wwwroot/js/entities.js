@@ -647,3 +647,95 @@ class Porthole extends Phaser.GameObjects.Sprite {
         return level * 100;
     }
 }
+
+class Enemy extends Phaser.Physics.Arcade.Sprite {
+    constructor(scene, x, y, spritesheet, name) {
+        super(scene, x, y, spritesheet);
+
+        this.scene = scene;
+        this.spritesheet = spritesheet;
+        this.walkingAnimation = `${name}-walk`;
+        this.attackingAnimation = `${name}-attack`;
+        this.deathAnimation = `${name}-death`;
+
+        scene.add.existing(this);
+        scene.physics.add.existing(this);
+
+        this.setOrigin(0.5);
+        this.setDepth(30);
+        this.setScale(1);
+        this.setCollideWorldBounds(true);
+
+        this.createAnimations(scene, name);
+
+        this.play(this.walkingAnimation);
+    }
+
+    createAnimations(scene) {
+        if (!scene.anims.exists(this.walkingAnimation)) {
+            scene.anims.create({
+                key: this.walkingAnimation,
+                frames: scene.anims.generateFrameNumbers(this.spritesheet, {
+                    frames: [0, 1, 2, 1, 0]
+                }),
+                frameRate: 6,
+                repeat: -1
+            });
+        }
+
+        if (!scene.anims.exists(this.attackingAnimation)) {
+            scene.anims.create({
+                key: this.attackingAnimation,
+                frames: scene.anims.generateFrameNumbers(this.spritesheet, {
+                    frames: [3, 4, 5, 4, 3]
+                }),
+                frameRate: 10,
+                repeat: -1
+            });
+        }
+
+        if (!scene.anims.exists(this.deathAnimation)) {
+            scene.anims.create({
+                key: this.deathAnimation,
+                frames: scene.anims.generateFrameNumbers(this.spritesheet, {
+                    frames: [ 1 ]
+                }),
+                frameRate: 10,
+                repeat: 0
+            });
+        }
+    }
+    
+    walk() {
+        this.setVelocity(0);
+        this.switchAnimation(this.walkingAnimation);
+    }
+
+    attack() {
+        this.scene.physics.moveToObject(this, this.scene.player, 45);
+        this.switchAnimation(this.attackingAnimation);
+    }
+
+    die() {
+        this.play(this.deathAnimation);
+        this.on("animationcomplete", () => {
+            this.destroy();
+        }, this);
+    }
+
+    switchAnimation(animationKey) {
+        if (!this.anims.isPlaying || this.anims.currentAnim.key !== animationKey) {
+            this.play(animationKey);
+        }
+    }
+
+    update() {
+        let distanceBetweenPlayer = Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);
+
+        if (distanceBetweenPlayer <= 150) {
+            this.attack();
+        } else {
+            this.walk();
+        }
+    }
+}
