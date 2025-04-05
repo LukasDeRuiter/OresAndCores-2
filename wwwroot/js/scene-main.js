@@ -15,6 +15,11 @@
                 frameHeight: 16
             });
 
+            this.load.spritesheet("slime", "assets/mine/sprites/enemies/slime.png", {
+                frameWidth: 16,
+                frameHeight: 16,
+            });
+
             this.load.image("cave-1", "assets/mine/sprites/tiles/cave-1.png");
             this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
             this.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
@@ -94,7 +99,6 @@
             this.physics.world.enable(this.player);
             this.cameras.main.startFollow(this.player);
 
-
             this.anims.create({
                 key: "sprWater",
                 frames: this.anims.generateFrameNumbers("sprWater"),
@@ -130,10 +134,15 @@
             this.staticGroup = this.add.group();
             this.environmentObjects = this.add.group();
             this.droppedItems = this.add.group();
+            this.enemies = this.add.group();
 
             this.physics.add.collider(this.player, this.environmentObjects);
             this.physics.add.collider(this.player, this.porthole);
             this.physics.add.collider(this.player, this.staticGroup);
+
+            this.physics.add.collider(this.enemies, this.staticGroup);
+            this.physics.add.collider(this.enemies, this.porthole);
+            this.physics.add.collider(this.enemies, this.environmentObjects);
 
             this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
@@ -154,6 +163,12 @@
                 if (pointer.button === 0);
                 this.checkPortholeInteraction();
             })
+
+            let enemy1 = new Enemy(this, 50, 50, "slime", "slime");
+            let enemy2 = new Enemy(this, 50, 150, "slime", "slime");
+
+            this.enemies.add(enemy1);
+            this.enemies.add(enemy2);
         }
 
         toggleInventory() {
@@ -231,12 +246,16 @@
                 this.physics.world.overlap(this.player.tool, this.environmentObjects, this.onObjectOverlap, null, this);
             }
 
-        this.physics.world.overlap(this.player, this.droppedItems, this.pickUpItem, null, this);
+            this.physics.world.overlap(this.player, this.droppedItems, this.pickUpItem, null, this);
 
-        this.cameras.main.centerOn(this.player.x, this.player.y);
-        this.player.setDepth(1);
+            this.cameras.main.centerOn(this.player.x, this.player.y);
+            this.player.setDepth(1);
     
-        this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
+            this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
+
+            for (let enemy of this.enemies.getChildren()) {
+                enemy.update();
+            }
         }
 
         onObjectOverlap(tool, environmentObject) {
