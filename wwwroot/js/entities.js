@@ -668,6 +668,11 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.createAnimations(scene, name);
 
+        this.wanderTimer = 0;
+        this.speed = 20;
+        this.wanderCooldown = Phaser.Math.Between(1000, 3000);
+        this.wanderDirection = new Phaser.Math.Vector2(0, 0);
+
         this.play(this.walkingAnimation);
     }
 
@@ -706,9 +711,20 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
     }
     
-    walk() {
-        this.setVelocity(0);
+    walk(time, delta) {
         this.switchAnimation(this.walkingAnimation);
+
+        this.wanderTimer += delta;
+
+        if (this.wanderTimer >= this.wanderCooldown) {
+            const angle = Phaser.Math.FloatBetween(0, Math.PI * 2);
+            this.wanderDirection.setTo(Math.cos(angle, Math.sin(angle)));
+            this.wanderDirection.normalize();
+
+            this.wanderCooldown = Phaser.Math.Between(1000, 3000);
+            this.wanderTimer = 0;
+            this.setVelocity(this.wanderDirection.x * this.speed, this.wanderDirection.y * this.speed);
+        }
     }
 
     attack() {
@@ -729,13 +745,13 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    update() {
+    update(time, delta) {
         let distanceBetweenPlayer = Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);
 
-        if (distanceBetweenPlayer <= 150) {
+        if (distanceBetweenPlayer <= 100) {
             this.attack();
         } else {
-            this.walk();
+            this.walk(time, delta);
         }
     }
 }
