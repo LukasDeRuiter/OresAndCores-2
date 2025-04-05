@@ -213,7 +213,7 @@
             }
         }
 
-        update() {
+        update(time, delta) {
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
                 this.scene.start("SceneEnd");
             }
@@ -253,9 +253,9 @@
     
             this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
 
-            for (let enemy of this.enemies.getChildren()) {
-                enemy.update();
-            }
+            this.enemies.children.iterate(enemy => {
+                if (enemy) enemy.update(time, delta);
+            })
         }
 
         onObjectOverlap(tool, environmentObject) {
