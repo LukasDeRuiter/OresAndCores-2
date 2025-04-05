@@ -166,11 +166,44 @@
                 this.checkPortholeInteraction();
             })
 
-            let enemy1 = new Enemy(this, 50, 50, "slime", "slime");
-            let enemy2 = new Enemy(this, 50, 150, "slime", "slime");
+            this.createEnemies();
+        }
 
-            this.enemies.add(enemy1);
-            this.enemies.add(enemy2);
+        createEnemies() {
+            const enemyCount = 10;
+
+            const generateEnemyPosition = () => {
+                let x, y;
+
+                do {
+                    const side = Phaser.Math.Between(0, 3);
+
+                    if (side === 0) {
+                        x = Phaser.Math.Between(20, this.physics.world.bounds.width - 20);
+                        y = 20;
+                    } else if (side === 1) {
+                        x = Phaser.Math.Between(20, this.physics.world.bounds.width - 20);
+                        y = this.physics.world.bounds.height - 20;
+                    } else if (side === 2) {
+                        x = 20;
+                        y = Phaser.Math.Between(20, this.physics.world.bounds.height - 20);
+                    } else {
+                        x = this.physics.world.bounds.width - 20;
+                        y = Phaser.Math.Between(20, this.physics.world.bounds.height - 20);
+                    }
+                } while (Phaser.Math.Distance.Between(x, y, this.player.x, this.player.y) < 50);
+        
+                return { x, y };
+            };
+        
+            // Create 10 enemies at random positions within 20px of the boundaries, but at least 150px away from the player
+            for (let i = 0; i < enemyCount; i++) {
+                const { x, y } = generateEnemyPosition();
+                const enemy = new Enemy(this, x, y, "slime", "slime");
+                this.enemies.add(enemy);
+
+                console.log(this.enemies);
+            }
         }
 
         toggleInventory() {
