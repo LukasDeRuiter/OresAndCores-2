@@ -20,6 +20,9 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.inventory = inventory;
 
+        this.toolBelt = this.createToolBelt();
+
+        this.selectedTool = null;
         this.tool = null;
     }
 
@@ -47,14 +50,38 @@ class Player extends Phaser.GameObjects.Sprite {
             this.viewDirection = "right";
             this.setFlipX(false);
         }
+        
+        if (!cursors.W.isDown && !cursors.S.isDown && !cursors.A.isDown && !cursors.D.isDown) {
+            this.anims.stop();
+        }
 
-         if (!cursors.W.isDown && !cursors.S.isDown && !cursors.A.isDown && !cursors.D.isDown) {
-        this.anims.stop();
-    }
+        if (Phaser.Input.Keyboard.JustDown(this.scene.numberKeys.one)) {
+            this.selectedTool = this.toolBelt.find (tool => tool.name === "sword");
+            console.log(this.selectedTool);
+        } else if (Phaser.Input.Keyboard.JustDown(this.scene.numberKeys.two)) {
+            this.selectedTool = this.toolBelt.find (tool => tool.name === "pickaxe");
+            console.log(this.selectedTool);
+        }
 
-    if (this.tool) {
-        this.updateToolPosition();
+        if (this.tool) {
+            this.updateToolPosition();
+        }
     }
+    
+    createToolBelt() {
+        if (this.toolBelt !== null) {
+            let toolbelt = [];
+
+            const pickaxe = new InventoryTool("pickaxe", "pickaxe", this.scene.environmentObjects);
+            const sword = new InventoryTool("sword", "sword", this.scene.enemies);
+
+            toolbelt.push(pickaxe);
+            toolbelt.push(sword);
+
+            return toolbelt;
+        }
+
+    return this.toolBelt;
 }
 
 showTool() {
@@ -318,9 +345,6 @@ class InventorySlot {
             .setVisible(this.isVisible);
             }
 
-            console.log(this.scene.player.inventory.items);
-            console.log(this.scene.player.inventory.items[this.item.name]);
-
             if (!this.itemText) {  
                 this.itemText = this.scene.add.text(this.x + 20, this.y + 20, this.scene.player.inventory.items[this.item.name], {
                     fontSize: "14px",
@@ -368,7 +392,6 @@ class InventorySlot {
     }
 
     updateTextAmount(amount) {
-        console.log(this.itemText);
         this.itemText.setText(amount);
     }
 }
@@ -377,6 +400,20 @@ class InventoryItem {
     constructor(name, icon = null) {
         this.name = name;
         this.icon = icon;
+    }
+}
+
+class InventoryTool {
+    constructor(name, key, interactsWith) {
+        this.name = name;
+        this.key = key;
+        this.interactsWith = interactsWith;
+
+        this.swingWithNoHitSound = this.getNoHitSound();
+    }
+
+    getNoHitSound() {
+        return "tool-swing-1";
     }
 }
 
@@ -658,6 +695,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.attackingAnimation = `${name}-attack`;
         this.deathAnimation = `${name}-death`;
 
+        this.attackSound = `${name}-attack-1`;
+        this.damageSound = `${name}-damage-1`;
+
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -729,6 +769,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     attack() {
         this.scene.physics.moveToObject(this, this.scene.player, 45);
+        this.playSound(this.attackSound, this.attackingAnimation);
         this.switchAnimation(this.attackingAnimation);
     }
 
@@ -742,6 +783,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     switchAnimation(animationKey) {
         if (!this.anims.isPlaying || this.anims.currentAnim.key !== animationKey) {
             this.play(animationKey);
+        }
+    }
+
+    playSound(sound, animationKey) {
+        if (!this.anims.isPlaying || this.anims.currentAnim.key !== animationKey) {
+            this.scene.sound.play(sound);
         }
     }
 
