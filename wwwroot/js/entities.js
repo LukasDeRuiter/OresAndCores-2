@@ -22,7 +22,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.toolBelt = this.createToolBelt();
 
-        this.selectedTool = null;
+        this.selectedTool = this.toolBelt.find(tool => tool.name === "pickaxe");
         this.tool = null;
     }
 
@@ -56,11 +56,9 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.scene.numberKeys.one)) {
-            this.selectedTool = this.toolBelt.find (tool => tool.name === "sword");
-            console.log(this.selectedTool);
+            this.selectedTool = this.toolBelt.find(tool => tool.name === "sword");
         } else if (Phaser.Input.Keyboard.JustDown(this.scene.numberKeys.two)) {
-            this.selectedTool = this.toolBelt.find (tool => tool.name === "pickaxe");
-            console.log(this.selectedTool);
+            this.selectedTool = this.toolBelt.find(tool => tool.name === "pickaxe");
         }
 
         if (this.tool) {
@@ -87,7 +85,7 @@ class Player extends Phaser.GameObjects.Sprite {
 showTool() {
     if (!this.tool) {
         let position = this.getBreakingPositionArea();
-        this.tool = new Tool(this.scene, position.x, position.y, "pickaxe", "pickaxe");
+        this.tool = new Tool(this.scene, position.x, position.y, this.selectedTool.name, this.selectedTool.name);
 
         this.swingTool();
     }
@@ -686,7 +684,7 @@ class Porthole extends Phaser.GameObjects.Sprite {
 }
 
 class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, spritesheet, name) {
+    constructor(scene, x, y, spritesheet, name, health) {
         super(scene, x, y, spritesheet);
 
         this.scene = scene;
@@ -710,6 +708,10 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.wanderTimer = 0;
         this.speed = 20;
+        this.health = health;
+        this.isDead = false;
+        this.knockbackDuration = 200;
+        this.knockbackTimer = 0;
         this.wanderCooldown = Phaser.Math.Between(1000, 3000);
         this.wanderDirection = new Phaser.Math.Vector2(0, 0);
 
@@ -743,7 +745,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             scene.anims.create({
                 key: this.deathAnimation,
                 frames: scene.anims.generateFrameNumbers(this.spritesheet, {
-                    frames: [ 1 ]
+                    frames: [ 6 ]
                 }),
                 frameRate: 10,
                 repeat: 0
@@ -773,10 +775,38 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.switchAnimation(this.attackingAnimation);
     }
 
+    takeDamage(attackerX, attackerY) {
+        this.health -= 1;
+
+        this.scene.sound.play(this.damageSound);
+
+        const pushBackVector = new Phaser.Math.Vector2(this.x - attackerX, this.y - attackerY).normalize().scale(200);
+        this.knockbackTimer = this.knockbackDuration;
+        this.setVelocity(pushBackVector.x, pushBackVector.y);
+
+        this.setTint(0xff0000);
+        this.scene.time.delayedCall(100, () => this.clearTint());
+
+        if(this.health <= 0) {
+            this.die();
+        }
+    }
+
     die() {
+        this.isDead = true;
+        this.setVelocity(0);
         this.play(this.deathAnimation);
         this.on("animationcomplete", () => {
-            this.destroy();
+            this.scene.time.delayedCall(1000, () => {
+                this.scene.tweens.add({
+                    targets: this,
+                    alpha: 0,
+                    duration: 1000,
+                    onComplete: () => {
+                        this.destroy();
+                    }
+                });
+            });
         }, this);
     }
 
@@ -793,12 +823,19 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(time, delta) {
-        let distanceBetweenPlayer = Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);
+        if(this.knockbackTimer > 0 ) {
+            this.knockbackTimer -= delta;
+            return;
+        }
 
-        if (distanceBetweenPlayer <= 100) {
-            this.attack();
-        } else {
-            this.walk(time, delta);
+        if (!this.isDead) {
+            let distanceBetweenPlayer = Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);
+
+            if (distanceBetweenPlayer <= 100) {
+                this.attack();
+            } else {
+                this.walk(time, delta);
+            }
         }
     }
 }
