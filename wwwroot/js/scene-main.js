@@ -30,6 +30,7 @@
             this.load.image("item-shadow", "assets/mine/sprites/effects/item-shadow.png");
 
             this.load.image("pickaxe", "assets/mine/sprites/tools/pickaxe.png");
+            this.load.image("sword", "assets/mine/sprites/tools/sword.png");
 
            if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
                 window.environmentObjects.forEach(environmentObject => {
@@ -100,6 +101,13 @@
 
             this.registry.set("playerInventory", inventory);
 
+            this.spawnPorthole();
+
+            this.staticGroup = this.add.group();
+            this.environmentObjects = this.add.group();
+            this.droppedItems = this.add.group();
+            this.enemies = this.add.group();
+
             this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
 
             this.physics.world.enable(this.player);
@@ -134,13 +142,6 @@
                     this.chunks.push(newChunk);
                 }
             }
-
-            this.spawnPorthole();
-
-            this.staticGroup = this.add.group();
-            this.environmentObjects = this.add.group();
-            this.droppedItems = this.add.group();
-            this.enemies = this.add.group();
 
             this.physics.add.collider(this.player, this.environmentObjects);
             this.physics.add.collider(this.player, this.porthole);
@@ -209,10 +210,8 @@
             // Create 10 enemies at random positions within 20px of the boundaries, but at least 150px away from the player
             for (let i = 0; i < enemyCount; i++) {
                 const { x, y } = generateEnemyPosition();
-                const enemy = new Enemy(this, x, y, "slime", "slime");
+                const enemy = new Enemy(this, x, y, "slime", "slime", 3);
                 this.enemies.add(enemy);
-
-                console.log(this.enemies);
             }
         }
 
@@ -290,7 +289,7 @@
             if (Phaser.Input.Keyboard.JustDown(this.keyR) && this.player.tool !== null) {
                 const hitDetected = this.physics.world.overlap(
                     this.player.tool,
-                    this.environmentObjects,
+                    this.player.selectedTool.interactsWith,
                     this.onObjectOverlap,
                     null,
                     this
@@ -315,14 +314,28 @@
         }
 
         damagePlayer(player, enemy) {
-            this.scene.start("SceneDeath");
+            // this.scene.start("SceneDeath");
         }
 
-        onObjectOverlap(tool, environmentObject) {
+        onObjectOverlap(tool, object) {
+            if (object instanceof Enemy) {
+                this.damageEnemy(object);
+            } 
+
+            if (object instanceof EnvironmentObject) {
+                this.breakEnvironmentObject(object);
+            }
+        }
+
+        breakEnvironmentObject(object) {
             const pickedSound = Phaser.Math.Between(1, 3);
             this.sound.play(`pickaxe-hit-${pickedSound}`); 
-            environmentObject.dropItems();
-            environmentObject.destroy();
+            object.dropItems();
+            object.destroy();
+        }
+
+        damageEnemy(enemy) {
+            enemy.takeDamage(this.player.x, this.player.y);
         }
 
         pickUpItem(player, item) {
