@@ -46,6 +46,11 @@
             this.load.audio('pickaxe-hit-1', 'assets/mine/sounds/effects/pickaxe-hit.mp3');
             this.load.audio('pickaxe-hit-2', 'assets/mine/sounds/effects/pickaxe-hit-2.mp3');
             this.load.audio('pickaxe-hit-3', 'assets/mine/sounds/effects/pickaxe-hit-3.mp3');
+
+            this.load.audio('tool-swing-1', 'assets/mine/sounds/effects/tool-swing-1.mp3');
+
+            this.load.audio('slime-attack-1', 'assets/mine/sounds/effects/slime-attack-1.mp3');
+            this.load.audio('slime-damage-1', 'assets/mine/sounds/effects/slime-damage-1.mp3');
         }
 
         create() {
@@ -159,6 +164,11 @@
             
             this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
             this.keyE.on('down', () => this.toggleInventory());
+
+            this.numberKeys = this.input.keyboard.addKeys({
+                one: Phaser.Input.Keyboard.KeyCodes.ONE,
+                two: Phaser.Input.Keyboard.KeyCodes.TWO,
+            });
 
             this.porthole.setInteractive();
             this.input.on('pointerdown', (pointer) => {
@@ -278,7 +288,17 @@
             }
 
             if (Phaser.Input.Keyboard.JustDown(this.keyR) && this.player.tool !== null) {
-                this.physics.world.overlap(this.player.tool, this.environmentObjects, this.onObjectOverlap, null, this);
+                const hitDetected = this.physics.world.overlap(
+                    this.player.tool,
+                    this.environmentObjects,
+                    this.onObjectOverlap,
+                    null,
+                    this
+                );
+
+                if (!hitDetected) {
+                    this.sound.play("tool-swing-1");
+                }
             }
 
             this.physics.world.overlap(this.player, this.droppedItems, this.pickUpItem, null, this);
