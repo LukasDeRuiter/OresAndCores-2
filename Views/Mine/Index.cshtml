@@ -25,10 +25,20 @@
         Items = e.GetItems()
     })));
 
+    window.enemies = @Html.Raw(Json.Serialize(Model.Enemies.Select(e => new {
+        e.Id,
+        e.Name,
+        e.Sprite,
+        e.Health, 
+        e.Speed, 
+        Items = e.GetItems()
+    })));
+
     window.items = @Html.Raw(Json.Serialize(Model.Items));
 
     console.log("Loaded Environment Objects:", window.environmentObjects);
     console.log("Loaded Items:", window.items);
+    console.log("Loaded enemies:", window.enemies);
 </script>
 
 <script src="~/js/mine.js"></script>

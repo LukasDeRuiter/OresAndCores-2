@@ -21,6 +21,7 @@ public class MineController : Controller
         var ViewModel = new GameViewModel
         {
              EnvironmentObjects = _context.EnvironmentObject.ToList(),
+             Enemies = _context.Enemy.ToList(),
              Items = _context.Item.ToList()
 
         };
