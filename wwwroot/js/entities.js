@@ -799,6 +799,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.isDead = true;
         this.setVelocity(0);
         this.play(this.deathAnimation);
+        this.dropItems();
         this.on("animationcomplete", () => {
             this.scene.time.delayedCall(1000, () => {
                 this.scene.tweens.add({
@@ -856,7 +857,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             }
         });
 
-        return itemsInsideObject;
+        return itemsInsideEnemy;
     }
 
     dropItems() {
