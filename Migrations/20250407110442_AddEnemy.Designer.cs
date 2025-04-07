@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OresAndCores_2.Data;
 
@@ -10,9 +11,11 @@ using OresAndCores_2.Data;
 namespace OresAndCores_2.Migrations
 {
     [DbContext(typeof(OresAndCores_2Context))]
-    partial class OresAndCores_2ContextModelSnapshot : ModelSnapshot
+    [Migration("20250407110442_AddEnemy")]
+    partial class AddEnemy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,17 +53,6 @@ namespace OresAndCores_2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Enemy");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Health = 3,
-                            Items = "[{\"ItemId\":1,\"Amount\":1,\"DropChance\":100},{\"ItemId\":2,\"Amount\":1,\"DropChance\":100}]",
-                            Name = "slime",
-                            Speed = 20,
-                            Sprite = "slime"
-                        });
                 });
 
             modelBuilder.Entity("OresAndCores_2.Models.EnvironmentObject", b =>
