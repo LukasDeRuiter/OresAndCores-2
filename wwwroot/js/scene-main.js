@@ -210,7 +210,10 @@
             // Create 10 enemies at random positions within 20px of the boundaries, but at least 150px away from the player
             for (let i = 0; i < enemyCount; i++) {
                 const { x, y } = generateEnemyPosition();
-                const enemy = new Enemy(this, x, y, "slime", "slime", 3);
+
+                const objectData = window.enemies.find(objData => objData.name === "slime");
+                console.log(objectData);
+                const enemy = new Enemy(this, x, y, objectData.name, objectData.sprite, objectData.health, objectData.speed, objectData.items);
                 this.enemies.add(enemy);
             }
         }
