@@ -92,7 +92,16 @@
             let playerLevel = 1;
 
             if (this.registry.has("playerInventory")) {
-                inventory.items =  this.registry.get("playerInventory").items;
+                const savedInventory = this.registry.get("playerInventory").items;
+                inventory.items = {};
+            
+                for (let itemName in savedInventory) {
+                    let count = savedInventory[itemName];
+            
+                    for (let i = 0; i < count; i++) {
+                        inventory.addItem(new InventoryItem(itemName));
+                    }
+                }
             } 
 
             if (this.registry.has("playerLevel")) {
@@ -212,7 +221,6 @@
                 const { x, y } = generateEnemyPosition();
 
                 const objectData = window.enemies.find(objData => objData.name === "slime");
-                console.log(objectData);
                 const enemy = new Enemy(this, x, y, objectData.name, objectData.sprite, objectData.health, objectData.speed, objectData.items);
                 this.enemies.add(enemy);
             }

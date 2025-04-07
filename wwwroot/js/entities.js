@@ -484,10 +484,14 @@ class Chunk {
 
     generateLevelObject(objectChance, level) {
         if(level >= 1 && level <= 5) {
-            if (objectChance > 70 &&  objectChance <= 95) {
+            if (objectChance > 50 &&  objectChance <= 70) {
                 return "rock";
-            } else if (objectChance > 95 && objectChance <= 100) {
+            } else if (objectChance > 70 && objectChance <= 80) {
                 return "copper-rock";
+            } else if (objectChance > 80 && objectChance <= 85) {
+                return "tin-rock";
+            } else if (objectChance > 85 && objectChance <= 90) {
+                return "iron-rock";
             }
         }
     }
