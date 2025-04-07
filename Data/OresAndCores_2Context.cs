@@ -46,6 +46,28 @@ namespace OresAndCores_2.Data
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
                         new ObjectItem {ItemId = 2, Amount = 2, DropChance = 100},
                     }),
+                },
+                 new EnvironmentObject 
+                { 
+                    Id = 3, 
+                    Name = "tin-rock",
+                    Path = "assets/mine/sprites/objects/tin-rock.png", 
+                    Items = JsonSerializer.Serialize(new List<ObjectItem>
+                    {
+                        new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
+                        new ObjectItem {ItemId = 3, Amount = 2, DropChance = 100},
+                    }),
+                },
+                 new EnvironmentObject 
+                { 
+                    Id = 4, 
+                    Name = "iron-rock",
+                    Path = "assets/mine/sprites/objects/iron-rock.png", 
+                    Items = JsonSerializer.Serialize(new List<ObjectItem>
+                    {
+                        new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
+                        new ObjectItem {ItemId = 4, Amount = 2, DropChance = 100},
+                    }),
                 }
             );
 
@@ -66,8 +88,11 @@ namespace OresAndCores_2.Data
             );
 
             modelBuilder.Entity<Item>().HasData(
-                new Item { Id = 1, Name = "stone-item", Path = "assets/mine/sprites/items/stone-item.png", Value = 10 },
-                new Item { Id = 2, Name = "copper-ore-item", Path = "assets/mine/sprites/items/copper-ore-item.png", Value = 50 }
+                new Item { Id = 1, Name = "stone-item", Path = "assets/mine/sprites/items/stone-item.png", Value = 2 },
+                new Item { Id = 2, Name = "copper-ore-item", Path = "assets/mine/sprites/items/copper-ore-item.png", Value = 5 },
+                new Item { Id = 3, Name = "tin-ore-item", Path = "assets/mine/sprites/items/tin-ore-item.png", Value = 7 },
+                new Item { Id = 4, Name = "iron-ore-item", Path = "assets/mine/sprites/items/iron-ore-item.png", Value = 15 }
+            
             );
         }
     }
