@@ -684,7 +684,7 @@ class Porthole extends Phaser.GameObjects.Sprite {
 }
 
 class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, spritesheet, name, health) {
+    constructor(scene, x, y, spritesheet, name, health, speed, items) {
         super(scene, x, y, spritesheet);
 
         this.scene = scene;
@@ -707,13 +707,14 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.createAnimations(scene, name);
 
         this.wanderTimer = 0;
-        this.speed = 20;
+        this.speed = speed;
         this.health = health;
         this.isDead = false;
         this.knockbackDuration = 200;
         this.knockbackTimer = 0;
         this.wanderCooldown = Phaser.Math.Between(1000, 3000);
         this.wanderDirection = new Phaser.Math.Vector2(0, 0);
+        this.items = this.buildDropItems(items);
 
         this.play(this.walkingAnimation);
     }
@@ -776,19 +777,21 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     takeDamage(attackerX, attackerY) {
-        this.health -= 1;
+        if(this.health > 0) {
+            this.health -= 1;
 
-        this.scene.sound.play(this.damageSound);
-
-        const pushBackVector = new Phaser.Math.Vector2(this.x - attackerX, this.y - attackerY).normalize().scale(200);
-        this.knockbackTimer = this.knockbackDuration;
-        this.setVelocity(pushBackVector.x, pushBackVector.y);
-
-        this.setTint(0xff0000);
-        this.scene.time.delayedCall(100, () => this.clearTint());
-
-        if(this.health <= 0) {
-            this.die();
+            this.scene.sound.play(this.damageSound);
+    
+            const pushBackVector = new Phaser.Math.Vector2(this.x - attackerX, this.y - attackerY).normalize().scale(200);
+            this.knockbackTimer = this.knockbackDuration;
+            this.setVelocity(pushBackVector.x, pushBackVector.y);
+    
+            this.setTint(0xff0000);
+            this.scene.time.delayedCall(100, () => this.clearTint());
+    
+            if(this.health <= 0) {
+                this.die();
+            }
         }
     }
 
@@ -837,5 +840,33 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.walk(time, delta);
             }
         }
+    }
+
+    buildDropItems(items) {
+
+        let itemsInsideEnemy = [];
+
+        items.forEach(item => {
+            for (let i = 0; i < item.amount; i++) {
+                const roll = Math.random() * 100;
+
+                if (roll <= item.dropChance) {
+                    itemsInsideEnemy.push(item.itemId);
+                }
+            }
+        });
+
+        return itemsInsideObject;
+    }
+
+    dropItems() {
+        this.items.forEach(dropItem => {
+            let dropX = this.x + Phaser.Math.Between(-12, 12);
+            let dropY = this.y + Phaser.Math.Between(-12, 12);
+
+            const itemData = window.items.find(objData => objData.id === dropItem);
+
+            new Item(this.scene, dropX, dropY, itemData.name, itemData.name);
+        });
     }
 }
