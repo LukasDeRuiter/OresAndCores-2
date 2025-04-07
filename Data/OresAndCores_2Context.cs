@@ -19,6 +19,7 @@ namespace OresAndCores_2.Data
         public DbSet<OresAndCores_2.Models.Inventory> Inventory { get; set; } = default!;
         public DbSet<OresAndCores_2.Models.EnvironmentObject> EnvironmentObject { get; set; } = default!;
         public DbSet<OresAndCores_2.Models.Item> Item { get; set; } = default!;
+        public DbSet<OresAndCores_2.Models.Enemy> Enemy { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +45,22 @@ namespace OresAndCores_2.Data
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
                         new ObjectItem {ItemId = 2, Amount = 2, DropChance = 100},
+                    }),
+                }
+            );
+
+            modelBuilder.Entity<Enemy>().HasData(
+                new Enemy 
+                { 
+                    Id = 1,
+                    Name = "slime", 
+                    Sprite = "slime",
+                    Health = 3,
+                    Speed = 20,
+                    Items = JsonSerializer.Serialize(new List<ObjectItem>
+                    {
+                        new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
+                        new ObjectItem {ItemId = 2, Amount = 1, DropChance = 100}
                     }),
                 }
             );

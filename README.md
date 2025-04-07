@@ -1,6 +1,6 @@
 
 Add scaffolding:
-dotnet aspnet-codegenerator controller -name ItemController -m Item -dc Item.Data.ItemContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries --databaseProvider sqlite
+dotnet aspnet-codegenerator controller -name EnemyController -m Enemy -dc Enemy.Data.ItemContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries --databaseProvider sqlite
 
 create migration:
 dotnet ef migrations add {YourMigrationName} --context OresAndCores_2Context
