@@ -15,11 +15,6 @@
                 frameHeight: 16
             });
 
-            this.load.spritesheet("slime", "assets/mine/sprites/enemies/slime.png", {
-                frameWidth: 16,
-                frameHeight: 16,
-            });
-
             this.load.image("cave-1", "assets/mine/sprites/tiles/cave-1.png");
             this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
             this.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
@@ -43,6 +38,17 @@
                     this.load.image(item.name, item.path);
                 });
             }
+
+            if (window.enemies && Array.isArray(window.enemies)) {
+                window.enemies.forEach(enemy => {
+                    this.load.spritesheet(enemy.name, enemy.sprite, {
+                        frameWidth: 16,
+                        frameHeight: 16,
+                    });
+                    console.log(enemy);
+                });
+            }
+
 
             this.load.audio('pickaxe-hit-1', 'assets/mine/sounds/effects/pickaxe-hit.mp3');
             this.load.audio('pickaxe-hit-2', 'assets/mine/sounds/effects/pickaxe-hit-2.mp3');
@@ -99,7 +105,7 @@
                     let count = savedInventory[itemName];
             
                     for (let i = 0; i < count; i++) {
-                        inventory.addItem(new InventoryItem(itemName));
+                        inventory.addItem(new InventoryItem(itemName), 0);
                     }
                 }
             } 
@@ -221,13 +227,14 @@
                 const { x, y } = generateEnemyPosition();
 
                 const objectData = window.enemies.find(objData => objData.name === "slime");
-                const enemy = new Enemy(this, x, y, objectData.name, objectData.sprite, objectData.health, objectData.speed, objectData.items);
+                const enemy = new Enemy(this, x, y, objectData.name, objectData.name, objectData.health, objectData.speed, objectData.items);
                 this.enemies.add(enemy);
             }
         }
 
         toggleInventory() {
             this.player.inventory.levelText.setText(`Current level: ${this.player.level}`);
+            this.player.inventory.moneyText.setText(`Money: ${this.player.inventory.money}`);
             this.player.inventory.toggle();
         }
 
@@ -350,7 +357,7 @@
         }
 
         pickUpItem(player, item) {
-            let rockItem = new InventoryItem(item.itemName);
+            let rockItem = new InventoryItem(item.itemName, item.value);
 
             this.player.collectItem(rockItem);
 
