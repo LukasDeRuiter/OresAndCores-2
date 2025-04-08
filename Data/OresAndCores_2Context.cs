@@ -30,6 +30,7 @@ namespace OresAndCores_2.Data
                 { 
                     Id = 1,
                     Name = "rock", 
+                    Health = 3,
                     Path = "assets/mine/sprites/objects/rock.png", 
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
@@ -40,6 +41,7 @@ namespace OresAndCores_2.Data
                 { 
                     Id = 2, 
                     Name = "copper-rock",
+                    Health = 5,
                     Path = "assets/mine/sprites/objects/copper-rock.png", 
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
@@ -51,6 +53,7 @@ namespace OresAndCores_2.Data
                 { 
                     Id = 3, 
                     Name = "tin-rock",
+                    Health = 7,
                     Path = "assets/mine/sprites/objects/tin-rock.png", 
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
@@ -62,6 +65,7 @@ namespace OresAndCores_2.Data
                 { 
                     Id = 4, 
                     Name = "iron-rock",
+                    Health = 10,
                     Path = "assets/mine/sprites/objects/iron-rock.png", 
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
@@ -76,13 +80,12 @@ namespace OresAndCores_2.Data
                 { 
                     Id = 1,
                     Name = "slime", 
-                    Sprite = "slime",
+                    Sprite = "assets/mine/sprites/enemies/slime.png",
                     Health = 3,
                     Speed = 20,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
-                        new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
-                        new ObjectItem {ItemId = 2, Amount = 1, DropChance = 100}
+                        new ObjectItem {ItemId = 5, Amount = 5, DropChance = 50}
                     }),
                 }
             );
@@ -91,7 +94,8 @@ namespace OresAndCores_2.Data
                 new Item { Id = 1, Name = "stone-item", Path = "assets/mine/sprites/items/stone-item.png", Value = 2 },
                 new Item { Id = 2, Name = "copper-ore-item", Path = "assets/mine/sprites/items/copper-ore-item.png", Value = 5 },
                 new Item { Id = 3, Name = "tin-ore-item", Path = "assets/mine/sprites/items/tin-ore-item.png", Value = 7 },
-                new Item { Id = 4, Name = "iron-ore-item", Path = "assets/mine/sprites/items/iron-ore-item.png", Value = 15 }
+                new Item { Id = 4, Name = "iron-ore-item", Path = "assets/mine/sprites/items/iron-ore-item.png", Value = 15 },
+                new Item { Id = 5, Name = "coin-item", Path = "assets/mine/sprites/items/coin-item.png", Value = 1 }
             
             );
         }
