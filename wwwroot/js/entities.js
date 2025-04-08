@@ -50,6 +50,16 @@ class Player extends Phaser.GameObjects.Sprite {
             this.viewDirection = "right";
             this.setFlipX(false);
         }
+
+        if (cursors.W.isDown && cursors.A.isDown) {
+            this.viewDirection = "up-left";
+        } else if (cursors.W.isDown && cursors.D.isDown) {
+            this.viewDirection = "up-right";
+        } else if (cursors.S.isDown && cursors.A.isDown) {
+            this.viewDirection = "down-left";
+        } else if (cursors.S.isDown && cursors.D.isDown) {
+            this.viewDirection = "down-right";
+        }
         
         if (!cursors.W.isDown && !cursors.S.isDown && !cursors.A.isDown && !cursors.D.isDown) {
             this.anims.stop();
@@ -143,7 +153,19 @@ getBreakingPositionArea() {
      breakX -= 16;
  } else if (this.viewDirection === "right") {
      breakX += 16;
- }
+ } else if (this.viewDirection === "up-left") {
+     breakX -= 16;
+     breakY -= 16;
+} else if (this.viewDirection === "up-right") {
+     breakX += 16;
+     breakY -= 16;
+} else if (this.viewDirection === "down-left") {
+     breakX -= 16
+     breakY += 16;
+} else if (this.viewDirection === "down-right") {
+     breakX += 16;
+     breakY += 16;
+}
 
  return { x: breakX, y: breakY };
  }
