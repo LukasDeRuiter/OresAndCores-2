@@ -171,7 +171,11 @@ getBreakingPositionArea() {
  }
 
  collectItem(item) {
-    this.inventory.addItem(item);
+    if(item.name === "coin-item") {
+        this.inventory.addMoney(item.value);
+    } else {
+        this.inventory.addItem(item);
+    }
  }
 
  levelUp() {
@@ -187,16 +191,24 @@ class Inventory {
         this.itemImages = {};
 
         this.isVisible = false;
+        this.money = 0;
 
         this.inventoryBackground = this.scene.add.rectangle(400, 300, 350, 250, 0X000000, 0.3).setOrigin(0.5).setDepth(50).setScrollFactor(0);
         this.inventoryBackground.setVisible(this.isVisible);
 
-        this.levelText = this.scene.add.text(320, 350, "Current level: 1", {
+        this.levelText = this.scene.add.text(280, 340, "Current level: 1", {
             fontSize: "16",
             fill: "#fff",
             stroke: "#000",
             strokeThickness: 3,
-        }).setOrigin(0.5).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+        }).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+
+        this.moneyText = this.scene.add.text(280, 360, "Money: 0", {
+            fontSize: "16",
+            fill: "#fff",
+            stroke: "#000",
+            strokeThickness: 3,
+        }).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
 
         this.inventorySlots = [];
         let rows = 4;
@@ -249,6 +261,7 @@ class Inventory {
         });
 
         this.levelText.setVisible(this.isVisible);
+        this.moneyText.setVisible(this.isVisible);
     }
     
     startItemDrag(slot, pointer) {
@@ -322,6 +335,10 @@ class Inventory {
         } else {
             this.scene.physics.world.resume();
         }
+    }
+
+    addMoney(amount) {
+        this.money += amount;
     }
 }
 
@@ -417,9 +434,9 @@ class InventorySlot {
 }
 
 class InventoryItem {
-    constructor(name, icon = null) {
+    constructor(name, value) {
         this.name = name;
-        this.icon = icon;
+        this.value = value;
     }
 }
 
@@ -530,18 +547,22 @@ class Chunk {
 }
 
 class Item extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, key, itemName) {
+    constructor(scene, x, y, key, itemName, value) {
         super(scene, x, y, key);
         this.scene = scene;
         this.itemName = itemName;
+        this.value = value;
 
         this.scene.add.existing(this);
         this.scene.physics.world.enable(this);
 
         this.setDepth (7);
         this.setScale(16 / this.width, 16 / this.height);
-
         this.body.setSize(16, 16);
+
+        if (itemName === "coin-item") {
+            this.setScale(4 / this.width, 4 / this.height);
+        }
 
         this.scene.droppedItems.add(this);
 
@@ -675,7 +696,7 @@ class EnvironmentObject extends Phaser.GameObjects.Sprite {
 
             const itemData = window.items.find(objData => objData.id === dropItem);
 
-            new Item(this.scene, dropX, dropY, itemData.name, itemData.name);
+            new Item(this.scene, dropX, dropY, itemData.name, itemData.name, itemData.value);
         });
     }
 }
@@ -710,10 +731,11 @@ class Porthole extends Phaser.GameObjects.Sprite {
 }
 
 class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, spritesheet, name, health, speed, items) {
+    constructor(scene, x, y, name, spritesheet, health, speed, items) {
         super(scene, x, y, spritesheet);
 
         this.scene = scene;
+        this.name = name;
         this.spritesheet = spritesheet;
         this.walkingAnimation = `${name}-walk`;
         this.attackingAnimation = `${name}-attack`;
@@ -749,7 +771,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (!scene.anims.exists(this.walkingAnimation)) {
             scene.anims.create({
                 key: this.walkingAnimation,
-                frames: scene.anims.generateFrameNumbers(this.spritesheet, {
+                frames: scene.anims.generateFrameNumbers(this.name, {
                     frames: [0, 1, 2, 1, 0]
                 }),
                 frameRate: 6,
@@ -760,7 +782,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (!scene.anims.exists(this.attackingAnimation)) {
             scene.anims.create({
                 key: this.attackingAnimation,
-                frames: scene.anims.generateFrameNumbers(this.spritesheet, {
+                frames: scene.anims.generateFrameNumbers(this.name, {
                     frames: [3, 4, 5, 4, 3]
                 }),
                 frameRate: 10,
@@ -771,7 +793,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (!scene.anims.exists(this.deathAnimation)) {
             scene.anims.create({
                 key: this.deathAnimation,
-                frames: scene.anims.generateFrameNumbers(this.spritesheet, {
+                frames: scene.anims.generateFrameNumbers(this.name, {
                     frames: [ 6 ]
                 }),
                 frameRate: 10,
@@ -893,7 +915,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
             const itemData = window.items.find(objData => objData.id === dropItem);
 
-            new Item(this.scene, dropX, dropY, itemData.name, itemData.name);
+            new Item(this.scene, dropX, dropY, itemData.name, itemData.name, itemData.value);
         });
     }
 }
