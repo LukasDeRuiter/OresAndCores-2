@@ -14,6 +14,9 @@ public class EnvironmentObject {
     public string Name { get; set; }
 
     [Required]
+    public int Health { get; set; }
+
+    [Required]
     public string Path { get; set; }
 
     [Required]
