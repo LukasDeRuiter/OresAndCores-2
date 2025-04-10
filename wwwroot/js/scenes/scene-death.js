@@ -1,4 +1,4 @@
-    class SceneDeath extends Phaser.Scene {
+    export class SceneDeath extends Phaser.Scene {
         constructor() {
             super({ key: "SceneDeath" });
         }
@@ -16,3 +16,5 @@
             })
         }
     }
+
+    console.log("SceneDeath loaded");

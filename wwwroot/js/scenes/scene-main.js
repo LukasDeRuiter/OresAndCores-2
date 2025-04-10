@@ -1,4 +1,6 @@
-    class SceneMain extends Phaser.Scene {
+import { Player } from "../entities/Player.js";
+
+export class SceneMain extends Phaser.Scene {
         constructor() {
             super({ key: "SceneMain" });
         }
