@@ -1,4 +1,15 @@
 import { Player } from "../entities/Player.js";
+import { Inventory } from "../entities/Inventory.js";
+import { InventorySlot } from "../entities/InventorySlot.js";
+import { InventoryItem } from "../entities/InventoryItem.js";
+import { InventoryTool } from "../entities/InventoryTool.js";
+import { Tool } from "../entities/Tool.js";
+import { Item } from "../entities/Item.js";
+import { Chunk } from "../entities/Chunk.js";
+import { Tile } from "../entities/Tile.js";
+import { EnvironmentObject } from "../entities/EnvironmentObject.js";
+import { Porthole } from "../entities/Porthole.js";
+import { Enemy } from "../entities/Enemy.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {

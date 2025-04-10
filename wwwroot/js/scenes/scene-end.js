@@ -22,7 +22,7 @@ export class SceneEnd extends Phaser.Scene {
 
         saveButton.on("pointerdown", async () => {
             const inventory = this.registry.get("playerInventory");
-            let response = await saveInventoryToServer(inventory.items);
+            let response = await this.saveInventoryToServer(inventory.items);
 
             const saveText = this.add.text(
                 400, 
@@ -35,5 +35,26 @@ export class SceneEnd extends Phaser.Scene {
             )
             .setOrigin(0.5);
         })
+    }
+
+    saveInventoryToServer(inventory) {
+        return fetch('api/mineApi/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(inventory)
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log("Server Response:", data);
+            return data;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            return error;
+        });
     }
 }
