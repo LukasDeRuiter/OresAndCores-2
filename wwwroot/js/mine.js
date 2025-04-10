@@ -1,5 +1,6 @@
 import { SceneStart } from './scenes/scene-start.js';
 import { SceneMain } from './scenes/scene-main.js';
+import { SceneTown } from './scenes/scene-town.js';
 import { SceneDeath } from './scenes/scene-death.js';
 import { SceneEnd } from './scenes/scene-end.js';
 
@@ -11,6 +12,7 @@ var config = {
     scene: [ 
         SceneStart,
         SceneMain,
+        SceneTown,
         SceneDeath,
         SceneEnd,
         ],

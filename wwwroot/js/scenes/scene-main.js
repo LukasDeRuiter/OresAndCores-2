@@ -290,7 +290,7 @@ export class SceneMain extends Phaser.Scene {
 
         update(time, delta) {
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
-                this.scene.start("SceneEnd");
+                this.scene.start("SceneTown");
             }
 
             const cameraBounds = this.cameras.main.worldView;
