@@ -32,7 +32,11 @@ export class SceneTown extends Phaser.Scene {
         this.load.image("sword", "assets/mine/sprites/tools/sword.png");
 
         this.load.image("tileset-1", "assets/mine/sprites/tiles/tileset-1.png")
-        this.load.tilemapTiledJSON('townMap', 'assets/mine/sprites/tiles/test.tmj');
+        this.load.tilemapTiledJSON('townMap', 'assets/mine/sprites/tiles/town-tilemap.tmj');
+
+
+
+        this.load.image("merchant", "assets/mine/sprites/npcs/merchant-1.png");
 
        if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
             window.environmentObjects.forEach(environmentObject => {
@@ -162,7 +166,12 @@ export class SceneTown extends Phaser.Scene {
                     const map  = this.make.tilemap({ key: 'townMap'});
                     const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
 
-                    const groundLayer = map.createLayer('Tilelaag 1', tileset, 0, 0);
+                    const groundLayer = map.createLayer('Ground', tileset, 0, 0);
+                    const collisionLayer = map.createLayer('Collision', tileset, 0, 0);
+
+
+                    let npc = this.add.sprite(50, 50, "merchant");
+                    npc.setDepth(399);
         
     }
 
