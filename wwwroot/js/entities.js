@@ -541,7 +541,7 @@ class Chunk {
         }
 
         const objectData = window.environmentObjects.find(objData => objData.name === objectName);
-        let object = new EnvironmentObject(this.scene, x + 8, y - 8, objectName, objectData.items);
+        let object = new EnvironmentObject(this.scene, x + 8, y + 8, objectName, objectData.health, objectData.items);
         this.scene.environmentObjects.add(object);
     }
 }
@@ -657,13 +657,14 @@ class Tile extends Phaser.GameObjects.Sprite {
 }
 
 class EnvironmentObject extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, key, items) {
+    constructor(scene, x, y, key, health, items) {
         super(scene, x, y, key);
         this.scene = scene;
 
         this.scene.add.existing(this);
         this.scene.physics.world.enable(this); 
         this.body.setImmovable(true);
+        this.health = health;
 
         this.items = this.buildDropItems(items);
     
@@ -698,6 +699,15 @@ class EnvironmentObject extends Phaser.GameObjects.Sprite {
 
             new Item(this.scene, dropX, dropY, itemData.name, itemData.name, itemData.value);
         });
+    }
+
+    takeDamage(hit) {
+        this.health -= hit;
+
+        if (this.health <= 0) {
+            this.dropItems();
+            this.destroy();
+        }
     }
 }
 

@@ -341,15 +341,14 @@
             } 
 
             if (object instanceof EnvironmentObject) {
-                this.breakEnvironmentObject(object);
+                this.hitEnvironmentObject(object);
             }
         }
 
-        breakEnvironmentObject(object) {
+        hitEnvironmentObject(object) {
             const pickedSound = Phaser.Math.Between(1, 3);
             this.sound.play(`pickaxe-hit-${pickedSound}`); 
-            object.dropItems();
-            object.destroy();
+            object.takeDamage(1);
         }
 
         damageEnemy(enemy) {
