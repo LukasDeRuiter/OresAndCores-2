@@ -97,20 +97,38 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     takeDamage(attackerX, attackerY) {
         if(this.health > 0) {
             this.health -= 1;
+            this.createSparks();
 
             this.scene.sound.play(this.damageSound);
     
             const pushBackVector = new Phaser.Math.Vector2(this.x - attackerX, this.y - attackerY).normalize().scale(200);
             this.knockbackTimer = this.knockbackDuration;
             this.setVelocity(pushBackVector.x, pushBackVector.y);
-    
-            this.setTint(0xff0000);
-            this.scene.time.delayedCall(100, () => this.clearTint());
-    
             if(this.health <= 0) {
                 this.die();
             }
         }
+    }
+
+    createSparks() {
+        const particles = this.scene.add.particles("spark");
+
+        const emitter = particles.createEmitter({
+            x: this.x,
+            y: this.y,
+            speed: { min: 50, max: 150 },
+            angle: { min: 0 , max: 360 },
+            lifespan: 300,
+            quantity: 10,
+            scale: { start: 0.5, end: 0 },
+            on: false
+        });
+
+        emitter.explode( 10,  this.x, this.y);
+
+        this.scene.time.delayedCall(500, () => {
+            particles.destroy();
+        })
     }
 
     die() {

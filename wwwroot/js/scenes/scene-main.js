@@ -36,6 +36,7 @@ export class SceneMain extends Phaser.Scene {
             this.load.image("porthole", "assets/mine/sprites/objects/porthole.png")
 
             this.load.image("item-shadow", "assets/mine/sprites/effects/item-shadow.png");
+            this.load.image("spark", "assets/mine/sprites/effects/spark.png");
 
             this.load.image("pickaxe", "assets/mine/sprites/tools/pickaxe.png");
             this.load.image("sword", "assets/mine/sprites/tools/sword.png");
