@@ -106,10 +106,12 @@ export class SceneTown extends Phaser.Scene {
         });
 
          let inventory =  new Inventory(this);
-                    let playerLevel = 1;
+        let playerLevel = 1;
+        this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
         
                     if (this.registry.has("playerInventory")) {
                         const savedInventory = this.registry.get("playerInventory").items;
+
                         inventory.items = {};
                     
                         for (let itemName in savedInventory) {
@@ -126,7 +128,9 @@ export class SceneTown extends Phaser.Scene {
                     } 
         
                     this.registry.set("playerInventory", inventory);
-        
+
+                    this.player.inventory = inventory;
+
                     this.staticGroup = this.add.group();
                     this.environmentObjects = this.add.group();
                     this.droppedItems = this.add.group();
@@ -168,11 +172,19 @@ export class SceneTown extends Phaser.Scene {
 
                     const groundLayer = map.createLayer('Ground', tileset, 0, 0);
                     const collisionLayer = map.createLayer('Collision', tileset, 0, 0);
+                    const objectLayer = map.getObjectLayer('Objects');
 
+                    console.log(map);
 
-                    let npc = this.add.sprite(50, 50, "merchant");
-                    npc.setDepth(399);
+                    this.fillInObjects(objectLayer);
         
+    }
+
+    fillInObjects(objectLayer) {
+        objectLayer.objects.forEach(object => {
+            let npc = this.add.sprite(object.x, object.y, "merchant");
+            npc.setDepth(399);
+        });
     }
 
     update(time, delta) {
@@ -200,5 +212,11 @@ export class SceneTown extends Phaser.Scene {
         this.player.setDepth(1);
 
         this.player.update({W: this.keyW, A: this.keyA, S: this.keyS, D: this.keyD});
+    }
+    
+    toggleInventory() {
+        this.player.inventory.levelText.setText(`Current level: ${this.player.level}`);
+        this.player.inventory.moneyText.setText(`Money: ${this.player.inventory.money}`);
+        this.player.inventory.toggle();
     }
 }
