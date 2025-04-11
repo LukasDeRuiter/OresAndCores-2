@@ -1,5 +1,6 @@
 import { Inventory } from "../entities/Inventory.js";
 import { InventoryItem } from "../entities/InventoryItem.js";
+import { Npc } from "../entities/Npc.js";
 import { Player } from "../entities/Player.js";
 
 export class SceneTown extends Phaser.Scene {
@@ -11,13 +12,16 @@ export class SceneTown extends Phaser.Scene {
         this.load.spritesheet("player", "assets/mine/sprites/player/test-spritesheet.png",
             {
                 frameHeight: 64,
-                frameWidth: 64,
+                frameWidth: 64, 
             }
         );
-        this.load.spritesheet("sprWater", "assets/mine/sprites/tiles/sprWater.png", {
-            frameWidth: 16,
-            frameHeight: 16
-        });
+
+        this.load.spritesheet("merchant-1", "assets/mine/sprites/npcs/merchant-sprite-1.png",
+            {
+                frameHeight: 16,
+                frameWidth: 16,
+            }
+        );
 
         this.load.image("cave-1", "assets/mine/sprites/tiles/cave-1.png");
         this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
@@ -33,10 +37,6 @@ export class SceneTown extends Phaser.Scene {
 
         this.load.image("tileset-1", "assets/mine/sprites/tiles/tileset-1.png")
         this.load.tilemapTiledJSON('townMap', 'assets/mine/sprites/tiles/town-tilemap.tmj');
-
-
-
-        this.load.image("merchant", "assets/mine/sprites/npcs/merchant-1.png");
 
        if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
             window.environmentObjects.forEach(environmentObject => {
@@ -56,7 +56,6 @@ export class SceneTown extends Phaser.Scene {
                     frameWidth: 16,
                     frameHeight: 16,
                 });
-                console.log(enemy);
             });
         }
 
@@ -105,85 +104,81 @@ export class SceneTown extends Phaser.Scene {
             repeat: -1
         });
 
-         let inventory =  new Inventory(this);
+        let inventory =  new Inventory(this);
         let playerLevel = 1;
         this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
-        
-                    if (this.registry.has("playerInventory")) {
-                        const savedInventory = this.registry.get("playerInventory").items;
 
-                        inventory.items = {};
+        if (this.registry.has("playerInventory")) {
+            const savedInventory = this.registry.get("playerInventory").items;
+
+            inventory.items = {};
                     
-                        for (let itemName in savedInventory) {
-                            let count = savedInventory[itemName];
+            for (let itemName in savedInventory) {
+                let count = savedInventory[itemName];
                     
-                            for (let i = 0; i < count; i++) {
-                                inventory.addItem(new InventoryItem(itemName), 0);
-                            }
-                        }
-                    } 
+                    for (let i = 0; i < count; i++) {
+                        inventory.addItem(new InventoryItem(itemName), 0);
+                    }
+            }
+        } 
         
-                    if (this.registry.has("playerLevel")) {
-                        playerLevel =  this.registry.get("playerLevel");
-                    } 
+        if (this.registry.has("playerLevel")) {
+            playerLevel =  this.registry.get("playerLevel");
+        } 
         
-                    this.registry.set("playerInventory", inventory);
+        this.registry.set("playerInventory", inventory);
 
-                    this.player.inventory = inventory;
+        this.player.inventory = inventory;
 
-                    this.staticGroup = this.add.group();
-                    this.environmentObjects = this.add.group();
-                    this.droppedItems = this.add.group();
-                    this.enemies = this.add.group();
+        this.staticGroup = this.add.group();
+        this.environmentObjects = this.add.group();
+        this.droppedItems = this.add.group();
+        this.enemies = this.add.group();
+        this.npcs = this.add.group();
         
-                    this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
+        this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
         
-                    this.physics.world.enable(this.player);
-                    this.cameras.main.startFollow(this.player);
+        this.physics.world.enable(this.player);
+        this.cameras.main.startFollow(this.player);
 
-                    
-                    this.chunkSize = 16;
-                    this.tileSize = 16;
-                    this.cameraSpeed = 10;
+        this.chunkSize = 16;
+        this.tileSize = 16;
+        this.cameraSpeed = 10;
 
-                    this.cameras.main.setZoom(2);
+        this.cameras.main.setZoom(2);
 
-                    this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-                    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-                    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-                    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-                    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-                    this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-                    this.keyR.on('down', () => this.player.showTool());
-                    this.keyR.on('up', () => this.player.hideTool());
+        this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        this.keyR.on('down', () => this.player.showTool());
+        this.keyR.on('up', () => this.player.hideTool());
             
-                    this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-                    this.keyE.on('down', () => this.toggleInventory());
+        this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        this.keyE.on('down', () => this.toggleInventory());
 
-                    this.numberKeys = this.input.keyboard.addKeys({
-                        one: Phaser.Input.Keyboard.KeyCodes.ONE,
-                        two: Phaser.Input.Keyboard.KeyCodes.TWO,
-                    });
+        this.numberKeys = this.input.keyboard.addKeys({
+            one: Phaser.Input.Keyboard.KeyCodes.ONE,
+            two: Phaser.Input.Keyboard.KeyCodes.TWO,
+        });
 
-                    const map  = this.make.tilemap({ key: 'townMap'});
-                    const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
+        const map  = this.make.tilemap({ key: 'townMap'});
+        const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
 
-                    const groundLayer = map.createLayer('Ground', tileset, 0, 0);
-                    const collisionLayer = map.createLayer('Collision', tileset, 0, 0);
-                    const objectLayer = map.getObjectLayer('Objects');
-
-                    console.log(map);
-
-                    this.fillInObjects(objectLayer);
+        const groundLayer = map.createLayer('Ground', tileset, 0, 0);
+        const collisionLayer = map.createLayer('Collision', tileset, 0, 0);
+        const objectLayer = map.getObjectLayer('Objects');
         
+        this.fillInObjects(objectLayer);
     }
 
     fillInObjects(objectLayer) {
         objectLayer.objects.forEach(object => {
-            let npc = this.add.sprite(object.x, object.y, "merchant");
-            npc.setDepth(399);
+            let npc = new Npc(this, object.x, object.y, "merchant-1", "merchant-1");
         });
     }
 

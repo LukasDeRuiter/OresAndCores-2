@@ -10,6 +10,7 @@ import { Tile } from "../entities/Tile.js";
 import { EnvironmentObject } from "../entities/EnvironmentObject.js";
 import { Porthole } from "../entities/Porthole.js";
 import { Enemy } from "../entities/Enemy.js";
+import { Npc } from "../entities/Npc.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -59,7 +60,6 @@ export class SceneMain extends Phaser.Scene {
                         frameWidth: 16,
                         frameHeight: 16,
                     });
-                    console.log(enemy);
                 });
             }
 
