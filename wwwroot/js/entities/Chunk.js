@@ -1,4 +1,5 @@
 import { Tile } from "./Tile.js";
+import { InteractiveTile } from "./InteractiveTile.js";
 import { EnvironmentObject } from "./EnvironmentObject.js";
 
 export class Chunk {
@@ -35,6 +36,7 @@ export class Chunk {
 
                     var key = "";
                     let isWalkable = true;
+                    let interactive = false;
                     var animationKey = ""; 
 
                     if (tileX !== 0 && tileY !== 0 && tileX < worldWidth - this.scene.tileSize && tileY < worldHeight - this.scene.tileSize) {
@@ -42,19 +44,32 @@ export class Chunk {
 
                         if (perlinValue < 0.2) {
                             key = "cave-3";
+                            interactive = false;
                         } else if (perlinValue >= 0.2 && perlinValue < 0.3) {
                             key = "cave-2";
+                            interactive = false;
                         } else if (perlinValue >= 0.3) {
                             key = "cave-1";
+                            interactive = false;
                             const objectChance = Math.random() * 100;
                             this.createObject(tileX, tileY, this.generateLevelObject(objectChance, level));
                         } 
+                    } else if (y === 0 && tileX === 512) {
+                        key = "wall-gate-1";
+                        interactive = true;
+                        isWalkable = false;
                     } else {
+                        console.log(this.x);
                         key = "wall-1";
+                        interactive = false;
                         isWalkable = false;
                     }
 
-                    var tile = new Tile(this.scene, tileX, tileY, key, isWalkable);
+                    if (!interactive) {
+                        var tile = new Tile(this.scene, tileX, tileY, key, isWalkable);
+                    } else {
+                        var tile = new InteractiveTile(this.scene, tileX, tileY, key, isWalkable, "SceneTown");
+                    }
                    
                     if (animationKey !== "") {
                         tile.play(animationKey);
