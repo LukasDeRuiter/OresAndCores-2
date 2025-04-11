@@ -138,7 +138,7 @@ export class SceneMain extends Phaser.Scene {
             this.droppedItems = this.add.group();
             this.enemies = this.add.group();
 
-            this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
+            this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
 
             this.physics.world.enable(this.player);
             this.cameras.main.startFollow(this.player);
@@ -224,26 +224,21 @@ export class SceneMain extends Phaser.Scene {
 
             const generateEnemyPosition = () => {
                 let x, y;
-
+                const minDistanceFromPlayer = 50;
+                const borderPadding = 16;
+                let tries = 0;
+                const maxTries = 100;
+            
                 do {
-                    const side = Phaser.Math.Between(0, 3);
-
-                    if (side === 0) {
-                        x = Phaser.Math.Between(20, this.physics.world.bounds.width - 20);
-                        y = 20;
-                    } else if (side === 1) {
-                        x = Phaser.Math.Between(20, this.physics.world.bounds.width - 20);
-                        y = this.physics.world.bounds.height - 20;
-                    } else if (side === 2) {
-                        x = 20;
-                        y = Phaser.Math.Between(20, this.physics.world.bounds.height - 20);
-                    } else {
-                        x = this.physics.world.bounds.width - 20;
-                        y = Phaser.Math.Between(20, this.physics.world.bounds.height - 20);
-                    }
-                } while (Phaser.Math.Distance.Between(x, y, this.player.x, this.player.y) < 50);
-        
-                return { x, y };
+                    x = Phaser.Math.Between(borderPadding, this.physics.world.bounds.width - borderPadding);
+                    y = Phaser.Math.Between(borderPadding, this.physics.world.bounds.height - borderPadding);
+                    tries++;
+                } while (
+                    Phaser.Math.Distance.Between(x, y, this.player.x, this.player.y) < minDistanceFromPlayer &&
+                    tries < maxTries
+                );
+            
+                return { x, y };    
             };
         
             // Create 10 enemies at random positions within 20px of the boundaries, but at least 150px away from the player
