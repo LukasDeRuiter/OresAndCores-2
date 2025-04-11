@@ -33,6 +33,7 @@ export class SceneMain extends Phaser.Scene {
             this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
             this.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
             this.load.image("wall-1", "assets/mine/sprites/tiles/wall-1.png");
+            this.load.image("wall-gate-1", "assets/mine/sprites/tiles/wall-gate-1.png");
 
             this.load.image("porthole", "assets/mine/sprites/objects/porthole.png")
 
@@ -206,6 +207,15 @@ export class SceneMain extends Phaser.Scene {
                 this.checkPortholeInteraction();
             })
 
+            this.porthole.on('pointerover', () => {
+                this.porthole.highLight(true);
+            });
+        
+            this.porthole.on('pointerout', () => {
+                this.porthole.highLight(false);
+            });
+            
+
             this.createEnemies();
         }
 
@@ -275,12 +285,7 @@ export class SceneMain extends Phaser.Scene {
         }
 
         checkPortholeInteraction() {
-            let distance = Phaser.Math.Distance.Between(
-                this.player.x, 
-                this.player.y,
-                this.porthole.x,
-                this.porthole.y
-            );
+            let distance = this.porthole.calculateDistanceWithPlayer();
 
             if (distance <= 32) {
                 this.player.level += 1;
@@ -291,7 +296,7 @@ export class SceneMain extends Phaser.Scene {
 
         update(time, delta) {
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
-                this.scene.start("SceneTown");
+                this.scene.start("SceneEnd");
             }
 
             const cameraBounds = this.cameras.main.worldView;
