@@ -147,6 +147,8 @@ export class SceneTown extends Phaser.Scene {
 
         this.cameras.main.setZoom(2);
 
+        this.physics.add.collider(this.player, this.npcs);
+
         this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -171,6 +173,10 @@ export class SceneTown extends Phaser.Scene {
 
         const groundLayer = map.createLayer('Ground', tileset, 0, 0);
         const collisionLayer = map.createLayer('Collision', tileset, 0, 0);
+        collisionLayer.setCollisionByProperty({ collides: true });
+        this.physics.add.collider(this.player, collisionLayer);
+        collisionLayer.setCollisionBetween(1, 40);
+
         const objectLayer = map.getObjectLayer('Objects');
         
         this.fillInObjects(objectLayer);
@@ -179,26 +185,12 @@ export class SceneTown extends Phaser.Scene {
     fillInObjects(objectLayer) {
         objectLayer.objects.forEach(object => {
             let npc = new Npc(this, object.x, object.y, "merchant-1", "merchant-1");
+            this.npcs.add(npc);
         });
     }
 
     update(time, delta) {
         const cameraBounds = this.cameras.main.worldView;
-
-
-        // if (Phaser.Input.Keyboard.JustDown(this.keyR) && this.player.tool !== null) {
-        //     const hitDetected = this.physics.world.overlap(
-        //         this.player.tool,
-        //         this.player.selectedTool.interactsWith,
-        //         this.onObjectOverlap,
-        //         null,
-        //         this
-        //     );
-
-        //     if (!hitDetected) {
-        //         this.sound.play("tool-swing-1");
-        //     }
-        // }
 
         this.physics.world.overlap(this.player, this.droppedItems, this.pickUpItem, null, this);
         this.physics.world.overlap(this.player, this.enemies, this.damagePlayer, null, this);
