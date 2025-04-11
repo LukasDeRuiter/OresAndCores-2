@@ -1,3 +1,4 @@
+import { InteractiveTile } from "../entities/InteractiveTile.js";
 import { Inventory } from "../entities/Inventory.js";
 import { InventoryItem } from "../entities/InventoryItem.js";
 import { Npc } from "../entities/Npc.js";
@@ -27,6 +28,7 @@ export class SceneTown extends Phaser.Scene {
         this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
         this.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
         this.load.image("wall-1", "assets/mine/sprites/tiles/wall-1.png");
+        this.load.image("wall-gate-1", "assets/mine/sprites/tiles/wall-gate-1.png");
 
         this.load.image("porthole", "assets/mine/sprites/objects/porthole.png")
 
@@ -106,7 +108,7 @@ export class SceneTown extends Phaser.Scene {
 
         let inventory =  new Inventory(this);
         let playerLevel = 1;
-        this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
+        this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
 
         if (this.registry.has("playerInventory")) {
             const savedInventory = this.registry.get("playerInventory").items;
@@ -130,13 +132,12 @@ export class SceneTown extends Phaser.Scene {
 
         this.player.inventory = inventory;
 
+        this.interactiveTiles = this.add.group();
         this.staticGroup = this.add.group();
         this.environmentObjects = this.add.group();
         this.droppedItems = this.add.group();
         this.enemies = this.add.group();
         this.npcs = this.add.group();
-        
-        this.player = new Player(this, worldWidth / 2, worldHeight / 2, inventory, playerLevel);
         
         this.physics.world.enable(this.player);
         this.cameras.main.startFollow(this.player);
@@ -172,10 +173,36 @@ export class SceneTown extends Phaser.Scene {
         const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
 
         const groundLayer = map.createLayer('Ground', tileset, 0, 0);
+
         const collisionLayer = map.createLayer('Collision', tileset, 0, 0);
         collisionLayer.setCollisionByProperty({ collides: true });
-        this.physics.add.collider(this.player, collisionLayer);
+        this.physics.add.collider(this.player, collisionLayer); 
         collisionLayer.setCollisionBetween(1, 40);
+
+        const interactiveLayer = map.createLayer('InteractiveTiles', tileset, 0, 0);
+        interactiveLayer.setCollisionByProperty({ collides: true });
+        this.physics.add.collider(this.player, interactiveLayer); 
+        interactiveLayer.setCollisionBetween(1, 40);
+
+        interactiveLayer.forEachTile(tile => {
+            if (tile && tile.properties.type) {
+                const worldX = tile.getCenterX();
+                const worldY = tile.getCenterY();
+
+                const interactiveTile = new InteractiveTile(
+                    this,
+                    worldX,
+                    worldY,
+                    "wall-gate-1",
+                    false,
+                    tile.properties.value
+                );
+
+                interactiveTile.setOrigin(0.5);
+
+                this.interactiveTiles.add(interactiveTile);
+            }
+        })
 
         const objectLayer = map.getObjectLayer('Objects');
         
