@@ -9,7 +9,26 @@ export class Porthole extends Phaser.GameObjects.Sprite {
         this.setDepth(100);
     }
 
+    calculateDistanceWithPlayer() {
+        return Phaser.Math.Distance.Between(
+            this.scene.player.x, 
+            this.scene.player.y,
+            this.x,
+            this.y
+        );
+    }
+
     calculatePriceToNextLevel(level) {
         return level * 100;
+    }
+
+    highLight(isHoverOn) {
+        if (isHoverOn) {
+            if (this.calculateDistanceWithPlayer() <= 32) {
+                this.setTint(0x00ff00);
+            }   
+        } else {
+            this.clearTint();
+        }
     }
 }
