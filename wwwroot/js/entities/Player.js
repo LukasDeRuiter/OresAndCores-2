@@ -25,30 +25,39 @@ export class Player extends Phaser.GameObjects.Sprite {
 
         this.toolBelt = this.createToolBelt();
 
+        this.idle = "player-idle";
+        this.walkDown = "player-walk-down";
+        this.walkSideways = "player-walk-sideways";
+        this.walkUp = "player-walk-up";
+
+        this.createAnimations(scene);
+
         this.selectedTool = this.toolBelt.find(tool => tool.name === "pickaxe");
         this.tool = null;
+
+        this.play(this.idle, true);
     }
 
     update(cursors) {
         this.body.setVelocity(0);
 
         if (cursors.W.isDown) {
-            this.anims.play("walk-up", true);
+            this.anims.play(this.walkUp, true);
             this.body.setVelocityY(-this.speed);
             this.viewDirection = "up";
         } else if (cursors.S.isDown) {
-            this.anims.play("walk-down", true);
+            this.anims.play(this.walkDown, true);
             this.body.setVelocityY(this.speed);
             this.viewDirection = "down";
         }
 
         if(cursors.A.isDown) {
-            this.anims.play("walk-left", true);
+            this.anims.play(this.walkSideways, true);
             this.body.setVelocityX(-this.speed);
             this.setFlipX(true);
             this.viewDirection = "left";
         } else if (cursors.D.isDown) {
-            this.anims.play("walk-right", true);
+            this.anims.play(this.walkSideways, true);
             this.body.setVelocityX(this.speed);
             this.viewDirection = "right";
             this.setFlipX(false);
@@ -56,16 +65,20 @@ export class Player extends Phaser.GameObjects.Sprite {
 
         if (cursors.W.isDown && cursors.A.isDown) {
             this.viewDirection = "up-left";
+            this.anims.play(this.walkSideways, true);
         } else if (cursors.W.isDown && cursors.D.isDown) {
             this.viewDirection = "up-right";
+            this.anims.play(this.walkSideways, true);
         } else if (cursors.S.isDown && cursors.A.isDown) {
             this.viewDirection = "down-left";
+            this.anims.play(this.walkSideways, true);
         } else if (cursors.S.isDown && cursors.D.isDown) {
             this.viewDirection = "down-right";
+            this.anims.play(this.walkSideways, true);
         }
         
         if (!cursors.W.isDown && !cursors.S.isDown && !cursors.A.isDown && !cursors.D.isDown) {
-            this.anims.stop();
+            this.anims.play(this.idle, true);
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.scene.numberKeys.one)) {
@@ -77,6 +90,55 @@ export class Player extends Phaser.GameObjects.Sprite {
         if (this.tool) {
             this.updateToolPosition();
         }
+    }
+    
+
+    createAnimations(scene) {
+        if (!this.scene.anims.exists(this.idle)) {
+            this.scene.anims.create({
+                key: this.idle,
+                frames: this.scene.anims.generateFrameNumbers("player", {
+                    frames: [0, 1, 2, ]
+                }),
+                frameRate: 6,
+                repeat: -1
+            });
+        }
+
+        if (!this.scene.anims.exists(this.walkDown)) {
+            this.scene.anims.create({
+                key: this.walkDown,
+                frames: this.scene.anims.generateFrameNumbers("player", {
+                    frames: [3, 4, 5, 6 ]
+                }),
+                frameRate: 6,
+                repeat: -1
+            });
+        }
+
+        if (!this.scene.anims.exists(this.walkSideways)) {
+            this.scene.anims.create({
+                key: this.walkSideways,
+                frames: this.scene.anims.generateFrameNumbers("player", {
+                    frames: [7, 8, 9, 10 ]
+                }),
+                frameRate: 6,
+                repeat: -1
+            });
+        }
+
+        if (!this.scene.anims.exists(this.walkUp)) {
+            this.scene.anims.create({
+                key: this.walkUp,
+                frames: this.scene.anims.generateFrameNumbers("player", {
+                    frames: [11, 12, 13, 14 ]
+                }),
+                frameRate: 6,
+                repeat: -1
+            });
+        }
+
+        console.log(this.scene.anims);
     }
     
     createToolBelt() {

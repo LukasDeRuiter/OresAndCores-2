@@ -18,12 +18,20 @@ export class SceneMain extends Phaser.Scene {
         }
 
         preload() {
-            this.load.spritesheet("player", "assets/mine/sprites/player/test-spritesheet.png",
+            this.load.spritesheet("player", "assets/mine/sprites/player/player.png",
                 {
-                    frameHeight: 64,
-                    frameWidth: 64,
+                    frameHeight: 16,
+                    frameWidth: 16,
                 }
             );
+
+            this.load.spritesheet("merchant-1", "assets/mine/sprites/npcs/merchant-sprite-1.png",
+                {
+                    frameHeight: 16,
+                    frameWidth: 16,
+                }
+            );
+
             this.load.spritesheet("sprWater", "assets/mine/sprites/tiles/sprWater.png", {
                 frameWidth: 16,
                 frameHeight: 16
@@ -80,34 +88,6 @@ export class SceneMain extends Phaser.Scene {
             const worldHeight = 1008;
             this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
             this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
-
-            this.anims.create({
-                key: "walk-down",
-                frames: this.anims.generateFrameNumbers("player", { start: 0, end: 2 }), 
-                frameRate: 8,
-                repeat: -1
-            });
-        
-            this.anims.create({
-                key: "walk-left",
-                frames: this.anims.generateFrameNumbers("player", { start: 1, end: 8 }), 
-                frameRate: 8,
-                repeat: -1
-            });
-        
-            this.anims.create({
-                key: "walk-right",
-                frames: this.anims.generateFrameNumbers("player", { start: 1, end: 8 }), 
-                frameRate: 8,
-                repeat: -1
-            }); 
-        
-            this.anims.create({
-                key: "walk-up",
-                frames: this.anims.generateFrameNumbers("player", { start: 9, end: 11 }), 
-                frameRate: 8,
-                repeat: -1
-            });
 
             let inventory =  new Inventory(this);
             let playerLevel = 1;

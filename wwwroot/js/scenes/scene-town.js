@@ -10,10 +10,10 @@ export class SceneTown extends Phaser.Scene {
     }
 
     preload() {
-        this.load.spritesheet("player", "assets/mine/sprites/player/test-spritesheet.png",
+        this.load.spritesheet("player", "assets/mine/sprites/player/player.png",
             {
-                frameHeight: 64,
-                frameWidth: 64, 
+                frameHeight: 16,
+                frameWidth: 16,
             }
         );
 
