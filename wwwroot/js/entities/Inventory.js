@@ -157,4 +157,46 @@ export class Inventory {
     addMoney(amount) {
         this.money += amount;
     }
+
+    saveInventory() {
+        const savedSlots = this.inventorySlots.map((slot, index) => {
+            if (slot.item) {
+                return {
+                    index,
+                    name: slot.item.name,
+                    count: this.items[slot.item.name],
+                };
+            }
+
+            return null;
+        }).filter(s => s !== null);
+
+        return {
+            money: this.money,
+            slots: savedSlots,
+        }
+    }
+
+    restoreInventory(data) {
+        this.items = {};
+
+        data.slots.forEach(slotData => {
+            const { index, name, count } = slotData;
+
+            this.items[name] = count;
+
+            const slot = this.inventorySlots[slotData.index];
+            const item = new InventoryItem(name);
+            slot.setItem(item);
+            slot.updateTextAmount(count);
+        });
+
+        this.money = data.money || 0;
+        this.updateUI();
+    }
+
+
+    collectInventory() {
+
+    }
 }

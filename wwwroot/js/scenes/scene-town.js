@@ -3,6 +3,7 @@ import { Inventory } from "../entities/Inventory.js";
 import { InventoryItem } from "../entities/InventoryItem.js";
 import { Npc } from "../entities/Npc.js";
 import { Player } from "../entities/Player.js";
+import { transitionSaver } from "../utils/transition-saver.js";
 
 export class SceneTown extends Phaser.Scene {
     constructor() {
@@ -78,6 +79,8 @@ export class SceneTown extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
         this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
+        this.transitionSaver = new transitionSaver(this);
+
         this.anims.create({
             key: "walk-down",
             frames: this.anims.generateFrameNumbers("player", { start: 0, end: 2 }), 
@@ -109,26 +112,15 @@ export class SceneTown extends Phaser.Scene {
         let inventory =  new Inventory(this);
         let playerLevel = 1;
         this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
-
+        
         if (this.registry.has("playerInventory")) {
-            const savedInventory = this.registry.get("playerInventory").items;
-
-            inventory.items = {};
-                    
-            for (let itemName in savedInventory) {
-                let count = savedInventory[itemName];
-                    
-                    for (let i = 0; i < count; i++) {
-                        inventory.addItem(new InventoryItem(itemName), 0);
-                    }
-            }
-        } 
+            const savedInventory = this.registry.get("playerInventory");
+            inventory.restoreInventory(savedInventory)
+        }
         
         if (this.registry.has("playerLevel")) {
             playerLevel =  this.registry.get("playerLevel");
         } 
-        
-        this.registry.set("playerInventory", inventory);
 
         this.player.inventory = inventory;
 

@@ -28,10 +28,8 @@ export class InteractiveTile extends Tile {
 
     interact() {
         if (this.calculateDistanceWithPlayer() <= 32) {
-            this.scene.scene.start("SceneTransition", {
-                targetScene: this.interactToScene,
-                message: this.sceneMessage,
-            })
+            console.log(this.scene);
+            this.scene.transitionSaver.transition(this.interactToScene, this.sceneMessage, this.scene.player.inventory);
         }
     }
 

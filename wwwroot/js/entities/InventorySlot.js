@@ -38,7 +38,6 @@ export class InventorySlot {
             .setVisible(this.isVisible);
             }
 
-            console.log(this.scene.player);
             if (!this.itemText) {  
                 this.itemText = this.scene.add.text(this.x + 20, this.y + 20, this.scene.player.inventory.items[this.item.name], {
                     fontSize: "14px",

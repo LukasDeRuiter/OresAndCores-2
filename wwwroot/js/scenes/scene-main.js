@@ -11,6 +11,7 @@ import { EnvironmentObject } from "../entities/EnvironmentObject.js";
 import { Porthole } from "../entities/Porthole.js";
 import { Enemy } from "../entities/Enemy.js";
 import { Npc } from "../entities/Npc.js";
+import { transitionSaver } from "../utils/transition-saver.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -89,27 +90,26 @@ export class SceneMain extends Phaser.Scene {
             this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
             this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
+            this.transitionSaver = new transitionSaver(this);
+
             let inventory =  new Inventory(this);
             let playerLevel = 1;
-
+            this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
+            
             if (this.registry.has("playerInventory")) {
-                const savedInventory = this.registry.get("playerInventory").items;
-                inventory.items = {};
+                const savedInventory = this.registry.get("playerInventory");
+                inventory.restoreInventory(savedInventory)
+            }
             
-                for (let itemName in savedInventory) {
-                    let count = savedInventory[itemName];
-            
-                    for (let i = 0; i < count; i++) {
-                        inventory.addItem(new InventoryItem(itemName), 0);
-                    }
-                }
+            if (this.registry.has("playerLevel")) {
+                playerLevel =  this.registry.get("playerLevel");
             } 
+    
+            this.player.inventory = inventory;
 
             if (this.registry.has("playerLevel")) {
                 playerLevel =  this.registry.get("playerLevel");
             } 
-
-            this.registry.set("playerInventory", inventory);
 
             this.spawnPorthole();
 
