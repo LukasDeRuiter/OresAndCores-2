@@ -195,7 +195,8 @@ export class SceneTown extends Phaser.Scene {
                     worldY,
                     "wall-gate-1",
                     false,
-                    tile.properties.value
+                    tile.properties.value,
+                    "Entering the mine..."
                 );
 
                 interactiveTile.setOrigin(0.5);

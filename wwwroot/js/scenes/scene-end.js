@@ -17,7 +17,10 @@ export class SceneEnd extends Phaser.Scene {
             .setInteractive();
 
         restartButton.on("pointerdown", () => {
-            this.scene.start("SceneMain");
+            this.scene.start("SceneTransition", {
+                targetScene: "SceneMain",
+                message: "Entering the mine...",
+            })
         })
 
         saveButton.on("pointerdown", async () => {

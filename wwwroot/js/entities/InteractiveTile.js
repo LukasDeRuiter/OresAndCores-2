@@ -1,11 +1,12 @@
 import { Tile } from "./Tile.js";
 
 export class InteractiveTile extends Tile {
-    constructor(scene, x, y, key, isWalkable, interactToScene) {
+    constructor(scene, x, y, key, isWalkable, interactToScene, sceneMessage) {
         super(scene, x, y, key, isWalkable);
 
-        this.scene = scene;
+        this.sceneMessage = sceneMessage;
         this.interactToScene = interactToScene;
+        this.message -
         this.setInteractive();
 
         this.on('pointerover', () => {
@@ -27,7 +28,10 @@ export class InteractiveTile extends Tile {
 
     interact() {
         if (this.calculateDistanceWithPlayer() <= 32) {
-            this.scene.scene.start(this.interactToScene);
+            this.scene.scene.start("SceneTransition", {
+                targetScene: this.interactToScene,
+                message: this.sceneMessage,
+            })
         }
     }
 

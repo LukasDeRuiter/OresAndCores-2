@@ -68,7 +68,7 @@ export class Chunk {
                     if (!interactive) {
                         var tile = new Tile(this.scene, tileX, tileY, key, isWalkable);
                     } else {
-                        var tile = new InteractiveTile(this.scene, tileX, tileY, key, isWalkable, "SceneTown");
+                        var tile = new InteractiveTile(this.scene, tileX, tileY, key, isWalkable, "SceneTown", "Entering the town...");
                     }
                    
                     if (animationKey !== "") {

@@ -1,4 +1,5 @@
 import { SceneStart } from './scenes/scene-start.js';
+import { SceneTransition } from './scenes/scene-transition.js';
 import { SceneMain } from './scenes/scene-main.js';
 import { SceneTown } from './scenes/scene-town.js';
 import { SceneDeath } from './scenes/scene-death.js';
@@ -11,6 +12,7 @@ var config = {
     backgroundColor: "black",
     scene: [ 
         SceneStart,
+        SceneTransition,
         SceneMain,
         SceneTown,
         SceneDeath,
