@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OresAndCores_2.Data;
 
@@ -10,9 +11,11 @@ using OresAndCores_2.Data;
 namespace OresAndCores_2.Migrations
 {
     [DbContext(typeof(OresAndCores_2Context))]
-    partial class OresAndCores_2ContextModelSnapshot : ModelSnapshot
+    [Migration("20250413120200_LevelConfigurations")]
+    partial class LevelConfigurations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,22 +231,6 @@ namespace OresAndCores_2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LevelConfiguration");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Amount = 10,
-                            Enemies = "[{\"Id\":0,\"EntityId\":1,\"Percentage\":100}]",
-                            EnvironementObjects = "[{\"Id\":0,\"EntityId\":0,\"Percentage\":80},{\"Id\":0,\"EntityId\":1,\"Percentage\":15},{\"Id\":0,\"EntityId\":2,\"Percentage\":5}]"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Amount = 12,
-                            Enemies = "[{\"Id\":0,\"EntityId\":1,\"Percentage\":100}]",
-                            EnvironementObjects = "[{\"Id\":0,\"EntityId\":0,\"Percentage\":75},{\"Id\":0,\"EntityId\":1,\"Percentage\":20},{\"Id\":0,\"EntityId\":2,\"Percentage\":2},{\"Id\":0,\"EntityId\":3,\"Percentage\":2}]"
-                        });
                 });
 
             modelBuilder.Entity("OresAndCores_2.Models.Ore", b =>
