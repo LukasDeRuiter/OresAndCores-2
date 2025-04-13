@@ -20,6 +20,7 @@ namespace OresAndCores_2.Data
         public DbSet<OresAndCores_2.Models.EnvironmentObject> EnvironmentObject { get; set; } = default!;
         public DbSet<OresAndCores_2.Models.Item> Item { get; set; } = default!;
         public DbSet<OresAndCores_2.Models.Enemy> Enemy { get; set; } = default!;
+        public DbSet<OresAndCores_2.Models.LevelConfiguration> LevelConfiguration { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
