@@ -1,9 +1,37 @@
+import { Inventory } from "../entities/Inventory.js";
+import { TransitionSaver } from "../utils/transition-saver.js";
+
 export class SceneEnd extends Phaser.Scene {
     constructor() {
         super({ key: "SceneEnd" });
     }
 
     create() {
+        this.transitionSaver = new TransitionSaver(this);
+        
+        let inventory =  new Inventory(this);     
+        
+        let playerLevel = 1;
+        this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
+                
+        if (this.registry.has("playerInventory")) {
+            const savedInventory = this.registry.get("playerInventory");
+            inventory.restoreInventory(savedInventory)
+        }
+                
+        if (this.registry.has("playerLevel")) {
+                 playerLevel =  this.registry.get("playerLevel");
+                } 
+        
+                this.player.inventory = inventory;
+                    
+        if (this.registry.has("playerInventory")) {
+            const savedInventory = this.registry.get("playerInventory");
+                inventory.restoreInventory(savedInventory)
+        }
+
+        this.inventory = inventory;
+
         this.add.text(400, 200, "Thank you for playing!", { fontSize: "32px", fill: "#fff"}).setOrigin(0.5);
 
         let restartButton = this.add.text(300, 300, "restart", { fontSize: "24px", fill: "#fff", backgroundColor: "#444"})
@@ -24,8 +52,8 @@ export class SceneEnd extends Phaser.Scene {
         })
 
         saveButton.on("pointerdown", async () => {
-            const inventory = this.registry.get("playerInventory");
-            let response = await this.saveInventoryToServer(inventory.items);
+            console.log(inventory);
+            let response = await this.saveInventoryToServer(this.inventory.items);
 
             const saveText = this.add.text(
                 400, 

@@ -66,6 +66,7 @@ export class Player extends Phaser.GameObjects.Sprite {
         if (cursors.W.isDown && cursors.A.isDown) {
             this.viewDirection = "up-left";
             this.anims.play(this.walkSideways, true);
+            console.log(this.inventory);
         } else if (cursors.W.isDown && cursors.D.isDown) {
             this.viewDirection = "up-right";
             this.anims.play(this.walkSideways, true);

@@ -3,7 +3,7 @@ import { Inventory } from "../entities/Inventory.js";
 import { InventoryItem } from "../entities/InventoryItem.js";
 import { Npc } from "../entities/Npc.js";
 import { Player } from "../entities/Player.js";
-import { transitionSaver } from "../utils/transition-saver.js";
+import { TransitionSaver } from "../utils/transition-saver.js";
 
 export class SceneTown extends Phaser.Scene {
     constructor() {
@@ -79,7 +79,7 @@ export class SceneTown extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
         this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
-        this.transitionSaver = new transitionSaver(this);
+        this.transitionSaver = new TransitionSaver(this);
 
         this.anims.create({
             key: "walk-down",

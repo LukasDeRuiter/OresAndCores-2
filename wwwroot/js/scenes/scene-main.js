@@ -11,7 +11,8 @@ import { EnvironmentObject } from "../entities/EnvironmentObject.js";
 import { Porthole } from "../entities/Porthole.js";
 import { Enemy } from "../entities/Enemy.js";
 import { Npc } from "../entities/Npc.js";
-import { transitionSaver } from "../utils/transition-saver.js";
+import { TransitionSaver } from "../utils/transition-saver.js";
+import { LevelConfigurationCalculator } from "../utils/level-configuration-calculator.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -73,6 +74,10 @@ export class SceneMain extends Phaser.Scene {
                 });
             }
 
+            if (window.levelConfigurations && Array.isArray(window.levelConfigurations)) {
+                this.levelConfigurations = window.levelConfigurations;
+
+            }
 
             this.load.audio('pickaxe-hit-1', 'assets/mine/sounds/effects/pickaxe-hit.mp3');
             this.load.audio('pickaxe-hit-2', 'assets/mine/sounds/effects/pickaxe-hit-2.mp3');
@@ -90,20 +95,27 @@ export class SceneMain extends Phaser.Scene {
             this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
             this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
-            this.transitionSaver = new transitionSaver(this);
+            let playerLevel = 1;
+
+            if (this.registry.has("playerLevel")) {
+                playerLevel =  this.registry.get("playerLevel");
+            } 
+
+            this.levelConfiguration = this.levelConfigurations.find(levelConfiguration => levelConfiguration.id === playerLevel);
+
+            this.transitionSaver = new TransitionSaver(this);
+            this.LevelConfigurationCalculator = new LevelConfigurationCalculator(
+                this, 
+                this.levelConfiguration,
+            );
 
             let inventory =  new Inventory(this);
-            let playerLevel = 1;
             this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
             
             if (this.registry.has("playerInventory")) {
                 const savedInventory = this.registry.get("playerInventory");
                 inventory.restoreInventory(savedInventory)
             }
-            
-            if (this.registry.has("playerLevel")) {
-                playerLevel =  this.registry.get("playerLevel");
-            } 
     
             this.player.inventory = inventory;
 
@@ -200,8 +212,6 @@ export class SceneMain extends Phaser.Scene {
         }
 
         createEnemies() {
-            const enemyCount = 10;
-
             const generateEnemyPosition = () => {
                 let x, y;
                 const minDistanceFromPlayer = 50;
@@ -220,15 +230,18 @@ export class SceneMain extends Phaser.Scene {
             
                 return { x, y };    
             };
-        
-            // Create 10 enemies at random positions within 20px of the boundaries, but at least 150px away from the player
-            for (let i = 0; i < enemyCount; i++) {
-                const { x, y } = generateEnemyPosition();
 
-                const objectData = window.enemies.find(objData => objData.name === "slime");
-                const enemy = new Enemy(this, x, y, objectData.name, objectData.name, objectData.health, objectData.speed, objectData.items);
-                this.enemies.add(enemy);
-            }
+            const enemiesToSpawn = this.LevelConfigurationCalculator.calculateEnemiesToSpawn();
+
+            enemiesToSpawn.forEach(spawnData => {
+                const objectData = window.enemies.find(obj => obj.id === spawnData.id);
+                
+                for (let i = 0; i < spawnData.count; i++) {
+                    const { x, y } = generateEnemyPosition();
+                    const enemy = new Enemy(this, x, y, objectData.name, objectData.name, objectData.health, objectData.speed, objectData.items);
+                    this.enemies.add(enemy);
+                }
+            });
         }
 
         toggleInventory() {
@@ -270,7 +283,6 @@ export class SceneMain extends Phaser.Scene {
         }
 
         update(time, delta) {
-            console.log('test');
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
                 this.scene.start("SceneTransition", {
                     targetScene: "SceneEnd",
@@ -285,7 +297,7 @@ export class SceneMain extends Phaser.Scene {
 
             for (let chunk of this.chunks) {
                 if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
-                    chunk.load(this.player.level);
+                    chunk.load(this.levelConfiguration);
                 } else {
                     chunk.unload();
                 }
@@ -296,7 +308,7 @@ export class SceneMain extends Phaser.Scene {
                 let chunk = this.chunks[i];
 
                 if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
-                    chunk.load(this.player.level);
+                    chunk.load(this.levelConfiguration);
                 } else {
                 chunk.unload();
                 }

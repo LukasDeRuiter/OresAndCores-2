@@ -1,4 +1,4 @@
-export class transitionSaver {
+export class TransitionSaver {
     constructor(scene) {
         this.scene = scene;
     }

@@ -22,7 +22,7 @@ export class Chunk {
         }
     }
 
-    load(level) {
+    load(levelConfiguration) {
         if (!this.isLoaded) {
             for (var x = 0; x < this.scene.chunkSize; x++) {
                 for (var y = 0; y < this.scene.chunkSize; y++) {
@@ -40,7 +40,7 @@ export class Chunk {
                     var animationKey = ""; 
 
                     if (tileX !== 0 && tileY !== 0 && tileX < worldWidth - this.scene.tileSize && tileY < worldHeight - this.scene.tileSize) {
-                        var perlinValue = noise.perlin2(tileX / 100, tileY / 100) * level;
+                        var perlinValue = noise.perlin2(tileX / 100, tileY / 100) * levelConfiguration.id;
 
                         if (perlinValue < 0.2) {
                             key = "cave-3";
@@ -51,15 +51,13 @@ export class Chunk {
                         } else if (perlinValue >= 0.3) {
                             key = "cave-1";
                             interactive = false;
-                            const objectChance = Math.random() * 100;
-                            this.createObject(tileX, tileY, this.generateLevelObject(objectChance, level));
+                            this.createObject(tileX, tileY, this.generateLevelObject(levelConfiguration));
                         } 
                     } else if (y === 0 && tileX === 512) {
                         key = "wall-gate-1";
                         interactive = true;
                         isWalkable = false;
                     } else {
-                        console.log(this.x);
                         key = "wall-1";
                         interactive = false;
                         isWalkable = false;
@@ -83,21 +81,31 @@ export class Chunk {
         }
     }
 
-    generateLevelObject(objectChance, level) {
-        if(level >= 1 && level <= 5) {
-            if (objectChance > 50 &&  objectChance <= 70) {
-                return "rock";
-            } else if (objectChance > 70 && objectChance <= 80) {
-                return "copper-rock";
-            } else if (objectChance > 80 && objectChance <= 85) {
-                return "tin-rock";
-            } else if (objectChance > 85 && objectChance <= 90) {
-                return "iron-rock";
+    generateLevelObject(levelConfiguration) {
+        const objectChance = Math.random() * 100;
+
+        let cumulative = 0;
+
+        for (let object of levelConfiguration.environmentObjects) {
+            cumulative += object.percentage;
+    
+            if (objectChance <= cumulative) {
+                const objectData = window.environmentObjects.find(obj => obj.id === object.entityId);
+    
+                if (objectData) {
+                    return objectData.name;
+                }
+    
+                return null;
             }
         }
+    
+        return null;
+
     }
 
     createObject(x, y, objectName) {
+
         if (!objectName) {
             return;
         }
