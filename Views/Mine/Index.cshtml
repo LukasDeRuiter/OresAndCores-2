@@ -32,9 +32,14 @@
 
     window.items = @Html.Raw(Json.Serialize(Model.Items));
 
-    console.log("Loaded Environment Objects:", window.environmentObjects);
-    console.log("Loaded Items:", window.items);
-    console.log("Loaded enemies:", window.enemies);
+    window.levelConfigurations = @Html.Raw(Json.Serialize(Model.LevelConfigurations.Select(e => new {
+        e.Id,
+        e.Amount,
+        Enemies = e.GetEnemies(),
+        EnvironmentObjects = e.GetEnvironementObjects(),
+    })))
+
+    console.log("Loaded Levels:", window.levelConfigurations);
 </script>
 
 <script type="module" src="~/js/mine.js"></script>

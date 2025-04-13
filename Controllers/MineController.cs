@@ -22,7 +22,8 @@ public class MineController : Controller
         {
              EnvironmentObjects = _context.EnvironmentObject.ToList(),
              Enemies = _context.Enemy.ToList(),
-             Items = _context.Item.ToList()
+             Items = _context.Item.ToList(),
+             LevelConfigurations = _context.LevelConfiguration.ToList(),
 
         };
 
