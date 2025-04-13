@@ -270,6 +270,7 @@ export class SceneMain extends Phaser.Scene {
         }
 
         update(time, delta) {
+            console.log('test');
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
                 this.scene.start("SceneTransition", {
                     targetScene: "SceneEnd",
