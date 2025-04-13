@@ -97,7 +97,40 @@ namespace OresAndCores_2.Data
                 new Item { Id = 3, Name = "tin-ore-item", Path = "assets/mine/sprites/items/tin-ore-item.png", Value = 7 },
                 new Item { Id = 4, Name = "iron-ore-item", Path = "assets/mine/sprites/items/iron-ore-item.png", Value = 15 },
                 new Item { Id = 5, Name = "coin-item", Path = "assets/mine/sprites/items/coin-item.png", Value = 1 }
-            
+            );
+
+             modelBuilder.Entity<LevelConfiguration>().HasData(
+                new LevelConfiguration 
+                { 
+                    Id = 1,
+                    Amount = 10, 
+                    Enemies = JsonSerializer.Serialize(new List<EntityPercentage>
+                    {
+                        new EntityPercentage {EntityId = 1, Percentage = 100}
+                    }),
+                    EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
+                    {
+                        new EntityPercentage {EntityId = 0, Percentage = 80},
+                        new EntityPercentage {EntityId = 1, Percentage = 15},
+                        new EntityPercentage {EntityId = 2, Percentage = 5}
+                    }),
+                },
+                 new LevelConfiguration 
+                { 
+                    Id = 2,
+                    Amount = 12, 
+                    Enemies = JsonSerializer.Serialize(new List<EntityPercentage>
+                    {
+                        new EntityPercentage {EntityId = 1, Percentage = 100}
+                    }),
+                    EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
+                    {
+                        new EntityPercentage {EntityId = 0, Percentage = 75},
+                        new EntityPercentage {EntityId = 1, Percentage = 20},
+                        new EntityPercentage {EntityId = 2, Percentage = 2},
+                        new EntityPercentage {EntityId = 3, Percentage = 2},
+                    }),
+                }
             );
         }
     }

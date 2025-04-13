@@ -10,8 +10,8 @@ public class EntityPercentage {
     public int Id { get; set; }
 
     [Required]
-    public string EntityId { get; set; }
+    public int EntityId { get; set; }
 
     [Required]
-    public string Percentage { get; set; }
+    public int Percentage { get; set; }
 }
