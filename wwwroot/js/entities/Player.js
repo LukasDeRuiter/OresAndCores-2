@@ -41,44 +41,50 @@ export class Player extends Phaser.GameObjects.Sprite {
     update(cursors) {
         this.body.setVelocity(0);
 
+        let animToPlay = null;
+
+        if (cursors.W.isDown && cursors.A.isDown) {
+            this.viewDirection = "up-left";
+            animToPlay = this.walkSideways;
+        } else if (cursors.W.isDown && cursors.D.isDown) {
+            this.viewDirection = "up-right";
+            animToPlay = this.walkSideways;
+        } else if (cursors.S.isDown && cursors.A.isDown) {
+            this.viewDirection = "down-left";
+            animToPlay = this.walkSideways;
+        } else if (cursors.S.isDown && cursors.D.isDown) {
+            this.viewDirection = "down-right";
+            animToPlay = this.walkSideways;
+        }   
+
         if (cursors.W.isDown) {
-            this.anims.play(this.walkUp, true);
+            animToPlay = this.walkUp;
             this.body.setVelocityY(-this.speed);
             this.viewDirection = "up";
         } else if (cursors.S.isDown) {
-            this.anims.play(this.walkDown, true);
+            animToPlay = this.walkDown
             this.body.setVelocityY(this.speed);
             this.viewDirection = "down";
         }
 
         if(cursors.A.isDown) {
-            this.anims.play(this.walkSideways, true);
+            animToPlay = this.walkSideways;
             this.body.setVelocityX(-this.speed);
             this.setFlipX(true);
             this.viewDirection = "left";
         } else if (cursors.D.isDown) {
-            this.anims.play(this.walkSideways, true);
+            animToPlay = this.walkSideways;
             this.body.setVelocityX(this.speed);
             this.viewDirection = "right";
             this.setFlipX(false);
         }
-
-        if (cursors.W.isDown && cursors.A.isDown) {
-            this.viewDirection = "up-left";
-            this.anims.play(this.walkSideways, true);
-        } else if (cursors.W.isDown && cursors.D.isDown) {
-            this.viewDirection = "up-right";
-            this.anims.play(this.walkSideways, true);
-        } else if (cursors.S.isDown && cursors.A.isDown) {
-            this.viewDirection = "down-left";
-            this.anims.play(this.walkSideways, true);
-        } else if (cursors.S.isDown && cursors.D.isDown) {
-            this.viewDirection = "down-right";
-            this.anims.play(this.walkSideways, true);
-        }
         
         if (!cursors.W.isDown && !cursors.S.isDown && !cursors.A.isDown && !cursors.D.isDown) {
-            this.anims.play(this.idle, true);
+            animToPlay = this.idle;
+        }
+
+        if (animToPlay && (this.anims.currentAnim?.key !== animToPlay || !this.anims.isPlaying)) {
+            this.anims.play(animToPlay, true);
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.scene.numberKeys.one)) {
