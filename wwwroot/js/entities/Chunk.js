@@ -105,7 +105,6 @@ export class Chunk {
     }
 
     createObject(x, y, objectName) {
-
         if (!objectName) {
             return;
         }

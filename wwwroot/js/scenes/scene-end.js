@@ -52,7 +52,6 @@ export class SceneEnd extends Phaser.Scene {
         })
 
         saveButton.on("pointerdown", async () => {
-            console.log(inventory);
             let response = await this.saveInventoryToServer(this.inventory.items);
 
             const saveText = this.add.text(
