@@ -13,7 +13,7 @@ import { Enemy } from "../entities/Enemy.js";
 import { Npc } from "../entities/Npc.js";
 import { TransitionSaver } from "../utils/transition-saver.js";
 import { LevelConfigurationCalculator } from "../utils/level-configuration-calculator.js";
-import { preloader } from "../utils/preloader.js";
+import { Preloader } from "../utils/preloader.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -21,8 +21,8 @@ export class SceneMain extends Phaser.Scene {
         }
 
         preload() {
-            this.preloader = new preloader(this);
-            
+            this.preloader = new Preloader(this);
+
             this.preloader.preloadSceneAssets();
             this.preloader.preloadSceneAssetsFromData();
         }

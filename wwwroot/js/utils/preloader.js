@@ -1,4 +1,4 @@
-export class preloader {
+export class Preloader {
     constructor(scene) {
         this.scene = scene;
     }
