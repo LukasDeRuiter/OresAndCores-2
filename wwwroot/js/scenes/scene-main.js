@@ -13,6 +13,7 @@ import { Enemy } from "../entities/Enemy.js";
 import { Npc } from "../entities/Npc.js";
 import { TransitionSaver } from "../utils/transition-saver.js";
 import { LevelConfigurationCalculator } from "../utils/level-configuration-calculator.js";
+import { preloader } from "../utils/preloader.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -20,73 +21,10 @@ export class SceneMain extends Phaser.Scene {
         }
 
         preload() {
-            this.load.spritesheet("player", "assets/mine/sprites/player/player.png",
-                {
-                    frameHeight: 16,
-                    frameWidth: 16,
-                }
-            );
-
-            this.load.spritesheet("merchant-1", "assets/mine/sprites/npcs/merchant-sprite-1.png",
-                {
-                    frameHeight: 16,
-                    frameWidth: 16,
-                }
-            );
-
-            this.load.spritesheet("sprWater", "assets/mine/sprites/tiles/sprWater.png", {
-                frameWidth: 16,
-                frameHeight: 16
-            });
-
-            this.load.image("cave-1", "assets/mine/sprites/tiles/cave-1.png");
-            this.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
-            this.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
-            this.load.image("wall-1", "assets/mine/sprites/tiles/wall-1.png");
-            this.load.image("wall-gate-1", "assets/mine/sprites/tiles/wall-gate-1.png");
-
-            this.load.image("porthole", "assets/mine/sprites/objects/porthole.png")
-
-            this.load.image("item-shadow", "assets/mine/sprites/effects/item-shadow.png");
-            this.load.image("spark", "assets/mine/sprites/effects/spark.png");
-
-            this.load.image("pickaxe", "assets/mine/sprites/tools/pickaxe.png");
-            this.load.image("sword", "assets/mine/sprites/tools/sword.png");
-
-           if (window.environmentObjects && Array.isArray(window.environmentObjects)) {
-                window.environmentObjects.forEach(environmentObject => {
-                    this.load.image(environmentObject.name, environmentObject.path);
-                });
-            }
-
-            if (window.items && Array.isArray(window.items)) {
-                window.items.forEach(item => {
-                    this.load.image(item.name, item.path);
-                });
-            }
-
-            if (window.enemies && Array.isArray(window.enemies)) {
-                window.enemies.forEach(enemy => {
-                    this.load.spritesheet(enemy.name, enemy.sprite, {
-                        frameWidth: 16,
-                        frameHeight: 16,
-                    });
-                });
-            }
-
-            if (window.levelConfigurations && Array.isArray(window.levelConfigurations)) {
-                this.levelConfigurations = window.levelConfigurations;
-
-            }
-
-            this.load.audio('pickaxe-hit-1', 'assets/mine/sounds/effects/pickaxe-hit.mp3');
-            this.load.audio('pickaxe-hit-2', 'assets/mine/sounds/effects/pickaxe-hit-2.mp3');
-            this.load.audio('pickaxe-hit-3', 'assets/mine/sounds/effects/pickaxe-hit-3.mp3');
-
-            this.load.audio('tool-swing-1', 'assets/mine/sounds/effects/tool-swing-1.mp3');
-
-            this.load.audio('slime-attack-1', 'assets/mine/sounds/effects/slime-attack-1.mp3');
-            this.load.audio('slime-damage-1', 'assets/mine/sounds/effects/slime-damage-1.mp3');
+            this.preloader = new preloader(this);
+            
+            this.preloader.preloadSceneAssets();
+            this.preloader.preloadSceneAssetsFromData();
         }
 
         create() {
