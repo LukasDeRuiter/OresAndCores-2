@@ -49,7 +49,7 @@ export class SceneMain extends Phaser.Scene {
 
             let inventory =  new Inventory(this);
             this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
-            
+
             if (this.registry.has("playerInventory")) {
                 const savedInventory = this.registry.get("playerInventory");
                 inventory.restoreInventory(savedInventory)
@@ -215,15 +215,13 @@ export class SceneMain extends Phaser.Scene {
 
             if (distance <= 32) {
                 this.player.level += 1;
-                this.registry.set("playerLevel", this.player.level);
-
-                this.transitionSaver.transition("SceneMain",  "Next level...", this.player.inventory)
+                this.transitionSaver.transition("SceneMain",  "Next level...", this.player.inventory, this.player.level)
             }
         }
 
         update(time, delta) {
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
-                this.transitionSaver.transition("SceneEnd",  "Leaving the mine...", this.player.inventory);
+                this.transitionSaver.transition("SceneEnd",  "Leaving the mine...", this.player.inventory, this.player.level);
             }
 
             const cameraBounds = this.cameras.main.worldView;

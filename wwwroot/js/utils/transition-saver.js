@@ -3,8 +3,10 @@ export class TransitionSaver {
         this.scene = scene;
     }
 
-    transition(scene, message, inventory) {
+    transition(scene, message, inventory, playerLevel) {
         this.scene.registry.set("playerInventory", inventory.saveInventory());
+        this.scene.registry.set("playerLevel", playerLevel);
+        this.scene.registry.set("playerMoney", inventory.money);
 
         this.scene.scene.start("SceneTransition", {
             targetScene: scene,

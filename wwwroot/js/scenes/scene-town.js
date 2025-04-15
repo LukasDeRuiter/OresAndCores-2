@@ -27,6 +27,12 @@ export class SceneTown extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
         this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
+        let playerLevel = 1;
+
+        if (this.registry.has("playerLevel")) {
+            playerLevel =  this.registry.get("playerLevel");
+        } 
+
         this.transitionSaver = new TransitionSaver(this);
 
         this.anims.create({
@@ -58,10 +64,7 @@ export class SceneTown extends Phaser.Scene {
         });
 
         let inventory =  new Inventory(this);
-        let playerLevel = 1;
         this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
-
-        console.log(this.registry.has("playerInventory"));
         
         if (this.registry.has("playerInventory")) {
             const savedInventory = this.registry.get("playerInventory");
