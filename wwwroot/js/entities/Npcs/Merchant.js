@@ -40,8 +40,6 @@
         }
 
         createShopUI(player) {
-
-            console.log('test123');
             if (this.shopUI) {
                 this.shopUI.destroy();
                 this.shopUI = null;
@@ -62,27 +60,29 @@
                 }
             })
 
-            const itemContainer = this.scene.add.container(0, 0).setDepth(51).setScrollFactor(0);
-
             
-            const scrollbarTrack = this.scene.add.rectangle(325, 300, 10, 250, 0x444444, 0.3).setScrollFactor(0).setDepth(51);
-            const scrollbarThumb = this.scene.add.rectangle(325, 185, 10, 20, 0x888888, 0.3).setInteractive().setScrollFactor(0).setDepth(52);
 
-            scrollbarThumb.setInteractive({ draggable: true });
-            this.scene.input.setDraggable(scrollbarThumb)
+            const itemContainer = this.scene.add.container(0, 0).setDepth(51).setScrollFactor(0);
+            itemContainer.x = 200;
+            itemContainer.y = 160;
+        
+            let counter = 0;
+            let beginX = 50;
+            let beginY = 100;
 
-            const trackTop = scrollbarTrack.y - scrollbarTrack.height / 2;
-            const trackBottom = scrollbarTrack.y + scrollbarTrack.height / 2;
+            for (let i = 0; i < 12; i++) {
+                if (i % 3 === 0) {
+                    beginX += 60;
+                    counter = 0;
+                }
 
-            scrollbarThumb.on('drag', (pointer, dragX, dragY) => {
-                console.log('test123');
-                const clampedY = Phaser.Math.Clamp(dragY, trackTop + (scrollbarThumb.height / 2), trackBottom - (scrollbarThumb.height / 2) );
-                scrollbarThumb.y = clampedY;
-                const scrollRatio = (clampedY - trackTop) / (trackBottom - trackTop - scrollbarThumb.height);
-                itemContainer.y = -scrollRatio * (itemContainer.height - 200);
-            });
+                let item = this.scene.add.rectangle(beginX, beginY + (counter * 50), 50, 40, 0xFF0000, 0.3).setScrollFactor(0).setDepth(52);
+                itemContainer.add(item);
 
-            this.shopUI = this.scene.add.container(0, 0 , [background, exitButton, itemContainer, scrollbarTrack, scrollbarThumb]);
+                counter += 1;
+            }
+
+            this.shopUI = this.scene.add.container(0, 0 , [background, exitButton, itemContainer]);
             this.shopUI.setDepth(1000);
             this.shopUI.setVisible(this.isShopVisible);
         }
