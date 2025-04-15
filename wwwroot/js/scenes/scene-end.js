@@ -1,5 +1,6 @@
 import { Inventory } from "../entities/Inventory.js";
 import { TransitionSaver } from "../utils/transition-saver.js";
+import { Player } from "../entities/Player.js";
 
 export class SceneEnd extends Phaser.Scene {
     constructor() {
@@ -8,11 +9,14 @@ export class SceneEnd extends Phaser.Scene {
 
     create() {
         this.transitionSaver = new TransitionSaver(this);
+
+        const worldWidth = 1008;
+        const worldHeight = 1008;
         
         let inventory =  new Inventory(this);     
         
         let playerLevel = 1;
-        this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
+        this.player = new Player(this, 500, 500, inventory, playerLevel);
                 
         if (this.registry.has("playerInventory")) {
             const savedInventory = this.registry.get("playerInventory");
