@@ -60,6 +60,8 @@ export class SceneTown extends Phaser.Scene {
         let inventory =  new Inventory(this);
         let playerLevel = 1;
         this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
+
+        console.log(this.registry.has("playerInventory"));
         
         if (this.registry.has("playerInventory")) {
             const savedInventory = this.registry.get("playerInventory");

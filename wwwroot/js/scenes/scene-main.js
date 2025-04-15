@@ -216,16 +216,14 @@ export class SceneMain extends Phaser.Scene {
             if (distance <= 32) {
                 this.player.level += 1;
                 this.registry.set("playerLevel", this.player.level);
-                this.scene.restart();
+
+                this.transitionSaver.transition("SceneMain",  "Next level...", this.player.inventory)
             }
         }
 
         update(time, delta) {
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
-                this.scene.start("SceneTransition", {
-                    targetScene: "SceneEnd",
-                    message: "Leaving the mine...",
-                })
+                this.transitionSaver.transition("SceneEnd",  "Leaving the mine...", this.player.inventory);
             }
 
             const cameraBounds = this.cameras.main.worldView;
