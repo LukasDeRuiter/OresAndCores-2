@@ -1,10 +1,11 @@
 import { InteractiveTile } from "../entities/InteractiveTile.js";
 import { Inventory } from "../entities/Inventory.js";
 import { InventoryItem } from "../entities/InventoryItem.js";
-import { Npc } from "../entities/Npc.js";
+import { Npc } from "../entities/Npcs/Npc.js";
 import { Player } from "../entities/Player.js";
 import { TransitionSaver } from "../utils/transition-saver.js";
 import { Preloader } from "../utils/preloader.js";
+import { Merchant } from "../entities/Npcs/Merchant.js";
 
 export class SceneTown extends Phaser.Scene {
     constructor() {
@@ -157,7 +158,7 @@ export class SceneTown extends Phaser.Scene {
 
     fillInObjects(objectLayer) {
         objectLayer.objects.forEach(object => {
-            let npc = new Npc(this, object.x, object.y, "merchant-1", "merchant-1");
+            let npc = new Merchant(this, object.x, object.y, "merchant-1", "merchant-1");
             this.npcs.add(npc);
         });
     }

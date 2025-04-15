@@ -10,10 +10,11 @@ import { Tile } from "../entities/Tile.js";
 import { EnvironmentObject } from "../entities/EnvironmentObject.js";
 import { Porthole } from "../entities/Porthole.js";
 import { Enemy } from "../entities/Enemy.js";
-import { Npc } from "../entities/Npc.js";
+import { Npc } from "../entities/Npcs/Npc.js";
 import { TransitionSaver } from "../utils/transition-saver.js";
 import { LevelConfigurationCalculator } from "../utils/level-configuration-calculator.js";
 import { Preloader } from "../utils/preloader.js";
+import { Merchant } from "../entities/Npcs/Merchant.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -67,8 +68,12 @@ export class SceneMain extends Phaser.Scene {
             this.environmentObjects = this.add.group();
             this.droppedItems = this.add.group();
             this.enemies = this.add.group();
+            this.npcs = this.add.group();
 
             this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
+
+            let npc = new Merchant(this, worldWidth / 2, (worldHeight / 12) + 30, "merchant-1", "merchant-1");
+            this.npcs.add(npc);
 
             this.physics.world.enable(this.player);
             this.cameras.main.startFollow(this.player);
