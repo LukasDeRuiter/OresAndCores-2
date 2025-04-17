@@ -34,8 +34,6 @@ export class Merchant extends Npc {
             this.slots.forEach(slot => {
                 slot.toggleVisible(this.isShopVisible);
             })
-
-            console.log(this.slots);
         }
     }
         
@@ -88,11 +86,10 @@ export class Merchant extends Npc {
             let shopSlot = new ShopSlot(this.scene, 0, 0 + (index * 50), 50, 40, this.isShopVisible);
             shopSlot.setItem(item);
             shopSlot.setPrice(item.value);
-                
-            console.log('test23');
+
             this.slots.push(shopSlot);
 
-            let singleItemContainer = this.scene.add.container(beginX, beginY, [shopSlot.slot, shopSlot.itemImage, shopSlot.itemText]).setDepth(52).setScrollFactor(0);
+            let singleItemContainer = this.scene.add.container(beginX, beginY, [shopSlot.slot, shopSlot.itemImage, shopSlot.purchaseButton, shopSlot.amountContainer]).setDepth(52).setScrollFactor(0);
             itemContainer.add(singleItemContainer);
 
             counter += 1;
