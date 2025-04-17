@@ -101,7 +101,7 @@ export class Merchant extends Npc {
                 counter = 0;
             }
 
-            let shopSlot = new ShopSlot(this.scene, 0, 0 + (index * 50), 50, 40, this.isShopVisible);
+            let shopSlot = new ShopSlot(this.scene, this, 0, 0 + (index * 50), 50, 40, this.isShopVisible);
             shopSlot.setItem(item);
             shopSlot.setPrice(item.value);
 

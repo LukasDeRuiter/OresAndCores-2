@@ -1,6 +1,7 @@
 export class ShopSlot {
-    constructor(scene, x, y, slotWidth, slotHeight, isVisible) {
+    constructor(scene, merchant, x, y, slotWidth, slotHeight, isVisible) {
         this.scene = scene;
+        this.merchant = merchant;
         this.x = x;
         this.y = y;
 
@@ -103,6 +104,7 @@ export class ShopSlot {
     }
 
     startTransation() {
+        console.log(this.merchant);
         if(this.scene.player.inventory.money >= this.price) {
             this.buyItem();        }
     }
@@ -110,7 +112,9 @@ export class ShopSlot {
     buyItem() {
         this.scene.player.inventory.pay(this.price);
         this.scene.player.inventory.addItem(this.item);
-        this.updatePriceCheck();
+        this.merchant.slots.forEach(slot => {
+            slot.updatePriceCheck();
+        })
     }
 
     toggleVisible(isVisible) {
