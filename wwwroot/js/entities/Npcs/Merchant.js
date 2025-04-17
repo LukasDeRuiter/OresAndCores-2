@@ -7,8 +7,10 @@ export class Merchant extends Npc {
         super(scene, x, y, name, spritesheet);
 
         this.shopItems = shopItems;
+        this.speechBox = null;
         this.slots = [];
         this.shopUI = null;
+        this.isSpeechBoxVisible = false
         this.isShopVisible = false;
 
         this.setInteractive();
@@ -19,21 +21,37 @@ export class Merchant extends Npc {
     }
 
     interact() {
-         this.isShopVisible = !this.isShopVisible;
+        if (!this.speechBox) {
+            this.createSpeechBox();
+        }
+        
+        this.isSpeechBoxVisible = !this.isSpeechBoxVisible;
 
         this.updateUI();
     }
 
     updateUI() {
+        if (this.isSpeechBoxVisible) {
+            this.fadeInText(this.speechBox);
+        } else {
+            this.fadeOutText(this.speechBox);
+        }
+        
         if(this.shopUI) {
             this.shopUI.setVisible(this.isShopVisible);
-
+            
             this.shopUI.list.forEach(item => {
                 item.setVisible(this.isShopVisible);
             })
             this.slots.forEach(slot => {
                 slot.toggleVisible(this.isShopVisible);
             })
+
+            if (this.isShopVisible) {
+                this.scene.physics.world.pause();
+            } else {
+                this.scene.physics.world.resume();
+            }
         }
     }
         
@@ -62,6 +80,7 @@ export class Merchant extends Npc {
 
         exitButton.on('pointerdown', (pointer) => {
             if (pointer.button === 0) {
+                this.isShopVisible = !this.isShopVisible;
                 this.interact();
             }
         })
@@ -82,7 +101,6 @@ export class Merchant extends Npc {
                 counter = 0;
             }
 
-            //let item = this.scene.add.rectangle(beginX, beginY + (counter * 50), 50, 40, 0X0F0000, 0.3).setScrollFactor(0).setDepth(52);
             let shopSlot = new ShopSlot(this.scene, 0, 0 + (index * 50), 50, 40, this.isShopVisible);
             shopSlot.setItem(item);
             shopSlot.setPrice(item.value);
@@ -108,5 +126,75 @@ export class Merchant extends Npc {
         this.shopItems.push(item1);
         this.shopItems.push(item2);
         this.shopItems.push(item3);
+    }
+
+    createSpeechBox() {
+        const boxWidth = 120;
+        const boxHeight = 60;
+        const boxX = this.x;
+        const boxY = this.y - 50; // Position it above the NPC
+
+    
+        const background = this.scene.add.rectangle(0, 0, boxWidth, boxHeight,0x222222, 0.5)
+            .setStrokeStyle(2, 0xffffff)
+   
+    
+        const text = this.scene.add.text(-boxWidth / 2 + 10, -boxHeight / 2 + 5, "Welcome to my \n shop! What would \n you like?", {
+            fontSize: "10px",
+            fill: "#fff"
+        })
+    
+        const buyBtn = this.scene.add.text(-boxWidth / 2 + 10, 10, "Buy", {
+            fontSize: "10px",
+            fill: "#00ff00",
+            backgroundColor: "#003300",
+            padding: { x: 5, y: 2 }
+        }).setInteractive();
+    
+        const sellBtn = this.scene.add.text(15, 10, "Sell", {
+            fontSize: "10px",
+            fill: "#ffcc00",
+            backgroundColor: "#332200",
+            padding: { x: 5, y: 2 }
+        }).setInteractive();
+    
+        buyBtn.on('pointerdown', () => {
+            this.isShopVisible = !this.isShopVisible;
+            this.interact();
+        });
+    
+        sellBtn.on('pointerdown', () => {
+            // Optional: Add sell logic here
+            console.log("Sell clicked");
+            this.speechBox.setVisible(false);
+        });
+    
+        this.speechBox = this.scene.add.container(boxX, boxY, [background, text, buyBtn, sellBtn])
+            .setDepth(999)
+            .setVisible(true);
+    }
+
+
+    fadeInText(container, duration = 300) {
+        container.setVisible(true);
+        container.alpha = 0;
+        this.scene.tweens.add({
+            targets: container,
+            alpha: 1,
+            duration: duration,
+            ease: 'Power2'
+        });
+    }
+    
+    fadeOutText(container, duration = 300) {
+        this.scene.tweens.add({
+            targets: container,
+            alpha: 0,
+            duration: duration,
+            ease: 'Power2',
+            onComplete: () => {
+                container.setVisible(false);
+            }
+        });
     }
  }
