@@ -50,7 +50,7 @@ export class Inventory {
     }
 
     addItem(item) {
-        this.showPickUpText(item.name);
+        this.showPickUpText(item.name, '#fff');
 
         for (let slot of this.inventorySlots) {
             if (slot.item && slot.item.name === item.name) {
@@ -158,6 +158,7 @@ export class Inventory {
     }
 
     addMoney(amount) {
+        this.showPickUpText(amount === 1 ? '1 coin' : `${amount} coins`, '#fcce07');
         this.money += amount;
     }
 
@@ -202,7 +203,7 @@ export class Inventory {
         this.money -= cost;
     }
 
-    showPickUpText(name) {
+    showPickUpText(name, color) {
         const overlapPreventY = Phaser.Math.Between(0, 30);
         const overlapPreventX = Phaser.Math.Between(-5, 5);
 
@@ -211,7 +212,7 @@ export class Inventory {
             this.scene.player.y - 20 - overlapPreventY,
             `Collected ${name}!`, {
                 font: '10px Arial',
-                fill: '#fff',
+                fill: color,
             }).setOrigin(0.5).setDepth(100);
         
         this.scene.tweens.add({
