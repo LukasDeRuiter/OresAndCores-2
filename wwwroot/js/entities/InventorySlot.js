@@ -19,7 +19,7 @@ export class InventorySlot {
 
         this.item = null;
         this.itemImage = null;
-        this.slotText = null
+        this.slotText = null;
     }
 
     setItem(item) {
