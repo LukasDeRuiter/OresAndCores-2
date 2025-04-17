@@ -63,7 +63,7 @@ export class Merchant extends Npc {
         })
     }
 
-    createShopUI(player) {
+    createShopUI() {
         if (this.shopUI) {
             this.shopUI.destroy();
             this.shopUI = null;
@@ -132,7 +132,7 @@ export class Merchant extends Npc {
         const boxWidth = 120;
         const boxHeight = 60;
         const boxX = this.x;
-        const boxY = this.y - 50; // Position it above the NPC
+        const boxY = this.y - 50;
 
     
         const background = this.scene.add.rectangle(0, 0, boxWidth, boxHeight,0x222222, 0.5)
@@ -164,7 +164,6 @@ export class Merchant extends Npc {
         });
     
         sellBtn.on('pointerdown', () => {
-            // Optional: Add sell logic here
             console.log("Sell clicked");
             this.speechBox.setVisible(false);
         });

@@ -65,16 +65,17 @@ export class ShopSlot {
                 });
 
                 this.purchaseButtonBackground = this.scene.add.rectangle(22, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0).setInteractive();
-
-                console.log(this.scene);
                 this.purchaseButton = this.scene.add.container(this.x, this.y + 20, [this.purchaseButtonBackground, itemText]).setDepth(52).setScrollFactor(0);
+
+                this.purchaseButtonBackground.on('pointerdown', () => {
+                    this.startTransation();
+                });
             }
 
             if (!this.amountContainer) {
                 let coinBackground = this.scene.add.rectangle(-this.slotWidth / 2, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0);
                 let costSprite = this.scene.add.image((-this.slotWidth / 2) - 5, 0, "coin-item").setScale(0.5);
 
-                console.log(this.scene.player.inventory.money);
                 let coinAmount = this.scene.add.text(Math.round(-28), Math.round(-10), this.price, {
                     fontSize: "10px",
                     fill: "#fff",
@@ -99,6 +100,17 @@ export class ShopSlot {
                 this.purchaseButton = null;
             }
         }
+    }
+
+    startTransation() {
+        if(this.scene.player.inventory.money >= this.price) {
+            this.buyItem();        }
+    }
+
+    buyItem() {
+        this.scene.player.inventory.pay(this.price);
+        this.scene.player.inventory.addItem(this.item);
+        this.updatePriceCheck();
     }
 
     toggleVisible(isVisible) {

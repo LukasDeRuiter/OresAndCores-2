@@ -59,6 +59,7 @@ export class Inventory {
                 return;
             }
         }
+        
 
         for (let slot of this.inventorySlots) {
             if (!slot.item) {
@@ -195,8 +196,7 @@ export class Inventory {
         this.updateUI();
     }
 
-
-    collectInventory() {
-
+    pay(cost) {
+        this.money -= cost;
     }
 }
