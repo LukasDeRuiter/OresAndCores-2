@@ -1,7 +1,7 @@
 import { Item } from "./Item.js";
 
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, name, spritesheet, health, speed, items) {
+    constructor(scene, x, y, name, spritesheet, health, speed, items, angleSprite = false) {
         super(scene, x, y, spritesheet);
 
         this.scene = scene;
@@ -33,6 +33,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.wanderCooldown = Phaser.Math.Between(1000, 3000);
         this.wanderDirection = new Phaser.Math.Vector2(0, 0);
         this.items = this.buildDropItems(items);
+        this.angleSprite = angleSprite;
 
         this.play(this.walkingAnimation);
     }
@@ -85,12 +86,26 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.wanderCooldown = Phaser.Math.Between(1000, 3000);
             this.wanderTimer = 0;
             this.setVelocity(this.wanderDirection.x * this.speed, this.wanderDirection.y * this.speed);
+
+            if (this.angleSprite) {
+                this.angleToTarget(0, 0, this.wanderDirection);
+            }
         }
     }
 
+    angleToTarget(startX, startY, target) {
+        const angle = Phaser.Math.Angle.Between(startX, startY, target.x, target.y);
+        this.setRotation(wanderAngle + Phaser.Math.DegToRad(270));
+    }
+
     attack() {
+        if (this.angleSprite) {
+            this.angleToTarget(this.x, this.y, this.scene.player);
+        }
+
         this.scene.physics.moveToObject(this, this.scene.player, 45);
         this.playSound(this.attackSound, this.attackingAnimation);
+        
         this.switchAnimation(this.attackingAnimation);
     }
 
