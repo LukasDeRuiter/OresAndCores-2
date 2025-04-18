@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OresAndCores_2.Data;
 
@@ -10,9 +11,11 @@ using OresAndCores_2.Data;
 namespace OresAndCores_2.Migrations
 {
     [DbContext(typeof(OresAndCores_2Context))]
-    partial class OresAndCores_2ContextModelSnapshot : ModelSnapshot
+    [Migration("20250418122937_Spiders")]
+    partial class Spiders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

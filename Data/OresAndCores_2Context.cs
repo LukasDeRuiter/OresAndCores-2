@@ -88,6 +88,18 @@ namespace OresAndCores_2.Data
                     {
                         new ObjectItem {ItemId = 5, Amount = 5, DropChance = 50}
                     }),
+                },
+                   new Enemy 
+                { 
+                    Id = 2,
+                    Name = "spider", 
+                    Sprite = "assets/mine/sprites/enemies/spider.png",
+                    Health = 5,
+                    Speed = 30,
+                    Items = JsonSerializer.Serialize(new List<ObjectItem>
+                    {
+                        new ObjectItem {ItemId = 5, Amount = 8, DropChance = 50}
+                    }),
                 }
             );
 
@@ -129,6 +141,24 @@ namespace OresAndCores_2.Data
                         new EntityPercentage {EntityId = 1, Percentage = 20},
                         new EntityPercentage {EntityId = 2, Percentage = 2},
                         new EntityPercentage {EntityId = 3, Percentage = 2},
+                    }),
+                },
+                   new LevelConfiguration 
+                { 
+                    Id = 3,
+                    Amount = 15, 
+                    Enemies = JsonSerializer.Serialize(new List<EntityPercentage>
+                    {
+                        new EntityPercentage {EntityId = 1, Percentage = 80},
+                        new EntityPercentage {EntityId = 2, Percentage = 20}
+                    }),
+                    EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
+                    {
+                        new EntityPercentage {EntityId = 0, Percentage = 75},
+                        new EntityPercentage {EntityId = 1, Percentage = 20},
+                        new EntityPercentage {EntityId = 2, Percentage = 2},
+                        new EntityPercentage {EntityId = 3, Percentage = 2},
+                        new EntityPercentage {EntityId = 4, Percentage = 2},
                     }),
                 }
             );
