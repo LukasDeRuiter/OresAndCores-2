@@ -27,6 +27,11 @@ export class InventorySlot {
         this.updateSlotDisplay();
     }
 
+    removeItem() {
+        this.item = null;
+        this.updateSlotDisplay();
+    }
+
     updateSlotDisplay() {
         if (this.item) {
             if (!this.itemImage) {  

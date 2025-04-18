@@ -74,6 +74,25 @@ export class Inventory {
         }
     }
 
+    removeItem(item) {
+        this.showRemoveText(item.name, '#ff0');
+
+        for (let slot of this.inventorySlots) {
+            if (slot.item && slot.item.name === item.name) {
+                this.items[item.name]--;
+                slot.updateTextAmount(this.items[item.name]);
+                this.updateUI();
+
+                if (this.items[item.name] <= 0) {
+                    delete this.items[item.name];
+                    slot.removeItem();
+                }
+                
+                return;
+            }
+        }
+    }
+
     updateUI() {
         this.inventoryBackground.setVisible(this.isVisible);
         this.inventorySlots.forEach((slot, index) => {
@@ -223,5 +242,37 @@ export class Inventory {
             ease: 'Power1',
             onComplete: () => pickUpText.destroy()
         })
+    }
+
+    showRemoveText(name, color) {
+        const overlapPreventY = Phaser.Math.Between(0, 30);
+        const overlapPreventX = Phaser.Math.Between(-5, 5);
+
+        const pickUpText = this.scene.add.text(
+            this.scene.player.x + overlapPreventX, 
+            this.scene.player.y - 20 - overlapPreventY,
+            `Lost ${name}!`, {
+                font: '10px Arial',
+                fill: color,
+            }).setOrigin(0.5).setDepth(100);
+        
+        this.scene.tweens.add({
+            targets: pickUpText,
+            y: pickUpText.y - 50 - overlapPreventY,
+            alpha: 0,
+            duration: 2500,
+            ease: 'Power1',
+            onComplete: () => pickUpText.destroy()
+        })
+    }
+
+    isItemInInventory(item) {
+        let itemInInventory = this.items[item.name];
+
+        if (itemInInventory) {
+            return true;
+        }
+
+        return false;
     }
 }
