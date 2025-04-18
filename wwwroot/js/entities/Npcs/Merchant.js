@@ -12,6 +12,7 @@ export class Merchant extends Npc {
         this.shopUI = null;
         this.isSpeechBoxVisible = false
         this.isShopVisible = false;
+        this.sellMode = false;
 
         this.setInteractive();
         this.bindInput();
@@ -40,18 +41,24 @@ export class Merchant extends Npc {
         if(this.shopUI) {
             this.shopUI.setVisible(this.isShopVisible);
             
-            this.shopUI.list.forEach(item => {
-                item.setVisible(this.isShopVisible);
-            })
-            this.slots.forEach(slot => {
-                slot.toggleVisible(this.isShopVisible);
-            })
+            this.updateShopUI();
+        }
+    }
 
-            if (this.isShopVisible) {
-                this.scene.physics.world.pause();
-            } else {
-                this.scene.physics.world.resume();
-            }
+    updateShopUI() {
+        this.shopUI.list.forEach(item => {
+            item.setVisible(this.isShopVisible);
+        })
+        this.slots.forEach(slot => {
+            slot.toggleVisible(this.isShopVisible);
+            slot.toggleSellMode(this.isSellMode);
+            slot.updateSlotUI();
+        })
+
+        if (this.isShopVisible) {
+            this.scene.physics.world.pause();
+        } else {
+            this.scene.physics.world.resume();
         }
     }
         
@@ -159,13 +166,15 @@ export class Merchant extends Npc {
         }).setInteractive();
     
         buyBtn.on('pointerdown', () => {
+            this.isSellMode = false;
             this.isShopVisible = !this.isShopVisible;
             this.interact();
         });
     
         sellBtn.on('pointerdown', () => {
-            console.log("Sell clicked");
-            this.speechBox.setVisible(false);
+            this.isSellMode = true;
+            this.isShopVisible = !this.isShopVisible;
+            this.interact();
         });
     
         this.speechBox = this.scene.add.container(boxX, boxY, [background, text, buyBtn, sellBtn])

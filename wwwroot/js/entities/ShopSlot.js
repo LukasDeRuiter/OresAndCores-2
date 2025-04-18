@@ -22,8 +22,11 @@ export class ShopSlot {
         this.purchaseButton = null;
         this.purchaseButtonBackground = null;
         this.amountContainer = null;
+        this.isSellMode = false;
+        this.coinAmount = null;
 
         this.canPurchaseItem = false;
+        this.canSellItem = false;
     }
 
     setItem(item) {
@@ -34,6 +37,23 @@ export class ShopSlot {
 
     setPrice(price) {
         this.price = price;
+        this.sellPrice = (this.price / 100) * 80;
+    }
+
+    toggleSellMode(isSellMode) {
+        this.isSellMode = isSellMode;
+    }
+
+    updateSlotUI() {
+        if (this.isSellMode) {
+            this.coinAmount.setText(this.sellPrice);
+            this.itemText.setText('Sell');
+            this.updateSalableCheck();
+        } else {
+            this.coinAmount.setText(this.price);
+            this.itemText.setText('Buy');
+            this.updatePriceCheck();
+        }
     }
 
     updateSlotDisplay() {
@@ -46,19 +66,8 @@ export class ShopSlot {
             .setVisible(this.isVisible);
             }
 
-            if (!this.itemText) {  
-                this.itemText = this.scene.add.text(0, 0, 'Buy', {
-                    fontSize: "10px",
-                    fill: "#fff",
-                    stroke: "#000",
-                    strokeThickness: 1,
-                }).setDepth(56)
-                .setScrollFactor(0)
-                .setVisible(this.isVisible);
-            }
-
             if (!this.purchaseButton) {
-                let itemText = this.scene.add.text(Math.round(10), Math.round(-10), 'Buy', {
+                this.itemText = this.scene.add.text(Math.round(10), Math.round(-10), this.isSellMode ? 'Sell' : 'Buy', {
                     fontSize: "10px",
                     fill: "#fff",
                     stroke: "#000",
@@ -66,7 +75,7 @@ export class ShopSlot {
                 });
 
                 this.purchaseButtonBackground = this.scene.add.rectangle(22, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0).setInteractive();
-                this.purchaseButton = this.scene.add.container(this.x, this.y + 20, [this.purchaseButtonBackground, itemText]).setDepth(52).setScrollFactor(0);
+                this.purchaseButton = this.scene.add.container(this.x, this.y + 20, [this.purchaseButtonBackground, this.itemText]).setDepth(52).setScrollFactor(0);
 
                 this.purchaseButtonBackground.on('pointerdown', () => {
                     this.startTransation();
@@ -77,13 +86,13 @@ export class ShopSlot {
                 let coinBackground = this.scene.add.rectangle(-this.slotWidth / 2, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0);
                 let costSprite = this.scene.add.image((-this.slotWidth / 2) - 5, 0, "coin-item").setScale(0.5);
 
-                let coinAmount = this.scene.add.text(Math.round(-28), Math.round(-10), this.price, {
+                this.coinAmount = this.scene.add.text(Math.round(-28), Math.round(-10), this.price, {
                     fontSize: "10px",
                     fill: "#fff",
                     stroke: "#000",
                     strokeThickness: 5,
                 });
-                this.amountContainer = this.scene.add.container(this.x, this.y + 20, [coinBackground, costSprite, coinAmount]).setDepth(52).setScrollFactor(0);
+                this.amountContainer = this.scene.add.container(this.x, this.y + 20, [coinBackground, costSprite, this.coinAmount]).setDepth(52).setScrollFactor(0);
             }
         } else {
             if (this.itemImage) {
@@ -104,9 +113,19 @@ export class ShopSlot {
     }
 
     startTransation() {
-        console.log(this.merchant);
-        if(this.scene.player.inventory.money >= this.price) {
-            this.buyItem();        }
+        if (this.isSellMode) {
+            this.checkSellPossible();
+
+            if (this.canSellItem) {
+                this.sellItem();
+            }
+        } else {
+            this.checkPurchasePrice();
+
+            if (this.canPurchaseItem) {
+                this.buyItem();
+            }
+        }
     }
 
     buyItem() {
@@ -114,6 +133,14 @@ export class ShopSlot {
         this.scene.player.inventory.addItem(this.item);
         this.merchant.slots.forEach(slot => {
             slot.updatePriceCheck();
+        })
+    }
+
+    sellItem() {
+        this.scene.player.inventory.addMoney(this.sellPrice);
+        this.scene.player.inventory.removeItem(this.item);
+        this.merchant.slots.forEach(slot => {
+            slot.updateSalableCheck();
         })
     }
 
@@ -128,10 +155,28 @@ export class ShopSlot {
         }
     }
 
-    updatePriceCheck() {
+    checkPurchasePrice() {
         this.canPurchaseItem = this.scene.player.inventory.money >= this.price;
+    }
+
+    checkSellPossible() {
+        this.canSellItem = this.scene.player.inventory.isItemInInventory(this.item);
+    }
+
+    updatePriceCheck() {
+        this.checkPurchasePrice();
 
         let color = this.canPurchaseItem ? 0x00aa00 : 0xaa0000;
+
+        if (this.purchaseButtonBackground) {
+            this.purchaseButtonBackground.setFillStyle(color, 0.3);
+        }
+    }
+
+    updateSalableCheck() {
+        this.checkSellPossible();
+
+        let color = this.canSellItem ? 0x00aa00 : 0xaa0000;
 
         if (this.purchaseButtonBackground) {
             this.purchaseButtonBackground.setFillStyle(color, 0.3);
