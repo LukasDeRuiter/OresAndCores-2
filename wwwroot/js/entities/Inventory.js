@@ -75,7 +75,7 @@ export class Inventory {
     }
 
     removeItem(item) {
-        this.showRemoveText(item.name, '#ff0');
+        this.showRemoveText(item.name, '#b20000');
 
         for (let slot of this.inventorySlots) {
             if (slot.item && slot.item.name === item.name) {
