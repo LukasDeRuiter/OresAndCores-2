@@ -9,12 +9,13 @@ import { Chunk } from "../entities/Chunk.js";
 import { Tile } from "../entities/Tile.js";
 import { EnvironmentObject } from "../entities/EnvironmentObject.js";
 import { Porthole } from "../entities/Porthole.js";
-import { Enemy } from "../entities/Enemy.js";
+import { Enemy } from "../entities/enemies/Enemy.js";
 import { Npc } from "../entities/Npcs/Npc.js";
 import { TransitionSaver } from "../utils/transition-saver.js";
 import { LevelConfigurationCalculator } from "../utils/level-configuration-calculator.js";
 import { Preloader } from "../utils/preloader.js";
 import { Merchant } from "../entities/Npcs/Merchant.js";
+import { StandardEnemy } from "../entities/enemies/StandardEnemy.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -181,7 +182,7 @@ export class SceneMain extends Phaser.Scene {
                 
                 for (let i = 0; i < spawnData.count; i++) {
                     const { x, y } = generateEnemyPosition();
-                    const enemy = new Enemy(this, x, y, objectData.name, objectData.name, objectData.health, objectData.speed, objectData.items);
+                    const enemy = new StandardEnemy(this, x, y, objectData.name, objectData.name, objectData.health, objectData.speed, objectData.items);
                     this.enemies.add(enemy);
                 }
             });

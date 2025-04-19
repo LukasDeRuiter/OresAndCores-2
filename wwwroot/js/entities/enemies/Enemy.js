@@ -1,4 +1,4 @@
-import { Item } from "./Item.js";
+import { Item } from "../Item.js";
 
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, name, spritesheet, health, speed, items, angleSprite = false) {
@@ -174,23 +174,6 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     playSound(sound, animationKey) {
         if (!this.anims.isPlaying || this.anims.currentAnim.key !== animationKey) {
             this.scene.sound.play(sound);
-        }
-    }
-
-    update(time, delta) {
-        if(this.knockbackTimer > 0 ) {
-            this.knockbackTimer -= delta;
-            return;
-        }
-
-        if (!this.isDead) {
-            let distanceBetweenPlayer = Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);
-
-            if (distanceBetweenPlayer <= 100) {
-                this.attack();
-            } else {
-                this.walk(time, delta);
-            }
         }
     }
 

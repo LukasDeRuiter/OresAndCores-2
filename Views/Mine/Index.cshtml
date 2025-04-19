@@ -26,7 +26,8 @@
         e.Name,
         e.Sprite,
         e.Health, 
-        e.Speed, 
+        e.Speed,
+        e.EnemyType, 
         Items = e.GetItems()
     })));
 
@@ -40,6 +41,7 @@
     })))
 
     console.log("Loaded Levels:", window.levelConfigurations);
+    console.log("Loaded Enemies:", window.enemies);
     console.log("Loaded Items:", window.items);
 </script>
 
