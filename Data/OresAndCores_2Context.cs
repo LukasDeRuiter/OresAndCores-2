@@ -149,7 +149,8 @@ namespace OresAndCores_2.Data
                     Amount = 12, 
                     Enemies = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
-                        new EntityPercentage {EntityId = 1, Percentage = 100}
+                        new EntityPercentage {EntityId = 1, Percentage = 99},
+                        new EntityPercentage {EntityId = 3, Percentage = 1}
                     }),
                     EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
@@ -165,8 +166,9 @@ namespace OresAndCores_2.Data
                     Amount = 15, 
                     Enemies = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
-                        new EntityPercentage {EntityId = 1, Percentage = 80},
-                        new EntityPercentage {EntityId = 2, Percentage = 20}
+                        new EntityPercentage {EntityId = 1, Percentage = 78},
+                        new EntityPercentage {EntityId = 2, Percentage = 20},
+                        new EntityPercentage {EntityId = 3, Percentage = 2}
                     }),
                     EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
