@@ -84,6 +84,7 @@ namespace OresAndCores_2.Data
                     Sprite = "assets/mine/sprites/enemies/slime.png",
                     Health = 3,
                     Speed = 20,
+                    EnemyType = "standard",
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 5, Amount = 5, DropChance = 50}
@@ -96,9 +97,24 @@ namespace OresAndCores_2.Data
                     Sprite = "assets/mine/sprites/enemies/spider.png",
                     Health = 5,
                     Speed = 30,
+                      EnemyType = "crawler",
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 5, Amount = 8, DropChance = 50}
+                    }),
+                },
+                 new Enemy 
+                { 
+                    Id = 3,
+                    Name = "rocker", 
+                    Sprite = "assets/mine/sprites/enemies/rocker.png",
+                    Health = 4,
+                    Speed = 50,
+                      EnemyType = "ambush",
+                    Items = JsonSerializer.Serialize(new List<ObjectItem>
+                    {
+                        new ObjectItem {ItemId = 5, Amount = 3, DropChance = 50},
+                        new ObjectItem {ItemId = 1, Amount = 3, DropChance = 50}
                     }),
                 }
             );

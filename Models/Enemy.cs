@@ -23,7 +23,10 @@ public class Enemy {
     public int Speed { get; set; }
 
     [Required]
-     public string Items { get; set; }
+    public string Items { get; set; }
+
+   [Required]
+    public string EnemyType { get; set; }
 
      public List<ObjectItem> GetItems()
      {
