@@ -50,6 +50,9 @@ export class Preloader {
 
         this.scene.load.audio('spider-attack-1', 'assets/mine/sounds/effects/spider-attack-1.mp3');
         this.scene.load.audio('spider-damage-1', 'assets/mine/sounds/effects/spider-damage-1.mp3');
+
+        this.scene.load.audio('rocker-attack-1', 'assets/mine/sounds/effects/rocker-attack-1.mp3');
+        this.scene.load.audio('rocker-damage-1', 'assets/mine/sounds/effects/rocker-damage-1.mp3');
     }
 
     preloadSceneAssetsFromData() {

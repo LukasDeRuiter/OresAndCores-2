@@ -1,3 +1,4 @@
+import { AmbushEnemy } from "../entities/enemies/AmbushEnemy.js";
 import { CrawlerEnemy } from "../entities/enemies/CrawlerEnemy.js";
 import { StandardEnemy } from "../entities/enemies/StandardEnemy.js";
 
@@ -34,6 +35,8 @@ export class EnemyParser {
 
         if (enemyData.enemyType === 'crawler') {
             enemy = new CrawlerEnemy(this.scene, enemyPosition.x, enemyPosition.y, enemyData.name, enemyData.name, enemyData.health, enemyData.speed, enemyData.items);
+        } else if (enemyData.enemyType === 'ambush') {
+            enemy = new AmbushEnemy(this.scene, enemyPosition.x, enemyPosition.y, enemyData.name, enemyData.name, enemyData.health, enemyData.speed, enemyData.items);
         } else {
             enemy = new StandardEnemy(this.scene, enemyPosition.x, enemyPosition.y, enemyData.name, enemyData.name, enemyData.health, enemyData.speed, enemyData.items);
         }
