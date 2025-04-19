@@ -34,8 +34,6 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.wanderDirection = new Phaser.Math.Vector2(0, 0);
         this.items = this.buildDropItems(items);
         this.angleSprite = angleSprite;
-
-        this.play(this.walkingAnimation);
     }
 
     createAnimations(scene) {
