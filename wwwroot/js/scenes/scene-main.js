@@ -16,6 +16,7 @@ import { LevelConfigurationCalculator } from "../utils/level-configuration-calcu
 import { Preloader } from "../utils/preloader.js";
 import { Merchant } from "../entities/Npcs/Merchant.js";
 import { StandardEnemy } from "../entities/enemies/StandardEnemy.js";
+import { EnemyParser } from "../utils/enemy-parser.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -48,6 +49,8 @@ export class SceneMain extends Phaser.Scene {
                 this, 
                 this.levelConfiguration,
             );
+
+            this.enemyParser = new EnemyParser(this, window.enemies);
 
             let inventory =  new Inventory(this);
             this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
@@ -156,35 +159,14 @@ export class SceneMain extends Phaser.Scene {
         }
 
         createEnemies() {
-            const generateEnemyPosition = () => {
-                let x, y;
-                const minDistanceFromPlayer = 50;
-                const borderPadding = 16;
-                let tries = 0;
-                const maxTries = 100;
-            
-                do {
-                    x = Phaser.Math.Between(borderPadding, this.physics.world.bounds.width - borderPadding);
-                    y = Phaser.Math.Between(borderPadding, this.physics.world.bounds.height - borderPadding);
-                    tries++;
-                } while (
-                    Phaser.Math.Distance.Between(x, y, this.player.x, this.player.y) < minDistanceFromPlayer &&
-                    tries < maxTries
-                );
-            
-                return { x, y };    
-            };
-
             const enemiesToSpawn = this.LevelConfigurationCalculator.calculateEnemiesToSpawn();
 
             enemiesToSpawn.forEach(spawnData => {
                 const objectData = window.enemies.find(obj => obj.id === spawnData.id);
                 
                 for (let i = 0; i < spawnData.count; i++) {
-                    const { x, y } = generateEnemyPosition();
-                    const enemy = new StandardEnemy(this, x, y, objectData.name, objectData.name, objectData.health, objectData.speed, objectData.items);
-                    this.enemies.add(enemy);
-                }
+                    this.enemyParser.parseEnemy(objectData);
+                } 
             });
         }
 
