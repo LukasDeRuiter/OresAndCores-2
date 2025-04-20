@@ -29,6 +29,8 @@ export class Preloader {
         this.scene.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");
         this.scene.load.image("wall-1", "assets/mine/sprites/tiles/wall-1.png");
         this.scene.load.image("wall-gate-1", "assets/mine/sprites/tiles/wall-gate-1.png");
+
+        this.scene.load.image("rock-block", "assets/mine/sprites/objects/rock-block.png");
     
         this.scene.load.image("porthole", "assets/mine/sprites/objects/porthole.png")
     
