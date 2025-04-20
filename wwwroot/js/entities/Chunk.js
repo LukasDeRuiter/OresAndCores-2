@@ -45,13 +45,14 @@ export class Chunk {
                         if (perlinValue < 0.2) {
                             key = "cave-3";
                             interactive = false;
-                        } else if (perlinValue >= 0.2 && perlinValue < 0.3) {
+                        } else if (perlinValue >= 0.2 && perlinValue < 0.5) {
                             key = "cave-2";
                             interactive = false;
-                        } else if (perlinValue >= 0.3) {
+                            this.createObject(tileX, tileY, this.generateLevelObject(levelConfiguration));
+                        } else if (perlinValue >= 0.5) {
                             key = "cave-1";
                             interactive = false;
-                            this.createObject(tileX, tileY, this.generateLevelObject(levelConfiguration));
+                            this.createBlockObject(tileX, tileY, "rock-block");
                         } 
                     } else if (y === 0 && tileX === 512) {
                         key = "wall-gate-1";
@@ -111,6 +112,12 @@ export class Chunk {
 
         const objectData = window.environmentObjects.find(objData => objData.name === objectName);
         let object = new EnvironmentObject(this.scene, x + 8, y + 8, objectName, objectData.health, objectData.items);
+        this.scene.environmentObjects.add(object);
+    }
+
+    createBlockObject(x, y, blockName) {
+        const objectData = window.environmentObjects.find(objData => objData.name === 'rock');
+        let object = new EnvironmentObject(this.scene, x + 8, y + 8, blockName, 10, objectData.items);
         this.scene.environmentObjects.add(object);
     }
 }
