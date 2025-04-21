@@ -1,8 +1,10 @@
 export class Tool extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, toolType = 'pickaxe', key = "pickaxe") {
+    constructor(scene, x, y, toolType, key, level) {
         super(scene, x, y, key);
 
+        this.level = level;
         this.scene = scene;
+        this.toolType = toolType
         this.scene.add.existing(this);
         this.scene.physics.world.enable(this);
 
