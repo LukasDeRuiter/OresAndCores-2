@@ -27,6 +27,8 @@ export class Inventory {
             strokeThickness: 3,
         }).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
 
+        this.toolBeltText = null;
+
         this.inventorySlots = [];
         let rows = 4;
         let cols = 6;
@@ -101,7 +103,18 @@ export class Inventory {
 
         this.levelText.setVisible(this.isVisible);
         this.moneyText.setVisible(this.isVisible);
-    }
+
+        if (!this.toolBeltText) {
+            this.toolBeltText = this.scene.add.text(430, 340, this.renderToolBeltText(), {
+                fontSize: "16",
+                fill: "#fff",
+                stroke: "#000",
+                strokeThickness: 3,
+            }).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+        } else {
+            this.toolBeltText.setVisible(this.isVisible);
+        }
+    } 
     
     startItemDrag(slot, pointer) {
         this.draggedItem = slot.itemImage;
@@ -216,6 +229,16 @@ export class Inventory {
 
         this.money = data.money || 0;
         this.updateUI();
+    }
+
+    renderToolBeltText() {
+        let text = '';
+
+        this.scene.player.toolBelt.forEach(tool => {
+            text += `${tool.name}: ${tool.level} \n`;
+        });
+
+        return text;
     }
 
     pay(cost) {

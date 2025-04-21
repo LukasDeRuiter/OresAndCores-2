@@ -149,8 +149,8 @@ export class Player extends Phaser.GameObjects.Sprite {
         if (this.toolBelt !== null) {
             let toolbelt = [];
 
-            const pickaxe = new InventoryTool("pickaxe", "pickaxe", this.scene.environmentObjects);
-            const sword = new InventoryTool("sword", "sword", this.scene.enemies);
+            const pickaxe = new InventoryTool("pickaxe", "pickaxe", this.scene.environmentObjects, 1);
+            const sword = new InventoryTool("sword", "sword", this.scene.enemies, 1);
 
             toolbelt.push(pickaxe);
             toolbelt.push(sword);
