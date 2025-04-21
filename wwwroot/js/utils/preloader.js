@@ -39,11 +39,16 @@ export class Preloader {
     
         this.scene.load.image("pickaxe", "assets/mine/sprites/tools/pickaxe.png");
         this.scene.load.image("sword", "assets/mine/sprites/tools/sword.png");
+        this.scene.load.image("axe", "assets/mine/sprites/tools/axe.png");
 
         /* Audio */
         this.scene.load.audio('pickaxe-hit-1', 'assets/mine/sounds/effects/pickaxe-hit.mp3');
         this.scene.load.audio('pickaxe-hit-2', 'assets/mine/sounds/effects/pickaxe-hit-2.mp3');
         this.scene.load.audio('pickaxe-hit-3', 'assets/mine/sounds/effects/pickaxe-hit-3.mp3');
+
+        this.scene.load.audio('axe-hit-1', 'assets/mine/sounds/effects/axe-hit.mp3');
+        this.scene.load.audio('axe-hit-2', 'assets/mine/sounds/effects/axe-hit-2.mp3');
+        this.scene.load.audio('axe-hit-3', 'assets/mine/sounds/effects/axe-hit-3.mp3');
 
         this.scene.load.audio('tool-swing-1', 'assets/mine/sounds/effects/tool-swing-1.mp3');
 

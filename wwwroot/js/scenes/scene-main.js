@@ -138,6 +138,7 @@ export class SceneMain extends Phaser.Scene {
             this.numberKeys = this.input.keyboard.addKeys({
                 one: Phaser.Input.Keyboard.KeyCodes.ONE,
                 two: Phaser.Input.Keyboard.KeyCodes.TWO,
+                three: Phaser.Input.Keyboard.KeyCodes.THREE,
             });
 
             this.porthole.setInteractive();

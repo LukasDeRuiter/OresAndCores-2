@@ -91,6 +91,8 @@ export class Player extends Phaser.GameObjects.Sprite {
             this.selectedTool = this.toolBelt.find(tool => tool.name === "sword");
         } else if (Phaser.Input.Keyboard.JustDown(this.scene.numberKeys.two)) {
             this.selectedTool = this.toolBelt.find(tool => tool.name === "pickaxe");
+        } else if (Phaser.Input.Keyboard.JustDown(this.scene.numberKeys.three)) {
+            this.selectedTool = this.toolBelt.find(tool => tool.name === "axe");
         }
 
         if (this.tool) {
@@ -151,9 +153,11 @@ export class Player extends Phaser.GameObjects.Sprite {
 
             const pickaxe = new InventoryTool("pickaxe", "pickaxe", this.scene.environmentObjects, 1);
             const sword = new InventoryTool("sword", "sword", this.scene.enemies, 1);
+            const axe = new InventoryTool("axe", "axe", this.scene.environmentObjects, 1);
 
             toolbelt.push(pickaxe);
             toolbelt.push(sword);
+            toolbelt.push(axe);
 
             return toolbelt;
         }
