@@ -14,11 +14,6 @@ export class Tool extends Phaser.GameObjects.Sprite {
     }
 
     isValidHit(object) {
-
-        console.log(this.materialType);
-        console.log(object.materialType);
-
-
         if(!this.materialType) {
             return false;
         }
