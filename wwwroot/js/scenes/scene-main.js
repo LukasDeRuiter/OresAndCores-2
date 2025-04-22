@@ -243,7 +243,7 @@ export class SceneMain extends Phaser.Scene {
                 this.damageEnemy(object);
             } 
 
-            if (object instanceof EnvironmentObject) {
+            if (object instanceof EnvironmentObject && tool.isValidHit(object)) {
                 this.hitEnvironmentObject(object, tool);
             }
         }

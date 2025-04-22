@@ -28,7 +28,6 @@ export class EnemyParser {
     }
 
     parseEnemy(enemyData) {
-
         let enemyPosition = this.generateEnemyPosition();
 
         let enemy;

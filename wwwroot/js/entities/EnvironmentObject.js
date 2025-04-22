@@ -1,7 +1,7 @@
 import { Item } from "./Item.js";
 
 export class EnvironmentObject extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, key, health, items) {
+    constructor(scene, x, y, key, health, materialType, items) {
         super(scene, x, y, key);
         this.scene = scene;
 
@@ -9,6 +9,7 @@ export class EnvironmentObject extends Phaser.GameObjects.Sprite {
         this.scene.physics.world.enable(this); 
         this.body.setImmovable(true);
         this.health = health;
+        this.materialType = materialType;
 
         this.items = this.buildDropItems(items);
     

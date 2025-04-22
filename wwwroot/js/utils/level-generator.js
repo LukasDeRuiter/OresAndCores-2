@@ -49,6 +49,7 @@ export class LevelGenerator {
                                 if (perlinValue < 0.2) {
                                     key = "cave-3";
                                     interactive = false;
+                                    this.createObject(tileX, tileY, this.generateLevelObject(1));
                                 } else if (perlinValue >= 0.2 && perlinValue < 0.5) {
                                     key = "cave-2";
                                     interactive = false;
@@ -117,7 +118,7 @@ export class LevelGenerator {
             }
     
             const objectData = window.environmentObjects.find(objData => objData.name === objectName);
-            let object = new EnvironmentObject(this.scene, x + 8, y + 8, objectName, objectData.health, objectData.items);
+            let object = new EnvironmentObject(this.scene, x + 8, y + 8, objectName, objectData.health, objectData.materialType, objectData.items);
             this.scene.environmentObjects.add(object);
         }
 }
