@@ -151,9 +151,9 @@ export class Player extends Phaser.GameObjects.Sprite {
         if (this.toolBelt !== null) {
             let toolbelt = [];
 
-            const pickaxe = new InventoryTool("pickaxe", "pickaxe", this.scene.environmentObjects, 1);
+            const pickaxe = new InventoryTool("pickaxe", "pickaxe", this.scene.environmentObjects, 1, "stone");
             const sword = new InventoryTool("sword", "sword", this.scene.enemies, 1);
-            const axe = new InventoryTool("axe", "axe", this.scene.environmentObjects, 1);
+            const axe = new InventoryTool("axe", "axe", this.scene.environmentObjects, 1, "wood");
 
             toolbelt.push(pickaxe);
             toolbelt.push(sword);
@@ -168,7 +168,15 @@ export class Player extends Phaser.GameObjects.Sprite {
 showTool() {
     if (!this.tool) {
         let position = this.getBreakingPositionArea();
-        this.tool = new Tool(this.scene, position.x, position.y, this.selectedTool.name, this.selectedTool.name);
+        this.tool = new Tool(
+            this.scene,
+             position.x,
+              position.y, 
+              this.selectedTool.name, 
+              this.selectedTool.name, 
+              this.selectedTool.level, 
+              this.selectedTool.materialType
+            );
 
         this.swingTool();
     }

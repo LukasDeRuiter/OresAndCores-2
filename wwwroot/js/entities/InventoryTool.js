@@ -1,9 +1,10 @@
 export class InventoryTool {
-    constructor(name, key, interactsWith, level) {
+    constructor(name, key, interactsWith, level, materialType = null) {
         this.name = name;
         this.key = key;
         this.interactsWith = interactsWith;
         this.level = level;
+        this.materialType = materialType;
 
         this.swingWithNoHitSound = this.getNoHitSound();
     }
