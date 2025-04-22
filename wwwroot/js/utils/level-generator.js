@@ -52,11 +52,11 @@ export class LevelGenerator {
                                 } else if (perlinValue >= 0.2 && perlinValue < 0.5) {
                                     key = "cave-2";
                                     interactive = false;
-                                    this.createObject(tileX, tileY, this.generateLevelObject());
+                                    this.createObject(tileX, tileY, this.generateLevelObject(2));
                                 } else if (perlinValue >= 0.5) {
                                     key = "cave-1";
                                     interactive = false;
-                                    this.createBlockObject(tileX, tileY, "rock-block");
+                                    this.createObject(tileX, tileY, this.generateLevelObject(3));
                                 } 
                             } else if (y === 0 && tileX === 512) {
                                 key = "wall-gate-1";
@@ -86,12 +86,14 @@ export class LevelGenerator {
                 }
     }
 
-     generateLevelObject() {
+     generateLevelObject(layer) {
             const objectChance = Math.random() * 100;
     
             let cumulative = 0;
+
+            let selectedObjects = this.levelConfiguration.environmentObjects.filter((object) => object.layer === layer);
     
-            for (let object of this.levelConfiguration.environmentObjects) {
+            for (let object of selectedObjects) {
                 cumulative += object.percentage;
         
                 if (objectChance <= cumulative) {
@@ -116,12 +118,6 @@ export class LevelGenerator {
     
             const objectData = window.environmentObjects.find(objData => objData.name === objectName);
             let object = new EnvironmentObject(this.scene, x + 8, y + 8, objectName, objectData.health, objectData.items);
-            this.scene.environmentObjects.add(object);
-        }
-    
-        createBlockObject(x, y, blockName) {
-            const objectData = window.environmentObjects.find(objData => objData.name === 'rock');
-            let object = new EnvironmentObject(this.scene, x + 8, y + 8, blockName, 10, objectData.items);
             this.scene.environmentObjects.add(object);
         }
 }
