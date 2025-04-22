@@ -274,13 +274,14 @@ export class SceneMain extends Phaser.Scene {
             } 
 
             if (object instanceof EnvironmentObject) {
-                this.hitEnvironmentObject(object);
+                this.hitEnvironmentObject(object, tool);
             }
         }
 
-        hitEnvironmentObject(object) {
+        hitEnvironmentObject(object, tool) {
             const pickedSound = Phaser.Math.Between(1, 3);
-            this.sound.play(`pickaxe-hit-${pickedSound}`); 
+
+            this.sound.play(`${tool.toolType}-hit-${pickedSound}`); 
             object.takeDamage(1);
         }
 

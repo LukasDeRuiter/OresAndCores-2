@@ -46,7 +46,7 @@ export class Preloader {
         this.scene.load.audio('pickaxe-hit-2', 'assets/mine/sounds/effects/pickaxe-hit-2.mp3');
         this.scene.load.audio('pickaxe-hit-3', 'assets/mine/sounds/effects/pickaxe-hit-3.mp3');
 
-        this.scene.load.audio('axe-hit-1', 'assets/mine/sounds/effects/axe-hit.mp3');
+        this.scene.load.audio('axe-hit-1', 'assets/mine/sounds/effects/axe-hit-1.mp3');
         this.scene.load.audio('axe-hit-2', 'assets/mine/sounds/effects/axe-hit-2.mp3');
         this.scene.load.audio('axe-hit-3', 'assets/mine/sounds/effects/axe-hit-3.mp3');
 
