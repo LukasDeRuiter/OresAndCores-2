@@ -32,7 +32,10 @@ namespace OresAndCores_2.Data
                     Id = 1,
                     Name = "rock", 
                     Health = 3,
-                    Path = "assets/mine/sprites/objects/rock.png", 
+                    Path = "assets/mine/sprites/objects/rock.png",
+                    MaterialType = "stone",
+                    RequiredLevel = 1,
+                    Layer = 2,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 2, DropChance = 100}
@@ -44,6 +47,9 @@ namespace OresAndCores_2.Data
                     Name = "copper-rock",
                     Health = 5,
                     Path = "assets/mine/sprites/objects/copper-rock.png", 
+                    MaterialType = "stone", 
+                    RequiredLevel = 1,
+                    Layer = 2,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
@@ -56,6 +62,9 @@ namespace OresAndCores_2.Data
                     Name = "tin-rock",
                     Health = 7,
                     Path = "assets/mine/sprites/objects/tin-rock.png", 
+                    MaterialType = "stone", 
+                    RequiredLevel = 2,
+                    Layer = 2,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
@@ -68,10 +77,41 @@ namespace OresAndCores_2.Data
                     Name = "iron-rock",
                     Health = 10,
                     Path = "assets/mine/sprites/objects/iron-rock.png", 
+                    MaterialType = "stone", 
+                    RequiredLevel = 3,
+                    Layer = 2,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
                         new ObjectItem {ItemId = 4, Amount = 2, DropChance = 100},
+                    }),
+                },
+                new EnvironmentObject 
+                { 
+                    Id = 5, 
+                    Name = "rock-block",
+                    Health = 10,
+                    Path = "assets/mine/sprites/objects/rock-block.png", 
+                    MaterialType = "stone", 
+                    RequiredLevel = 5,
+                    Layer = 3,
+                    Items = JsonSerializer.Serialize(new List<ObjectItem>
+                    {
+                        new ObjectItem {ItemId = 1, Amount = 5, DropChance = 100},
+                    }),
+                },
+                new EnvironmentObject 
+                { 
+                    Id = 6, 
+                    Name = "log-stump",
+                    Health = 3,
+                    Path = "assets/mine/sprites/objects/log-stump.png", 
+                    MaterialType = "wood", 
+                    RequiredLevel = 1,
+                    Layer = 1,
+                    Items = JsonSerializer.Serialize(new List<ObjectItem>
+                    {
+                        new ObjectItem {ItemId = 6, Amount = 2, DropChance = 100},
                     }),
                 }
             );
@@ -124,7 +164,8 @@ namespace OresAndCores_2.Data
                 new Item { Id = 2, Name = "copper-ore-item", Path = "assets/mine/sprites/items/copper-ore-item.png", Value = 5 },
                 new Item { Id = 3, Name = "tin-ore-item", Path = "assets/mine/sprites/items/tin-ore-item.png", Value = 7 },
                 new Item { Id = 4, Name = "iron-ore-item", Path = "assets/mine/sprites/items/iron-ore-item.png", Value = 15 },
-                new Item { Id = 5, Name = "coin-item", Path = "assets/mine/sprites/items/coin-item.png", Value = 1 }
+                new Item { Id = 5, Name = "coin-item", Path = "assets/mine/sprites/items/coin-item.png", Value = 1 },
+                new Item { Id = 6, Name = "wood-item", Path = "assets/mine/sprites/items/wood-item.png", Value = 3 }
             );
 
              modelBuilder.Entity<LevelConfiguration>().HasData(

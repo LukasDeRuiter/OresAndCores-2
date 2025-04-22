@@ -22,6 +22,15 @@ public class EnvironmentObject {
     [Required]
      public string Items { get; set; }
 
+    [Required]
+     public string MaterialType { get; set; }
+
+    [Required]
+     public int RequiredLevel { get; set; }
+
+    [Required]
+     public int Layer { get; set; }
+
      public List<ObjectItem> GetItems()
      {
         return string.IsNullOrEmpty(Items) ? new List<ObjectItem>() : JsonSerializer.Deserialize<List<ObjectItem>>(Items);
