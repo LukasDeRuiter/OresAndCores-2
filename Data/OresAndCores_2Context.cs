@@ -98,9 +98,9 @@ namespace OresAndCores_2.Data
                 new EnvironmentObject 
                 { 
                     Id = 6, 
-                    Name = "log-stump",
+                    Name = "wood-stump",
                     Health = 3,
-                    Path = "assets/mine/sprites/objects/log-stump.png", 
+                    Path = "assets/mine/sprites/objects/wood-stump.png", 
                     MaterialType = "wood", 
                     RequiredLevel = 1,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
@@ -191,6 +191,7 @@ namespace OresAndCores_2.Data
                     EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
                         new EntityPercentage {EntityId = 0, Percentage = 75},
+                        new EntityPercentage {EntityId = 6, Percentage = 5, Layer = 1},
                         new EntityPercentage {EntityId = 1, Percentage = 20, Layer = 2},
                         new EntityPercentage {EntityId = 2, Percentage = 2, Layer = 2},
                         new EntityPercentage {EntityId = 3, Percentage = 2, Layer = 2},
