@@ -17,6 +17,7 @@ import { Preloader } from "../utils/preloader.js";
 import { Merchant } from "../entities/Npcs/Merchant.js";
 import { StandardEnemy } from "../entities/enemies/StandardEnemy.js";
 import { EnemyParser } from "../utils/enemy-parser.js";
+import { LevelGenerator } from "../utils/level-generator.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -49,6 +50,8 @@ export class SceneMain extends Phaser.Scene {
                 this, 
                 this.levelConfiguration,
             );
+
+            this.levelGenerator = new LevelGenerator(this, this.levelConfiguration);
 
             this.enemyParser = new EnemyParser(this, window.enemies);
 
@@ -100,17 +103,7 @@ export class SceneMain extends Phaser.Scene {
                 this.cameras.main.worldView.y + (this.cameras.main.worldView.height * 0.5)
             );
 
-            this.chunks = [];
-
-            let chunksPerRow = Math.ceil(this.physics.world.bounds.width / (this.chunkSize * this.tileSize));
-            let chunksPerColumn = Math.ceil(this.physics.world.bounds.height / (this.chunkSize * this.tileSize));
-
-            for (let x = 0; x < chunksPerRow; x++) {
-                for (let y = 0; y < chunksPerColumn; y++) {
-                    let newChunk = new Chunk(this, x, y);
-                    this.chunks.push(newChunk);
-                }
-            }
+            this.chunks = this.levelGenerator.generateChunks();
 
             this.physics.add.collider(this.player, this.environmentObjects);
             this.physics.add.collider(this.player, this.porthole);
@@ -177,18 +170,6 @@ export class SceneMain extends Phaser.Scene {
             this.player.inventory.toggle();
         }
 
-        getChunk(x, y) {
-            var chunk = null;
-
-            for (var i = 0; i < this.chunks.length; i++) {
-                if (this.chunks[i].x == x && this.chunks[i].y == y) {
-                    chunk = this.chunks[i];
-                }
-            }
-
-            return chunk;
-        }
-
         spawnPorthole() {
             const worldWidth = this.physics.world.bounds.width;
             const worldHeight = this.physics.world.bounds.height;
@@ -220,20 +201,9 @@ export class SceneMain extends Phaser.Scene {
 
             for (let chunk of this.chunks) {
                 if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
-                    chunk.load(this.levelConfiguration);
+                    this.levelGenerator.loadChunk(chunk);
                 } else {
                     chunk.unload();
-                }
-            }
-
-
-            for (let i = 0; i < this.chunks.length; i++) {
-                let chunk = this.chunks[i];
-
-                if (Phaser.Math.Distance.Between(snappedChunkX, snappedChunkY, chunk.x, chunk.y) < 3) {
-                    chunk.load(this.levelConfiguration);
-                } else {
-                chunk.unload();
                 }
             }
 
