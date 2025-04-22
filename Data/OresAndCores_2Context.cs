@@ -35,7 +35,6 @@ namespace OresAndCores_2.Data
                     Path = "assets/mine/sprites/objects/rock.png",
                     MaterialType = "stone",
                     RequiredLevel = 1,
-                    Layer = 2,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 2, DropChance = 100}
@@ -49,7 +48,6 @@ namespace OresAndCores_2.Data
                     Path = "assets/mine/sprites/objects/copper-rock.png", 
                     MaterialType = "stone", 
                     RequiredLevel = 1,
-                    Layer = 2,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
@@ -64,7 +62,6 @@ namespace OresAndCores_2.Data
                     Path = "assets/mine/sprites/objects/tin-rock.png", 
                     MaterialType = "stone", 
                     RequiredLevel = 2,
-                    Layer = 2,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
@@ -79,7 +76,6 @@ namespace OresAndCores_2.Data
                     Path = "assets/mine/sprites/objects/iron-rock.png", 
                     MaterialType = "stone", 
                     RequiredLevel = 3,
-                    Layer = 2,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
@@ -94,7 +90,6 @@ namespace OresAndCores_2.Data
                     Path = "assets/mine/sprites/objects/rock-block.png", 
                     MaterialType = "stone", 
                     RequiredLevel = 5,
-                    Layer = 3,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 5, DropChance = 100},
@@ -108,7 +103,6 @@ namespace OresAndCores_2.Data
                     Path = "assets/mine/sprites/objects/log-stump.png", 
                     MaterialType = "wood", 
                     RequiredLevel = 1,
-                    Layer = 1,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 6, Amount = 2, DropChance = 100},
@@ -180,8 +174,9 @@ namespace OresAndCores_2.Data
                     EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
                         new EntityPercentage {EntityId = 0, Percentage = 80},
-                        new EntityPercentage {EntityId = 1, Percentage = 15},
-                        new EntityPercentage {EntityId = 2, Percentage = 5}
+                        new EntityPercentage {EntityId = 1, Percentage = 15, Layer = 2},
+                        new EntityPercentage {EntityId = 2, Percentage = 5, Layer = 2},
+                        new EntityPercentage {EntityId = 5, Percentage = 100, Layer = 3},
                     }),
                 },
                  new LevelConfiguration 
@@ -196,9 +191,10 @@ namespace OresAndCores_2.Data
                     EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
                         new EntityPercentage {EntityId = 0, Percentage = 75},
-                        new EntityPercentage {EntityId = 1, Percentage = 20},
-                        new EntityPercentage {EntityId = 2, Percentage = 2},
-                        new EntityPercentage {EntityId = 3, Percentage = 2},
+                        new EntityPercentage {EntityId = 1, Percentage = 20, Layer = 2},
+                        new EntityPercentage {EntityId = 2, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 3, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 5, Percentage = 100, Layer = 3},
                     }),
                 },
                    new LevelConfiguration 
@@ -214,10 +210,11 @@ namespace OresAndCores_2.Data
                     EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
                         new EntityPercentage {EntityId = 0, Percentage = 75},
-                        new EntityPercentage {EntityId = 1, Percentage = 20},
-                        new EntityPercentage {EntityId = 2, Percentage = 2},
-                        new EntityPercentage {EntityId = 3, Percentage = 2},
-                        new EntityPercentage {EntityId = 4, Percentage = 2},
+                        new EntityPercentage {EntityId = 1, Percentage = 20, Layer = 2},
+                        new EntityPercentage {EntityId = 2, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 3, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 4, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 5, Percentage = 100, Layer = 3},
                     }),
                 }
             );

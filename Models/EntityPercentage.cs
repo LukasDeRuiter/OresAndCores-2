@@ -14,4 +14,7 @@ public class EntityPercentage {
 
     [Required]
     public int Percentage { get; set; }
+
+    public int Layer { get; set; }
+
 }
