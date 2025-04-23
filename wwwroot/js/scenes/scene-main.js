@@ -18,6 +18,7 @@ import { Merchant } from "../entities/Npcs/Merchant.js";
 import { StandardEnemy } from "../entities/enemies/StandardEnemy.js";
 import { EnemyParser } from "../utils/enemy-parser.js";
 import { LevelGenerator } from "../utils/level-generator.js";
+import { ControlBinder } from "../utils/control-binder.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -52,23 +53,22 @@ export class SceneMain extends Phaser.Scene {
             );
 
             this.levelGenerator = new LevelGenerator(this, this.levelConfiguration);
+            this.controlBinder = new ControlBinder(this);
 
             this.enemyParser = new EnemyParser(this, window.enemies);
 
             let inventory =  new Inventory(this);
-            this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
 
             if (this.registry.has("playerInventory")) {
                 const savedInventory = this.registry.get("playerInventory");
                 inventory.restoreInventory(savedInventory)
             }
-    
-            this.player.inventory = inventory;
 
             if (this.registry.has("playerLevel")) {
-                playerLevel =  this.registry.get("playerLevel");
+                const level = this.registry.get("playerLevel");
             } 
 
+            this.controlBinder.bind();
             this.spawnPorthole();
 
             this.staticGroup = this.add.group();
@@ -113,26 +113,6 @@ export class SceneMain extends Phaser.Scene {
             this.physics.add.collider(this.enemies, this.porthole);
             this.physics.add.collider(this.enemies, this.environmentObjects);
             this.physics.add.collider(this.enemies, this.enemies);
-
-            this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
-            this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-            this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-            this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-            this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
-            this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-            this.keyR.on('down', () => this.player.showTool());
-            this.keyR.on('up', () => this.player.hideTool());
-            
-            this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-            this.keyE.on('down', () => this.toggleInventory());
-
-            this.numberKeys = this.input.keyboard.addKeys({
-                one: Phaser.Input.Keyboard.KeyCodes.ONE,
-                two: Phaser.Input.Keyboard.KeyCodes.TWO,
-                three: Phaser.Input.Keyboard.KeyCodes.THREE,
-            });
 
             this.porthole.setInteractive();
             this.input.on('pointerdown', (pointer) => {
@@ -216,6 +196,8 @@ export class SceneMain extends Phaser.Scene {
                     this
                 );
 
+                console.log(hitDetected);
+
                 if (!hitDetected) {
                     this.sound.play("tool-swing-1");
                 }
@@ -239,6 +221,7 @@ export class SceneMain extends Phaser.Scene {
         }
 
         onObjectOverlap(tool, object) {
+            console.log('test123')
             if (object instanceof Enemy) {
                 this.damageEnemy(object);
             } 
