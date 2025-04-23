@@ -6,6 +6,7 @@ import { Player } from "../entities/Player.js";
 import { TransitionSaver } from "../utils/transition-saver.js";
 import { Preloader } from "../utils/preloader.js";
 import { Merchant } from "../entities/Npcs/Merchant.js";
+import { ControlBinder } from "../utils/control-binder.js";
 
 export class SceneTown extends Phaser.Scene {
     constructor() {
@@ -64,9 +65,13 @@ export class SceneTown extends Phaser.Scene {
             repeat: -1
         });
 
+        this.controlBinder = new ControlBinder(this);
+
         let inventory =  new Inventory(this);
         this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
         
+        this.controlBinder.bind();
+
         if (this.registry.has("playerInventory")) {
             const savedInventory = this.registry.get("playerInventory");
             inventory.restoreInventory(savedInventory)
@@ -95,25 +100,6 @@ export class SceneTown extends Phaser.Scene {
         this.cameras.main.setZoom(2);
 
         this.physics.add.collider(this.player, this.npcs);
-
-        this.keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
-        this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
-        this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        this.keyR.on('down', () => this.player.showTool());
-        this.keyR.on('up', () => this.player.hideTool());
-            
-        this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-        this.keyE.on('down', () => this.toggleInventory());
-
-        this.numberKeys = this.input.keyboard.addKeys({
-            one: Phaser.Input.Keyboard.KeyCodes.ONE,
-            two: Phaser.Input.Keyboard.KeyCodes.TWO,
-        });
 
         const map  = this.make.tilemap({ key: 'townMap'});
         const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
