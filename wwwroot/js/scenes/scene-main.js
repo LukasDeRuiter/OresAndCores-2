@@ -196,8 +196,6 @@ export class SceneMain extends Phaser.Scene {
                     this
                 );
 
-                console.log(hitDetected);
-
                 if (!hitDetected) {
                     this.sound.play("tool-swing-1");
                 }
@@ -221,7 +219,6 @@ export class SceneMain extends Phaser.Scene {
         }
 
         onObjectOverlap(tool, object) {
-            console.log('test123')
             if (object instanceof Enemy) {
                 this.damageEnemy(object);
             } 
