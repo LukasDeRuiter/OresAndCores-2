@@ -247,7 +247,7 @@ export class Inventory {
 
     showPickUpText(name, color) {
         const overlapPreventY = Phaser.Math.Between(0, 30);
-        const overlapPreventX = Phaser.Math.Between(-5, 5);
+        const overlapPreventX = Phaser.Math.Between(-20, 20);
 
         const pickUpText = this.scene.add.text(
             this.scene.player.x + overlapPreventX, 
@@ -269,7 +269,7 @@ export class Inventory {
 
     showRemoveText(name, color) {
         const overlapPreventY = Phaser.Math.Between(0, 30);
-        const overlapPreventX = Phaser.Math.Between(-5, 5);
+        const overlapPreventX = Phaser.Math.Between(-20, 20);
 
         const pickUpText = this.scene.add.text(
             this.scene.player.x + overlapPreventX, 
