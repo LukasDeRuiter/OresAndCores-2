@@ -3,6 +3,7 @@ import { InteractiveTile } from "../entities/InteractiveTile.js";
 import { Chunk } from "../entities/Chunk.js";
 import { Tile } from "../entities/Tile.js";
 import { Porthole } from "../entities/InteractiveObjects/Porthole.js";
+import { Smelter } from "../entities/InteractiveObjects/Smelter.js";
 
 export class LevelGenerator {
     constructor(scene, levelConfiguration) {
@@ -125,6 +126,7 @@ export class LevelGenerator {
 
         generateInteractiveObjects() {
             this.spawnPorthole();
+            this.spawnSmelter();
         }
 
         spawnPorthole() {
@@ -135,5 +137,15 @@ export class LevelGenerator {
             let y = Phaser.Math.Between(16, worldHeight - 32);
 
             this.scene.porthole = new Porthole(this.scene, x + 8, y + 8, this.scene.level);
+        }
+
+        spawnSmelter() {
+            const worldWidth = this.scene.physics.world.bounds.width;
+            const worldHeight = this.scene.physics.world.bounds.height;
+
+            let x = Phaser.Math.Between(16, worldWidth - 32);
+            let y = Phaser.Math.Between(16, worldHeight - 32);
+
+            this.scene.porthole = new Smelter(this.scene, x + 8, y + 8);
         }
 }
