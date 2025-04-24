@@ -8,7 +8,7 @@ import { Item } from "../entities/Item.js";
 import { Chunk } from "../entities/Chunk.js";
 import { Tile } from "../entities/Tile.js";
 import { EnvironmentObject } from "../entities/EnvironmentObject.js";
-import { Porthole } from "../entities/Porthole.js";
+import { Porthole } from "../entities/InteractiveObjects/Porthole.js";
 import { Enemy } from "../entities/enemies/Enemy.js";
 import { Npc } from "../entities/Npcs/Npc.js";
 import { TransitionSaver } from "../utils/transition-saver.js";
@@ -69,7 +69,7 @@ export class SceneMain extends Phaser.Scene {
             } 
 
             this.controlBinder.bind();
-            this.spawnPorthole();
+            this.levelGenerator.generateInteractiveObjects();
 
             this.staticGroup = this.add.group();
             this.environmentObjects = this.add.group();
@@ -148,16 +148,6 @@ export class SceneMain extends Phaser.Scene {
             this.player.inventory.levelText.setText(`Current level: ${this.player.level}`);
             this.player.inventory.moneyText.setText(`Money: ${this.player.inventory.money}`);
             this.player.inventory.toggle();
-        }
-
-        spawnPorthole() {
-            const worldWidth = this.physics.world.bounds.width;
-            const worldHeight = this.physics.world.bounds.height;
-
-            let x = Phaser.Math.Between(16, worldWidth - 32);
-            let y = Phaser.Math.Between(16, worldHeight - 32);
-
-            this.porthole = new Porthole(this, x, y, this.level);
         }
 
         checkPortholeInteraction() {
