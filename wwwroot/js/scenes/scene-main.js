@@ -107,10 +107,12 @@ export class SceneMain extends Phaser.Scene {
 
             this.physics.add.collider(this.player, this.environmentObjects);
             this.physics.add.collider(this.player, this.porthole);
+            this.physics.add.collider(this.player, this.smelter);
             this.physics.add.collider(this.player, this.staticGroup);
 
             this.physics.add.collider(this.enemies, this.staticGroup);
             this.physics.add.collider(this.enemies, this.porthole);
+            this.physics.add.collider(this.enemies, this.smelter);
             this.physics.add.collider(this.enemies, this.environmentObjects);
             this.physics.add.collider(this.enemies, this.enemies);
 
@@ -156,6 +158,14 @@ export class SceneMain extends Phaser.Scene {
             if (distance <= 32) {
                 this.player.level += 1;
                 this.transitionSaver.transition("SceneMain",  "Next level...", this.player.inventory, this.player.level)
+            }
+        }
+
+        checkSmelterInteraction() {
+            let distance = this.smelter.calculateDistanceWithPlayer();
+
+            if (distance <= 32) {
+                this.smelter.transition("SceneMain",  "Next level...", this.player.inventory, this.player.level)
             }
         }
 
