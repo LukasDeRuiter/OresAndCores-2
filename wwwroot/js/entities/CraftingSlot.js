@@ -107,29 +107,25 @@ export class CraftingSlot {
         }
     }
 
-    // startTransation() {
-    //     if (this.isSellMode) {
-    //         this.checkSellPossible();
+    startTransation() {
+        this.checkCraftingPrice();
 
-    //         if (this.canSellItem) {
-    //             this.sellItem();
-    //         }
-    //     } else {
-    //         this.checkPurchasePrice();
+        if (this.canCraftItem) {
+            this.craftItem();
+        }
+    }
 
-    //         if (this.canPurchaseItem) {
-    //             this.buyItem();
-    //         }
-    //     }
-    // }
+    craftItem() {
+        this.craftingRecipe.requiredMaterials.forEach(material => {
+            this.scene.player.inventory.removeItem(material.item, material.amount);
+        });
+ 
+        this.station.slots.forEach(slot => {
+            slot.updatePriceCheck();
+        })
 
-    // buyItem() {
-    //     this.scene.player.inventory.pay(this.price);
-    //     this.scene.player.inventory.addItem(this.item);
-    //     this.merchant.slots.forEach(slot => {
-    //         slot.updatePriceCheck();
-    //     })
-    // }
+        this.station.craftItem(this.craftingRecipe.result);
+    }
 
 
     toggleVisible(isVisible) {
@@ -144,29 +140,26 @@ export class CraftingSlot {
     }
 
     checkCraftingPrice() {
-
-        console.log(this);
+        let isInsufficient = false;
 
         this.craftingRecipe.requiredMaterials.forEach(material => {
             let hasItem = this.scene.player.inventory.isItemInInventory(material.item.name);
     
-            if (!hasItem || material.amount > this.scene.player.inventory[material.item.name]) {
-                this.canCraftItem = false;
-
-                return;
+            if (!hasItem || material.amount > this.scene.player.inventory.items[material.item.name]) {
+                isInsufficient = true;
             }
         });
 
-        this.canCraftItem = true;
+        return isInsufficient ? false: true;
     }
 
     updatePriceCheck() {
-        this. checkCraftingPrice();
+        this.canCraftItem = this.checkCraftingPrice();
 
         let color = this.canCraftItem ? 0x00aa00 : 0xaa0000;
 
-        if (this.purchaseButtonBackground) {
-            this.purchaseButtonBackground.setFillStyle(color, 0.3);
+        if (this.craftButtonBackground) {
+            this.craftButtonBackground.setFillStyle(color, 0.3);
         }
     }
 }
