@@ -18,7 +18,7 @@ export class CraftingSlot {
         .setDepth(300)
         .setVisible(this.isVisible);
 
-        this.item = null;
+        this.item = craftingRecipe.result;
         this.itemImage = null;
         this.slotText = null;
         this.requiredMaterials = [];
@@ -48,7 +48,7 @@ export class CraftingSlot {
             .setVisible(this.isVisible);
             }
 
-            if (!this.purchaseButton) {
+            if (!this.craftButton) {
                 this.itemText = this.scene.add.text(Math.round(10), Math.round(-10), 'Craft', {
                     fontSize: "10px",
                     fill: "#fff",
@@ -56,10 +56,10 @@ export class CraftingSlot {
                     strokeThickness: 5,
                 });
 
-                this.purchaseButtonBackground = this.scene.add.rectangle(22, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0).setInteractive();
-                this.purchaseButton = this.scene.add.container(this.x, this.y + 20, [this.purchaseButtonBackground, this.itemText]).setDepth(52).setScrollFactor(0);
+                this.craftButtonBackground = this.scene.add.rectangle(22, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0).setInteractive();
+                this.craftButton = this.scene.add.container(this.x, this.y + 20, [this.craftButtonBackground, this.itemText]).setDepth(52).setScrollFactor(0);
 
-                this.purchaseButtonBackground.on('pointerdown', () => {
+                this.craftButtonBackground.on('pointerdown', () => {
                     this.startTransation();
                 });
             }
@@ -68,7 +68,7 @@ export class CraftingSlot {
                 let amountBackground = this.scene.add.rectangle(-this.slotWidth / 2, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0);
                 
                 let costPosition = -28;
-                let containerArray = [ coinBackground ];
+                let containerArray = [ amountBackground ];
 
                 this.craftingRecipe.requiredMaterials.forEach(material => {
 
@@ -144,6 +144,9 @@ export class CraftingSlot {
     }
 
     checkCraftingPrice() {
+
+        console.log(this);
+
         this.craftingRecipe.requiredMaterials.forEach(material => {
             let hasItem = this.scene.player.inventory.isItemInInventory(material.item.name);
     
