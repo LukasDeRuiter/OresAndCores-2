@@ -76,12 +76,12 @@ export class Inventory {
         }
     }
 
-    removeItem(item) {
+    removeItem(item, amount = 1) {
         this.showRemoveText(item.name, '#b20000');
 
         for (let slot of this.inventorySlots) {
             if (slot.item && slot.item.name === item.name) {
-                this.items[item.name]--;
+                this.items[item.name] -= amount;
                 slot.updateTextAmount(this.items[item.name]);
                 this.updateUI();
 
@@ -290,7 +290,7 @@ export class Inventory {
     }
 
     isItemInInventory(item) {
-        let itemInInventory = this.items[item.name];
+        let itemInInventory = this.items[item];
 
         if (itemInInventory) {
             return true;

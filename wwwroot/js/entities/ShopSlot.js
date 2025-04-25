@@ -160,7 +160,7 @@ export class ShopSlot {
     }
 
     checkSellPossible() {
-        this.canSellItem = this.scene.player.inventory.isItemInInventory(this.item);
+        this.canSellItem = this.scene.player.inventory.isItemInInventory(this.item.name);
     }
 
     updatePriceCheck() {
