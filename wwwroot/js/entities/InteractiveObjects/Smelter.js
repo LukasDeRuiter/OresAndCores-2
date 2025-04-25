@@ -3,6 +3,7 @@ import { CraftingSlot } from "../CraftingSlot.js";
 import { CraftingMaterial } from "../CraftingMaterial.js";
 import { InventoryItem } from "../InventoryItem.js";
 import { CraftingRecipe } from "../CraftingRecipe.js";
+import { Item } from "../Item.js";
 
 export class Smelter extends InteractiveObject {
     constructor(scene, x, y, craftingRecipes = []) {
@@ -12,6 +13,7 @@ export class Smelter extends InteractiveObject {
         this.craftingUI = null;
         this.slots = [];
         this.isCraftMenuVisible = false;
+        this.isCrafting = false;
        
         this.bindInput();
         this.getCraftableItems();
@@ -20,13 +22,19 @@ export class Smelter extends InteractiveObject {
     }
 
     interact() {
-        this.isCraftMenuVisible = !this.isCraftMenuVisible;
+        if (!this.isCrafting) {
+            this.isCraftMenuVisible = !this.isCraftMenuVisible;
 
-        this.updateCraftUI();
+            this.updateCraftUI();
+        }
     }
 
     updateCraftUI() {
         this.craftingUI.setVisible(this.isCraftMenuVisible);
+    
+        this.slots.forEach(slot => {
+            slot.toggleVisible(this.isCraftMenuVisible);
+        })
 
         if (this.isCraftMenuVisible) {
             this.scene.physics.world.pause();
@@ -45,7 +53,6 @@ export class Smelter extends InteractiveObject {
     }
 
      createCraftingUI() {
-        console.log(this.craftingUI);
             if (this.craftingUI) {
                 this.craftingUI.destroy();
                 this.craftingUI = null;
@@ -132,5 +139,24 @@ export class Smelter extends InteractiveObject {
     
             this.craftingRecipes.push(recipe1);
             this.craftingRecipes.push(recipe2);
+        }
+
+        craftItem(item) {
+            this.interact();
+
+            this.isCrafting = true;
+
+            setTimeout(() => {
+                this.dropItem(item);
+            }, 5000)
+        }c
+
+        dropItem(item) {
+            const overlapPreventX = Phaser.Math.Between(-20, 20);
+            const overlapPreventy = Phaser.Math.Between(-20, 20);
+
+            const itemToDrop = new Item(this.scene, this.x + overlapPreventX, this.y + overlapPreventy, item.name, item.name, 5);
+
+            this.isCrafting = false;
         }
 }
