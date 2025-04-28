@@ -107,23 +107,20 @@ export class CraftingStation extends InteractiveObject {
     
 
         getCraftableItems() {
-            let result1 = new InventoryItem('stone-item', 5, 1);
-            let result2 = new InventoryItem('copper-ore-item', 10, 1);
-            let result3 = new InventoryItem('tin-ore-item', 15, 1);
+            let result1 = new InventoryItem('copper-bar-item', 5, 1);
+            let result2 = new InventoryItem('bronze-bar-item', 10, 1);
+            let result3 = new InventoryItem('iron-bar-item', 15, 1);
 
-            let materialItem1 = new InventoryItem('stone-item', 5, 1);
+            let materialItem1 = new InventoryItem('coal-item', 5, 1);
             let materialItem2 = new InventoryItem('copper-ore-item', 10, 1);
             let materialItem3 = new InventoryItem('tin-ore-item', 15, 1);
-
-            let craftingMaterial1 = new CraftingMaterial(this.scene, materialItem1, 2);
-            let craftingMaterial2 = new CraftingMaterial(this.scene, materialItem2, 3);
-            let craftingMaterial3 = new CraftingMaterial(this.scene, materialItem3, 4);
+            let materialItem4 = new InventoryItem('iron-ore-item', 15, 1);
 
             let recipe1 = new CraftingRecipe(
                 this.scene, 
                 [
-                    craftingMaterial2,
-                    craftingMaterial3
+                    new CraftingMaterial(this.scene, materialItem1, 10),
+                    new CraftingMaterial(this.scene, materialItem2, 10),
                 ],
                 result1
             );
@@ -132,14 +129,26 @@ export class CraftingStation extends InteractiveObject {
             let recipe2 = new CraftingRecipe(
                 this.scene, 
                 [
-                    craftingMaterial1,
-                    craftingMaterial2
+                    new CraftingMaterial(this.scene, materialItem1, 15),
+                    new CraftingMaterial(this.scene, materialItem2, 10),
+                    new CraftingMaterial(this.scene, materialItem3, 10),
+                ],
+                result3
+            );
+
+                        
+            let recipe3 = new CraftingRecipe(
+                this.scene, 
+                [
+                    new CraftingMaterial(this.scene, materialItem1, 20),
+                    new CraftingMaterial(this.scene, materialItem4, 15),
                 ],
                 result3
             );
     
             this.craftingRecipes.push(recipe1);
             this.craftingRecipes.push(recipe2);
+            this.craftingRecipes.push(recipe3);
         }
 
         craftItem(item) {
