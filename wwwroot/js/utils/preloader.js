@@ -53,6 +53,9 @@ export class Preloader {
 
         this.scene.load.audio('tool-swing-1', 'assets/mine/sounds/effects/tool-swing-1.mp3');
 
+        this.scene.load.audio('pick-up-item', 'assets/mine/sounds/effects/pick-up-item.mp3');
+        this.scene.load.audio('drop-item', 'assets/mine/sounds/effects/drop-item.mp3');
+
         this.scene.load.audio('slime-attack-1', 'assets/mine/sounds/effects/slime-attack-1.mp3');
         this.scene.load.audio('slime-damage-1', 'assets/mine/sounds/effects/slime-damage-1.mp3');
 
@@ -61,6 +64,9 @@ export class Preloader {
 
         this.scene.load.audio('rocker-attack-1', 'assets/mine/sounds/effects/rocker-attack-1.mp3');
         this.scene.load.audio('rocker-damage-1', 'assets/mine/sounds/effects/rocker-damage-1.mp3');
+
+        this.scene.load.audio('smelter-craft-1', 'assets/mine/sounds/effects/smelter-craft-1.mp3');
+        this.scene.load.audio('anvil-craft-1', 'assets/mine/sounds/effects/anvil-craft-1.mp3');
     }
 
     preloadSceneAssetsFromData() {

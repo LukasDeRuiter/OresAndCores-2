@@ -3,7 +3,7 @@ import { InteractiveTile } from "../entities/InteractiveTile.js";
 import { Chunk } from "../entities/Chunk.js";
 import { Tile } from "../entities/Tile.js";
 import { Porthole } from "../entities/InteractiveObjects/Porthole.js";
-import { Smelter } from "../entities/InteractiveObjects/Smelter.js";
+import { CraftingStation } from "../entities/InteractiveObjects/CraftingStation.js";
 
 export class LevelGenerator {
     constructor(scene, levelConfiguration) {
@@ -148,6 +148,6 @@ export class LevelGenerator {
 
             //this.scene.smelter = new Smelter(this.scene, x + 8, y + 8);
 
-            this.scene.smelter = new Smelter(this.scene, 400, 50);
+            this.scene.smelter = new CraftingStation(this.scene, 400, 50, "smelter");
         }
 }
