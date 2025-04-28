@@ -120,7 +120,16 @@ export class LevelGenerator {
             }
     
             const objectData = window.environmentObjects.find(objData => objData.name === objectName);
-            let object = new EnvironmentObject(this.scene, x + 8, y + 8, objectName, objectData.health, objectData.materialType, objectData.items);
+            let object = new EnvironmentObject(
+                this.scene,
+                x + 8,
+                y + 8,
+                objectName,
+                objectData.health,
+                objectData.materialType,
+                objectData.requiredLevel,
+                objectData.items
+                );
             this.scene.environmentObjects.add(object);
         }
 

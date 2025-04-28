@@ -18,10 +18,18 @@ export class Tool extends Phaser.GameObjects.Sprite {
             return false;
         }
 
-        if (this.materialType === object.materialType) {
-            return true;
+        if (this.materialType !== object.materialType) {
+            this.scene.sound.play("tool-wrong-type");
+
+            return false;
         }
-        
-        return false;
+
+        if(this.level < object.requiredLevel) {
+            this.scene.sound.play("tool-insufficient-level");
+            
+            return false;
+        }
+
+        return true;
     }
  }

@@ -52,6 +52,8 @@ export class Preloader {
         this.scene.load.audio('axe-hit-3', 'assets/mine/sounds/effects/axe-hit-3.mp3');
 
         this.scene.load.audio('tool-swing-1', 'assets/mine/sounds/effects/tool-swing-1.mp3');
+        this.scene.load.audio('tool-insufficient-level', 'assets/mine/sounds/effects/tool-insufficient-level.mp3');
+        this.scene.load.audio('tool-wrong-type', 'assets/mine/sounds/effects/tool-wrong-type.mp3');
 
         this.scene.load.audio('pick-up-item', 'assets/mine/sounds/effects/pick-up-item.mp3');
         this.scene.load.audio('drop-item', 'assets/mine/sounds/effects/drop-item.mp3');
