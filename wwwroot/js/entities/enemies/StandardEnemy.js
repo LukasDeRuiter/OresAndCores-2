@@ -5,6 +5,8 @@ export class StandardEnemy extends Enemy {
     constructor(scene, x, y, name, spritesheet, health, speed, items) {
         super(scene, x, y, name, spritesheet, health, speed, items);
         this.hidden = true;
+
+        this.play(this.walkingAnimation);
     }
 
     update(time, delta) {

@@ -53,6 +53,7 @@ export class Inventory {
 
     addItem(item) {
         this.showPickUpText(item.name, '#fff');
+        this.scene.sound.play("pick-up-item");
 
         for (let slot of this.inventorySlots) {
             if (slot.item && slot.item.name === item.name) {
