@@ -12,4 +12,8 @@ export class InventoryTool {
     getNoHitSound() {
         return "tool-swing-1";
     }
+
+    getKey() {
+        return `${this.name}-level-${this.level}`;
+    }
 }
