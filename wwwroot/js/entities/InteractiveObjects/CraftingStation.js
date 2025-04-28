@@ -5,10 +5,11 @@ import { InventoryItem } from "../InventoryItem.js";
 import { CraftingRecipe } from "../CraftingRecipe.js";
 import { Item } from "../Item.js";
 
-export class Smelter extends InteractiveObject {
-    constructor(scene, x, y, craftingRecipes = []) {
-        super(scene, x, y, "smelter");
+export class CraftingStation extends InteractiveObject {
+    constructor(scene, x, y, key, craftingRecipes = []) {
+        super(scene, x, y, key);
 
+        this.key = key;
         this.craftingRecipes = craftingRecipes;
         this.craftingUI = null;
         this.slots = [];
@@ -145,6 +146,7 @@ export class Smelter extends InteractiveObject {
             this.interact();
 
             this.isCrafting = true;
+            this.scene.sound.play(`${this.key}-craft-1`);
 
             setTimeout(() => {
                 this.dropItem(item);
@@ -156,6 +158,7 @@ export class Smelter extends InteractiveObject {
             const overlapPreventy = Phaser.Math.Between(-20, 20);
 
             const itemToDrop = new Item(this.scene, this.x + overlapPreventX, this.y + overlapPreventy, item.name, item.name, 5);
+            this.scene.sound.play("drop-item");
 
             this.isCrafting = false;
         }
