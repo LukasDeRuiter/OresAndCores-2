@@ -69,7 +69,6 @@ export class SceneMain extends Phaser.Scene {
             } 
 
             this.controlBinder.bind();
-            this.levelGenerator.generateInteractiveObjects();
 
             this.staticGroup = this.add.group();
             this.environmentObjects = this.add.group();
@@ -81,6 +80,8 @@ export class SceneMain extends Phaser.Scene {
 
             let npc = new Merchant(this, worldWidth / 2, (worldHeight / 12) + 30, "merchant-1", "merchant-1");
             this.npcs.add(npc);
+
+            this.levelGenerator.generateInteractiveObjects();
 
             this.physics.world.enable(this.player);
             this.cameras.main.startFollow(this.player);

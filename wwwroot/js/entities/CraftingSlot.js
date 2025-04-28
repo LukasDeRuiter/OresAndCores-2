@@ -124,7 +124,9 @@ export class CraftingSlot {
             slot.updatePriceCheck();
         })
 
-        this.station.craftItem(this.craftingRecipe.result);
+        this.craftingRecipe instanceof CraftingRecipe ? 
+        this.station.craftItem(this.craftingRecipe.result) : 
+        this.station.upgradeItem(this.craftingRecipe.result);
     }
 
 

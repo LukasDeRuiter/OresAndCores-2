@@ -4,6 +4,7 @@ import { Chunk } from "../entities/Chunk.js";
 import { Tile } from "../entities/Tile.js";
 import { Porthole } from "../entities/InteractiveObjects/Porthole.js";
 import { CraftingStation } from "../entities/InteractiveObjects/CraftingStation.js";
+import { UpgradeStation } from "../entities/InteractiveObjects/UpgradeStation.js";
 
 export class LevelGenerator {
     constructor(scene, levelConfiguration) {
@@ -136,6 +137,7 @@ export class LevelGenerator {
         generateInteractiveObjects() {
             this.spawnPorthole();
             this.spawnSmelter();
+            this.spawnAnvil();
         }
 
         spawnPorthole() {
@@ -158,5 +160,17 @@ export class LevelGenerator {
             //this.scene.smelter = new Smelter(this.scene, x + 8, y + 8);
 
             this.scene.smelter = new CraftingStation(this.scene, 400, 50, "smelter");
+        }
+
+        spawnAnvil() {
+            const worldWidth = this.scene.physics.world.bounds.width;
+            const worldHeight = this.scene.physics.world.bounds.height;
+
+            let x = Phaser.Math.Between(16, worldWidth - 32);
+            let y = Phaser.Math.Between(16, worldHeight - 32);
+
+            //this.scene.smelter = new Smelter(this.scene, x + 8, y + 8);
+
+            this.scene.anvil = new UpgradeStation(this.scene, 350, 50, "anvil");
         }
 }
