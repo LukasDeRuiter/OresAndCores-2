@@ -167,13 +167,15 @@ export class Player extends Phaser.GameObjects.Sprite {
 
 showTool() {
     if (!this.tool) {
+
+        console.log(this.selectedTool.getKey());
         let position = this.getBreakingPositionArea();
         this.tool = new Tool(
             this.scene,
             position.x,
             position.y, 
-            this.selectedTool.getKey(), 
             this.selectedTool.name, 
+            this.selectedTool.getKey(), 
             this.selectedTool.level, 
             this.selectedTool.materialType
             );

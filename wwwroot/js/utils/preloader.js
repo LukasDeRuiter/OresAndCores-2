@@ -38,7 +38,12 @@ export class Preloader {
         this.scene.load.image("item-shadow", "assets/mine/sprites/effects/item-shadow.png");
         this.scene.load.image("spark", "assets/mine/sprites/effects/spark.png");
     
-        this.scene.load.image("pickaxe", "assets/mine/sprites/tools/pickaxe.png");
+        this.scene.load.image("pickaxe-level-1", "assets/mine/sprites/tools/pickaxe-level-1.png");
+        this.scene.load.image("pickaxe-level-2", "assets/mine/sprites/tools/pickaxe-level-2.png");
+        this.scene.load.image("pickaxe-level-3", "assets/mine/sprites/tools/pickaxe-level-3.png");
+        this.scene.load.image("pickaxe-level-4", "assets/mine/sprites/tools/pickaxe-level-4.png");
+        this.scene.load.image("pickaxe-level-5", "assets/mine/sprites/tools/pickaxe-level-5.png");
+
         this.scene.load.image("sword", "assets/mine/sprites/tools/sword.png");
         this.scene.load.image("axe", "assets/mine/sprites/tools/axe.png");
 
