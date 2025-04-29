@@ -133,7 +133,7 @@ export class CraftingStation extends InteractiveObject {
                     new CraftingMaterial(this.scene, materialItem2, 2),
                     new CraftingMaterial(this.scene, materialItem3, 2),
                 ],
-                result3
+                result2
             );
 
                         
