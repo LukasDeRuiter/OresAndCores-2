@@ -5,6 +5,7 @@ import { Tile } from "../entities/Tile.js";
 import { Porthole } from "../entities/InteractiveObjects/Porthole.js";
 import { CraftingStation } from "../entities/InteractiveObjects/CraftingStation.js";
 import { UpgradeStation } from "../entities/InteractiveObjects/UpgradeStation.js";
+import { Merchant } from "../entities/Npcs/Merchant.js";
 
 export class LevelGenerator {
     constructor(scene, levelConfiguration) {
@@ -172,5 +173,37 @@ export class LevelGenerator {
             //this.scene.smelter = new Smelter(this.scene, x + 8, y + 8);
 
             this.scene.anvil = new UpgradeStation(this.scene, 350, 50, "anvil");
+        }
+
+        fillInObject(object) {
+
+            switch (object.type) {
+                case "merchant":
+                    this.fillInMerchant(object);
+                    break;
+                case "smelter":
+                    this.fillInSmelter(object);
+                    break;
+                case "anvil":
+                    this.fillInAnvil(object);
+                    break;
+                default: 
+                    console.log("No object class found!");
+            }
+        }
+
+        fillInMerchant(object) {
+            let npc = new Merchant(this.scene, object.x, object.y, "merchant-1", "merchant-1");
+            this.scene.npcs.add(npc);
+        }
+
+        fillInSmelter(object) {
+            let npc = new CraftingStation(this.scene, object.x, object.y, "smelter");
+            this.scene.npcs.add(npc);
+        }
+
+        fillInAnvil(object) {
+            let npc = new UpgradeStation(this.scene, object.x, object.y, "anvil");
+            this.scene.npcs.add(npc);
         }
 }

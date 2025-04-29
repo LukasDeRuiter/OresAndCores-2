@@ -7,6 +7,8 @@ import { TransitionSaver } from "../utils/transition-saver.js";
 import { Preloader } from "../utils/preloader.js";
 import { Merchant } from "../entities/Npcs/Merchant.js";
 import { ControlBinder } from "../utils/control-binder.js";
+import { LevelGenerator } from "../utils/level-generator.js";
+import { OverlapDetector } from "../utils/overlap-detector.js";
 
 export class SceneTown extends Phaser.Scene {
     constructor() {
@@ -36,6 +38,8 @@ export class SceneTown extends Phaser.Scene {
         } 
 
         this.transitionSaver = new TransitionSaver(this);
+        this.levelGenerator = new LevelGenerator(this);
+        this.overlapDetector = new OverlapDetector(this);
 
         this.anims.create({
             key: "walk-down",
@@ -69,6 +73,10 @@ export class SceneTown extends Phaser.Scene {
 
         let inventory =  new Inventory(this);
         this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
+        if (this.registry.has("playerTools")) {
+            const playerTools = this.registry.get("playerTools");
+            this.player.toolBelt = playerTools;
+        } 
         
         this.controlBinder.bind();
 
@@ -144,16 +152,15 @@ export class SceneTown extends Phaser.Scene {
 
     fillInObjects(objectLayer) {
         objectLayer.objects.forEach(object => {
-            let npc = new Merchant(this, object.x, object.y, "merchant-1", "merchant-1");
-            this.npcs.add(npc);
+
+            this.levelGenerator.fillInObject(object);
         });
     }
 
     update(time, delta) {
         const cameraBounds = this.cameras.main.worldView;
 
-        this.physics.world.overlap(this.player, this.droppedItems, this.pickUpItem, null, this);
-        this.physics.world.overlap(this.player, this.enemies, this.damagePlayer, null, this);
+        this.overlapDetector.detectOverlap();
 
         this.cameras.main.centerOn(this.player.x, this.player.y);
         this.player.setDepth(1);

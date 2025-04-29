@@ -239,23 +239,69 @@
                  "height":0,
                  "id":3,
                  "name":"merchant-1",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"merchant"
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"merchant",
                  "visible":true,
                  "width":0,
-                 "x":168.635975088533,
-                 "y":71.3933325192331
+                 "x":168.636,
+                 "y":71.3933
                 }, 
                 {
                  "height":0,
                  "id":5,
                  "name":"merchant-2",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"merchant"
+                        }],
                  "rotation":0,
-                 "type":"",
+                 "type":"merchant",
                  "visible":true,
                  "width":0,
-                 "x":87.3952863597509,
-                 "y":232.643790450604
+                 "x":87.3953,
+                 "y":232.644
+                }, 
+                {
+                 "height":0,
+                 "id":8,
+                 "name":"smelter",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"smelter"
+                        }],
+                 "rotation":0,
+                 "type":"smelter",
+                 "visible":true,
+                 "width":0,
+                 "x":263.416778605446,
+                 "y":231.412870924411
+                }, 
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"anvil",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"anvil"
+                        }],
+                 "rotation":0,
+                 "type":"anvil",
+                 "visible":true,
+                 "width":0,
+                 "x":214.179997557699,
+                 "y":311.422640127
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -264,7 +310,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":6,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tiledversion":"1.11.2",

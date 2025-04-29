@@ -19,6 +19,7 @@ import { StandardEnemy } from "../entities/enemies/StandardEnemy.js";
 import { EnemyParser } from "../utils/enemy-parser.js";
 import { LevelGenerator } from "../utils/level-generator.js";
 import { ControlBinder } from "../utils/control-binder.js";
+import { OverlapDetector } from "../utils/overlap-detector.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -54,6 +55,7 @@ export class SceneMain extends Phaser.Scene {
 
             this.levelGenerator = new LevelGenerator(this, this.levelConfiguration);
             this.controlBinder = new ControlBinder(this);
+            this.overlapDetector = new OverlapDetector(this);
 
             this.enemyParser = new EnemyParser(this, window.enemies);
 
@@ -77,6 +79,10 @@ export class SceneMain extends Phaser.Scene {
             this.npcs = this.add.group();
 
             this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
+            if (this.registry.has("playerTools")) {
+                const playerTools = this.registry.get("playerTools");
+                this.player.toolBelt = playerTools;
+            } 
 
             let npc = new Merchant(this, worldWidth / 2, (worldHeight / 12) + 30, "merchant-1", "merchant-1");
             this.npcs.add(npc);
@@ -188,22 +194,7 @@ export class SceneMain extends Phaser.Scene {
                 }
             }
 
-            if (Phaser.Input.Keyboard.JustDown(this.keyR) && this.player.tool !== null) {
-                const hitDetected = this.physics.world.overlap(
-                    this.player.tool,
-                    this.player.selectedTool.interactsWith,
-                    this.onObjectOverlap,
-                    null,
-                    this
-                );
-
-                if (!hitDetected) {
-                    this.sound.play("tool-swing-1");
-                }
-            }
-
-            this.physics.world.overlap(this.player, this.droppedItems, this.pickUpItem, null, this);
-            this.physics.world.overlap(this.player, this.enemies, this.damagePlayer, null, this);
+            this.overlapDetector.detectOverlap();
 
             this.cameras.main.centerOn(this.player.x, this.player.y);
             this.player.setDepth(1);
@@ -213,38 +204,5 @@ export class SceneMain extends Phaser.Scene {
             this.enemies.children.iterate(enemy => {
                 if (enemy) enemy.update(time, delta);
             })
-        }
-
-        damagePlayer(player, enemy) {
-            // this.scene.start("SceneDeath");
-        }
-
-        onObjectOverlap(tool, object) {
-            if (object instanceof Enemy) {
-                this.damageEnemy(object);
-            } 
-
-            if (object instanceof EnvironmentObject && tool.isValidHit(object)) {
-                this.hitEnvironmentObject(object, tool);
-            }
-        }
-
-        hitEnvironmentObject(object, tool) {
-            const pickedSound = Phaser.Math.Between(1, 3);
-
-            this.sound.play(`${tool.toolType}-hit-${pickedSound}`); 
-            object.takeDamage(1);
-        }
-
-        damageEnemy(enemy) {
-            enemy.takeDamage(this.player.x, this.player.y);
-        }
-
-        pickUpItem(player, item) {
-            let rockItem = new InventoryItem(item.itemName, item.value);
-
-            this.player.collectItem(rockItem);
-
-            item.destroyItem();
         }
     }   

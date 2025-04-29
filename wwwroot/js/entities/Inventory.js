@@ -212,6 +212,7 @@ export class Inventory {
         return {
             money: this.money,
             slots: savedSlots,
+            toolBelt: this.toolBelt,
         }
     }
 
