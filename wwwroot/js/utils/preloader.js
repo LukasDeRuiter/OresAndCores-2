@@ -45,8 +45,17 @@ export class Preloader {
         this.scene.load.image("pickaxe-level-4", "assets/mine/sprites/tools/pickaxe-level-4.png");
         this.scene.load.image("pickaxe-level-5", "assets/mine/sprites/tools/pickaxe-level-5.png");
 
-        this.scene.load.image("sword", "assets/mine/sprites/tools/sword.png");
-        this.scene.load.image("axe", "assets/mine/sprites/tools/axe.png");
+        this.scene.load.image("axe-level-1", "assets/mine/sprites/tools/axe-level-1.png");
+        this.scene.load.image("axe-level-2", "assets/mine/sprites/tools/axe-level-2.png");
+        this.scene.load.image("axe-level-3", "assets/mine/sprites/tools/axe-level-3.png");
+        this.scene.load.image("axe-level-4", "assets/mine/sprites/tools/axe-level-4.png");
+        this.scene.load.image("axe-level-5", "assets/mine/sprites/tools/axe-level-5.png");
+
+        this.scene.load.image("sword-level-1", "assets/mine/sprites/tools/sword-level-1.png");
+        this.scene.load.image("sword-level-2", "assets/mine/sprites/tools/sword-level-2.png");
+        this.scene.load.image("sword-level-3", "assets/mine/sprites/tools/sword-level-3.png");
+        this.scene.load.image("sword-level-4", "assets/mine/sprites/tools/sword-level-4.png");
+        this.scene.load.image("sword-level-5", "assets/mine/sprites/tools/sword-level-5.png");
 
         /* Audio */
         this.scene.load.audio('pickaxe-hit-1', 'assets/mine/sounds/effects/pickaxe-hit.mp3');

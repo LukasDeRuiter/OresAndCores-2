@@ -96,8 +96,6 @@ export class UpgradeStation extends InteractiveObject {
 
 
                 let recipe = this.craftingRecipes[upgradable.level + 1];    
-
-                console.log(recipe);
                 let shopSlot = new CraftingSlot(this.scene, this, 0, 0 + (index * 50), 50, 40, this.isCraftMenuVisible, recipe, upgradable);
     
                 shopSlot.updateSlotDisplay();
@@ -109,8 +107,6 @@ export class UpgradeStation extends InteractiveObject {
     
                 counter += 1;
             })
-
-            console.log(itemContainer);
     
             this.craftingUI = this.scene.add.container(0, 0 , [background, exitButton, itemContainer]);
             this.craftingUI.setDepth(1000);
@@ -185,15 +181,10 @@ export class UpgradeStation extends InteractiveObject {
         upgradeItem(item) {
             this.interact();
 
-            console.log(this.scene.player.toolBelt);    
-
             this.isCrafting = true;
             this.scene.sound.play(`${this.key}-craft-1`);
 
             item.level += 1;
-
-            console.log(item);
-            console.log(this.scene.player.toolBelt);    
 
             this.isCrafting = false;
         }
