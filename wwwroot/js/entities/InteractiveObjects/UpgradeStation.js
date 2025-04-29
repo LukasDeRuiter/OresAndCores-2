@@ -29,6 +29,7 @@ export class UpgradeStation extends InteractiveObject {
         if (!this.isCrafting) {
             this.isCraftMenuVisible = !this.isCraftMenuVisible;
 
+            this.createCraftingUI(this.scene.player);
             this.updateCraftUI();
         }
     }
@@ -60,8 +61,6 @@ export class UpgradeStation extends InteractiveObject {
             if (this.craftingUI) {
                 this.craftingUI.destroy();
                 this.craftingUI = null;
-    
-                return;
             }
     
             const background = this.scene.add.rectangle(400, 300, 350, 250, 0X000000, 0.3).setDepth(50).setScrollFactor(0);
@@ -95,16 +94,11 @@ export class UpgradeStation extends InteractiveObject {
                     return;
                 }
 
-                let recipe = this.craftingRecipes[upgradable.level + 1];
-                let result = new InventoryItem(`${upgradable.name}-level-${upgradable.level + 1}`, 5, upgradable.name);
-    
 
+                let recipe = this.craftingRecipes[upgradable.level + 1];    
 
-                recipe.result = result;
-
-                console.log(upgradable);
                 console.log(recipe);
-                let shopSlot = new CraftingSlot(this.scene, this, 0, 0 + (index * 50), 50, 40, this.isCraftMenuVisible, recipe);
+                let shopSlot = new CraftingSlot(this.scene, this, 0, 0 + (index * 50), 50, 40, this.isCraftMenuVisible, recipe, upgradable);
     
                 shopSlot.updateSlotDisplay();
                 
@@ -196,9 +190,7 @@ export class UpgradeStation extends InteractiveObject {
             this.isCrafting = true;
             this.scene.sound.play(`${this.key}-craft-1`);
 
-            const index = this.scene.player.toolBelt.find(tool => tool.name === item.key);
-
-            index.level += 1;
+            item.level += 1;
 
             console.log(item);
             console.log(this.scene.player.toolBelt);    

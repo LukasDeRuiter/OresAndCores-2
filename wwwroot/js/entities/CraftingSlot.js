@@ -1,12 +1,13 @@
 import { CraftingRecipe } from "./CraftingRecipe.js";
 
 export class CraftingSlot {
-    constructor(scene, station, x, y, slotWidth, slotHeight, isVisible, craftingRecipe) {
+    constructor(scene, station, x, y, slotWidth, slotHeight, isVisible, craftingRecipe, upgradable = null) {
         this.scene = scene;
         this.station = station;
         this.craftingRecipe = craftingRecipe;
         this.x = x;
         this.y = y;
+        this.upgradable = upgradable;
 
 
         this.slotWidth = slotWidth; 
@@ -41,7 +42,7 @@ export class CraftingSlot {
     updateSlotDisplay() {
         if (this.item) {
             if (!this.itemImage) {  
-            this.itemImage = this.scene.add.image(this.x, this.y, this.item.name)
+            this.itemImage = this.scene.add.image(this.x, this.y, this.upgradable ? `${this.upgradable.name}-level-${this.upgradable.level + 1}` : this.item.name)
             .setScrollFactor(0)
             .setScale(this.slotWidth / 32)
             .setDepth(155)
@@ -126,7 +127,7 @@ export class CraftingSlot {
 
         this.craftingRecipe instanceof CraftingRecipe ? 
         this.station.craftItem(this.craftingRecipe.result) : 
-        this.station.upgradeItem(this.craftingRecipe.result);
+        this.station.upgradeItem(this.upgradable);
     }
 
 
