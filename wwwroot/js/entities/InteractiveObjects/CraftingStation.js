@@ -15,6 +15,7 @@ export class CraftingStation extends InteractiveObject {
         this.slots = [];
         this.isCraftMenuVisible = false;
         this.isCrafting = false;
+        this.setDepth(50);
        
         this.bindInput();
         this.getCraftableItems();

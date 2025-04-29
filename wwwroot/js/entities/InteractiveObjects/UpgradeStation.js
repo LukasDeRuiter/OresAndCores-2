@@ -18,6 +18,7 @@ export class UpgradeStation extends InteractiveObject {
         this.isCraftMenuVisible = false;
         this.isCrafting = false;
         this.upgradables = this.getUpgradables();
+        this.setDepth(50);
        
         this.bindInput();
         this.getCraftableItems();
@@ -81,8 +82,6 @@ export class UpgradeStation extends InteractiveObject {
             let counter = 0;
             let beginX = 50;
             let beginY = 100;
-
-            console.log(this.upgradables);
     
             this.upgradables.forEach((upgradable, index) => {
                 if (index % 3 === 0) {
@@ -185,6 +184,7 @@ export class UpgradeStation extends InteractiveObject {
             this.scene.sound.play(`${this.key}-craft-1`);
 
             item.level += 1;
+            item.key = `${item.name}-level-${item.level}`;
 
             this.isCrafting = false;
         }

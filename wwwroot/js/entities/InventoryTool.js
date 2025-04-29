@@ -1,5 +1,6 @@
 export class InventoryTool {
-    constructor(name, key, interactsWith, level, materialType = null) {
+    constructor(scene, name, key, interactsWith, level, materialType = null) {
+        this.scene = scene;
         this.name = name;
         this.key = key;
         this.interactsWith = interactsWith;
@@ -7,6 +8,26 @@ export class InventoryTool {
         this.materialType = materialType;
 
         this.swingWithNoHitSound = this.getNoHitSound();
+    }
+
+    setInteractsWith() {
+        this.interactsWith = this.getCollection();
+    }
+
+    getCollection() {
+        switch (this.name) {
+            case "pickaxe":
+                return this.scene.environmentObjects;
+                break;
+            case "axe":
+                return this.scene.environmentObjects;
+                break;
+            case "sword":
+                return this.scene.enemies;
+                break;
+            default:
+                console.log("No name found!");      
+        }
     }
 
     getNoHitSound() {

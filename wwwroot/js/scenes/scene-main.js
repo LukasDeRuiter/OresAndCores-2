@@ -81,7 +81,11 @@ export class SceneMain extends Phaser.Scene {
             this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
             if (this.registry.has("playerTools")) {
                 const playerTools = this.registry.get("playerTools");
+                playerTools.forEach(tool => {
+                    tool.setInteractsWith();
+                })
                 this.player.toolBelt = playerTools;
+                this.selectedTool = this.player.toolBelt.find(tool => tool.name = "pickaxe");
             } 
 
             let npc = new Merchant(this, worldWidth / 2, (worldHeight / 12) + 30, "merchant-1", "merchant-1");

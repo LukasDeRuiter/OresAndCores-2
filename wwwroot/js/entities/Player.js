@@ -32,7 +32,7 @@ export class Player extends Phaser.GameObjects.Sprite {
 
         this.createAnimations(scene);
 
-        this.selectedTool = this.toolBelt.find(tool => tool.name === "pickaxe");
+        this.selectedTool = this.toolBelt.find(tool => tool.name = "pickaxe");
         this.tool = null;
 
         this.play(this.idle, true);
@@ -151,9 +151,9 @@ export class Player extends Phaser.GameObjects.Sprite {
         if (this.toolBelt !== null) {
             let toolbelt = [];
 
-            const pickaxe = new InventoryTool("pickaxe", "pickaxe-level-1", this.scene.environmentObjects, 1, "stone");
-            const sword = new InventoryTool("sword", "sword-level-1", this.scene.enemies, 1);
-            const axe = new InventoryTool("axe", "axe-level-1", this.scene.environmentObjects, 1, "wood");
+            const pickaxe = new InventoryTool(this.scene, "pickaxe", "pickaxe-level-1", this.scene.environmentObjects, 1, "stone");
+            const sword = new InventoryTool(this.scene,"sword", "sword-level-1", this.scene.enemies, 1);
+            const axe = new InventoryTool(this.scene,"axe", "axe-level-1", this.scene.environmentObjects, 1, "wood");
 
             toolbelt.push(pickaxe);
             toolbelt.push(sword);
@@ -166,7 +166,7 @@ export class Player extends Phaser.GameObjects.Sprite {
 }
 
 showTool() {
-    if (!this.tool) {
+    if (!this.tool && this.selectedTool) {
         let position = this.getBreakingPositionArea();
         this.tool = new Tool(
             this.scene,
