@@ -119,8 +119,8 @@ export class CraftingStation extends InteractiveObject {
             let recipe1 = new CraftingRecipe(
                 this.scene, 
                 [
-                    new CraftingMaterial(this.scene, materialItem1, 10),
-                    new CraftingMaterial(this.scene, materialItem2, 10),
+                    new CraftingMaterial(this.scene, materialItem1, 2),
+                    new CraftingMaterial(this.scene, materialItem2, 2),
                 ],
                 result1
             );
@@ -129,9 +129,9 @@ export class CraftingStation extends InteractiveObject {
             let recipe2 = new CraftingRecipe(
                 this.scene, 
                 [
-                    new CraftingMaterial(this.scene, materialItem1, 15),
-                    new CraftingMaterial(this.scene, materialItem2, 10),
-                    new CraftingMaterial(this.scene, materialItem3, 10),
+                    new CraftingMaterial(this.scene, materialItem1, 2),
+                    new CraftingMaterial(this.scene, materialItem2, 2),
+                    new CraftingMaterial(this.scene, materialItem3, 2),
                 ],
                 result3
             );
@@ -140,8 +140,8 @@ export class CraftingStation extends InteractiveObject {
             let recipe3 = new CraftingRecipe(
                 this.scene, 
                 [
-                    new CraftingMaterial(this.scene, materialItem1, 20),
-                    new CraftingMaterial(this.scene, materialItem4, 15),
+                    new CraftingMaterial(this.scene, materialItem1, 2),
+                    new CraftingMaterial(this.scene, materialItem4, 2),
                 ],
                 result3
             );

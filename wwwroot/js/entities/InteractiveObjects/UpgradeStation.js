@@ -5,6 +5,7 @@ import { InventoryItem } from "../InventoryItem.js";
 import { CraftingRecipe } from "../CraftingRecipe.js";
 import { Item } from "../Item.js";
 import { UpgradeRecipe } from "../UpgradeRecipe.js";
+import { InventoryTool } from "../InventoryTool.js";
 
 export class UpgradeStation extends InteractiveObject {
     constructor(scene, x, y, key, craftingRecipes = []) {
@@ -81,18 +82,28 @@ export class UpgradeStation extends InteractiveObject {
             let counter = 0;
             let beginX = 50;
             let beginY = 100;
+
+            console.log(this.upgradables);
     
-            console.log(this.scene.player.toolbelt);
             this.upgradables.forEach((upgradable, index) => {
                 if (index % 3 === 0) {
                     beginX += 60;
                     counter = 0;
                 }
 
-                let recipe = this.craftingRecipes[upgradable.level + 1];
+                if (upgradable.level >= 5) {
+                    return;
+                }
 
-                recipe.result = new InventoryItem(`${upgradable.name}-level-${upgradable.level + 1}`, 5, 1);
+                let recipe = this.craftingRecipes[upgradable.level + 1];
+                let result = new InventoryItem(`${upgradable.name}-level-${upgradable.level + 1}`, 5, upgradable.name);
     
+
+
+                recipe.result = result;
+
+                console.log(upgradable);
+                console.log(recipe);
                 let shopSlot = new CraftingSlot(this.scene, this, 0, 0 + (index * 50), 50, 40, this.isCraftMenuVisible, recipe);
     
                 shopSlot.updateSlotDisplay();
@@ -104,6 +115,8 @@ export class UpgradeStation extends InteractiveObject {
     
                 counter += 1;
             })
+
+            console.log(itemContainer);
     
             this.craftingUI = this.scene.add.container(0, 0 , [background, exitButton, itemContainer]);
             this.craftingUI.setDepth(1000);
@@ -126,40 +139,40 @@ export class UpgradeStation extends InteractiveObject {
             let recipe1 = new UpgradeRecipe(
                 this.scene, 
                 [
-                    new CraftingMaterial(this.scene, materialItem1, 15),
-                    new CraftingMaterial(this.scene, materialItem2, 10),
+                    new CraftingMaterial(this.scene, materialItem1, 1),
+                    new CraftingMaterial(this.scene, materialItem2, 1),
                 ],
                 result1
             );
-            let recipe2 = new CraftingRecipe(
+            let recipe2 = new UpgradeRecipe(
                 this.scene, 
                 [
-                    new CraftingMaterial(this.scene, materialItem3, 10),
-                    new CraftingMaterial(this.scene, materialItem2, 15),
+                    new CraftingMaterial(this.scene, materialItem3, 1),
+                    new CraftingMaterial(this.scene, materialItem2, 1),
                 ],
                 result1
             );
-            let recipe3 = new CraftingRecipe(
+            let recipe3 = new UpgradeRecipe(
                 this.scene, 
                 [
-                    new CraftingMaterial(this.scene, materialItem4, 10),
-                    new CraftingMaterial(this.scene, materialItem2, 15),
+                    new CraftingMaterial(this.scene, materialItem4, 1),
+                    new CraftingMaterial(this.scene, materialItem2, 1),
                 ],
                 result1
             );
-            let recipe4 = new CraftingRecipe(
+            let recipe4 = new UpgradeRecipe(
                 this.scene, 
                 [
-                    new CraftingMaterial(this.scene, materialItem5, 10),
-                    new CraftingMaterial(this.scene, materialItem2, 15),
+                    new CraftingMaterial(this.scene, materialItem5, 1),
+                    new CraftingMaterial(this.scene, materialItem2, 1),
                 ],
                 result1
             );
-            let recipe5 = new CraftingRecipe(
+            let recipe5 = new UpgradeRecipe(
                 this.scene, 
                 [
-                    new CraftingMaterial(this.scene, materialItem6, 10),
-                    new CraftingMaterial(this.scene, materialItem2, 15),
+                    new CraftingMaterial(this.scene, materialItem6, 1),
+                    new CraftingMaterial(this.scene, materialItem2, 1),
                 ],
                 result1
             );
@@ -178,11 +191,18 @@ export class UpgradeStation extends InteractiveObject {
         upgradeItem(item) {
             this.interact();
 
+            console.log(this.scene.player.toolBelt);    
+
             this.isCrafting = true;
             this.scene.sound.play(`${this.key}-craft-1`);
 
-            setTimeout(() => {
-                this.dropItem(item);
-            }, 5000)
+            const index = this.scene.player.toolBelt.find(tool => tool.name === item.key);
+
+            index.level += 1;
+
+            console.log(item);
+            console.log(this.scene.player.toolBelt);    
+
+            this.isCrafting = false;
         }
 }

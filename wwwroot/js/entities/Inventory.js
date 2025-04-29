@@ -113,6 +113,7 @@ export class Inventory {
                 strokeThickness: 3,
             }).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
         } else {
+            this.toolBeltText.setText(this.renderToolBeltText());
             this.toolBeltText.setVisible(this.isVisible);
         }
     } 
