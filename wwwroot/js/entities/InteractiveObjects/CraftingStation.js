@@ -110,6 +110,7 @@ export class CraftingStation extends InteractiveObject {
             let result1 = new InventoryItem('copper-bar-item', 5, 1);
             let result2 = new InventoryItem('bronze-bar-item', 10, 1);
             let result3 = new InventoryItem('iron-bar-item', 15, 1);
+            let result4 = new InventoryItem('iron-bar-item', 15, 1);
 
             let materialItem1 = new InventoryItem('coal-item', 5, 1);
             let materialItem2 = new InventoryItem('copper-ore-item', 10, 1);
@@ -145,10 +146,20 @@ export class CraftingStation extends InteractiveObject {
                 ],
                 result3
             );
+
+            let recipe4 = new CraftingRecipe(
+                this.scene, 
+                [
+                    new CraftingMaterial(this.scene, materialItem1, 2),
+                    new CraftingMaterial(this.scene, result3, 2),
+                ],
+                result4
+            );
     
             this.craftingRecipes.push(recipe1);
             this.craftingRecipes.push(recipe2);
             this.craftingRecipes.push(recipe3);
+            this.craftingRecipes.push(recipe4);
         }
 
         craftItem(item) {
