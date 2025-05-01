@@ -72,7 +72,7 @@ export class SceneTown extends Phaser.Scene {
         this.controlBinder = new ControlBinder(this);
 
         let inventory =  new Inventory(this);
-        this.player = new Player(this, worldWidth / 2, worldHeight / 12, inventory, playerLevel);
+        this.player = new Player(this, worldWidth / 2 + 120, worldHeight / 12 -  30, inventory, playerLevel);
         if (this.registry.has("playerTools")) {
             const playerTools = this.registry.get("playerTools");
             playerTools.forEach(tool => {
@@ -129,6 +129,8 @@ export class SceneTown extends Phaser.Scene {
         interactiveLayer.setCollisionBetween(1, 40);
 
         interactiveLayer.forEachTile(tile => {
+            console.log(tile);
+
             if (tile && tile.properties.type) {
                 const worldX = tile.getCenterX();
                 const worldY = tile.getCenterY();
@@ -142,6 +144,7 @@ export class SceneTown extends Phaser.Scene {
                     tile.properties.value,
                     "Entering the mine..."
                 );
+                console.log(interactiveTile);
 
                 interactiveTile.setOrigin(0.5);
 
