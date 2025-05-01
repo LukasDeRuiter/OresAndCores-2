@@ -81,8 +81,7 @@ export class Merchant extends Npc {
         const background = this.scene.add.rectangle(400, 300, 350, 250, 0X000000, 0.3).setDepth(50).setScrollFactor(0);
         background.setVisible(this.isShopVisible);
 
-        const exitButton = this.scene.add.rectangle(565, 185, 20, 20, 0xFF0000, 0.3).setDepth(51).setScrollFactor(0);
-        exitButton.setVisible(this.isShopVisible);
+        const exitButton = this.scene.add.rectangle(0, 0, 20, 20, 0xFF0000).setDepth(51).setScrollFactor(0).setAlpha(0.6);
         exitButton.setInteractive();
 
         exitButton.on('pointerdown', (pointer) => {
@@ -91,6 +90,20 @@ export class Merchant extends Npc {
                 this.interact();
             }
         })
+        
+        exitButton.on('pointerover', () => {
+            exitButton.setAlpha(1).setScale(1.2);
+
+        });
+
+        exitButton.on('pointerout', () => {
+            exitButton.setAlpha(0.6).setScale(1);
+
+        });
+
+        const exitButtonIcon = this.scene.add.image(0, 0, "cancel-button-icon").setDepth(52).setScrollFactor(0);
+
+        const exitButtonContainer = this.scene.add.container(565, 185, [exitButton, exitButtonIcon]);
 
             
 
@@ -120,7 +133,7 @@ export class Merchant extends Npc {
             counter += 1;
         })
 
-        this.shopUI = this.scene.add.container(0, 0 , [background, exitButton, itemContainer]);
+        this.shopUI = this.scene.add.container(0, 0 , [background, exitButtonContainer, itemContainer]);
         this.shopUI.setDepth(1000);
         this.shopUI.setVisible(this.isShopVisible);
     }

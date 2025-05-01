@@ -24,6 +24,8 @@ export class Preloader {
         });
     
         /* Images */
+        this.scene.load.image("cancel-button-icon", "assets/mine/sprites/buttons/cancel-button.png");
+
         this.scene.load.image("cave-1", "assets/mine/sprites/tiles/cave-1.png");
         this.scene.load.image("cave-2", "assets/mine/sprites/tiles/cave-2.png");
         this.scene.load.image("cave-3", "assets/mine/sprites/tiles/cave-3.png");

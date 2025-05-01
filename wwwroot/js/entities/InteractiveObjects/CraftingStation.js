@@ -73,8 +73,6 @@ export class CraftingStation extends InteractiveObject {
                 }
             })
     
-                
-    
             const itemContainer = this.scene.add.container(0, 0).setDepth(51).setScrollFactor(0);
             itemContainer.x = 200;
             itemContainer.y = 160;
