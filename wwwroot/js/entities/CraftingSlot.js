@@ -66,21 +66,21 @@ export class CraftingSlot {
             }
 
             if (!this.amountContainer) {
-                let amountBackground = this.scene.add.rectangle(-this.slotWidth / 2, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0);
+                let amountBackground = this.scene.add.rectangle(-this.slot.x -40, -20, this.slotWidth / 2, this.slotHeight, '#008000', 0.3).setDepth(50).setScrollFactor(0);
                 
                 let costPosition = -28;
                 let containerArray = [ amountBackground ];
 
                 this.craftingRecipe.requiredMaterials.forEach(material => {
 
-                    let costSprite = this.scene.add.image(Math.round(costPosition - 5) - 5, 0, material.item.name).setScale(0.5);
+                    let costSprite = this.scene.add.image(-48, Math.round(costPosition - 5), material.item.name).setScale(0.8);
 
-                    let costAmount = this.scene.add.text(Math.round(costPosition), Math.round(-10), material.amount, {
+                    let costAmount = this.scene.add.text(-38, Math.round(costPosition - 12), material.amount, {
                         fontSize: "10px",
                         fill: "#fff",
                         stroke: "#000",
                         strokeThickness: 5,
-                    });
+                    }).setScale(0.8);
 
                     containerArray.push(costSprite, costAmount)
 
