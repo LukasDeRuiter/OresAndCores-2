@@ -99,6 +99,8 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     takeDamage(attackerX, attackerY) {
+        this.scene.cameras.main.shake(100, 0.005);
+
         if(this.health > 0) {
             this.health -= 1;
             this.createSparks();

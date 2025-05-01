@@ -90,6 +90,8 @@ export class EnvironmentObject extends Phaser.GameObjects.Sprite {
         this.scene.time.delayedCall(1000, () => this.clearTint());
 
         if (this.health <= 0) {
+            this.scene.cameras.main.shake(100, 0.001);
+
             this.dropItems();
             this.destroy();
         }
