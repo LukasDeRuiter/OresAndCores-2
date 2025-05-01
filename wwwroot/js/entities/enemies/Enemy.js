@@ -27,6 +27,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.wanderTimer = 0;
         this.speed = speed;
         this.health = health;
+        this.maxHealth = health;
         this.isDead = false;
         this.knockbackDuration = 200;
         this.knockbackTimer = 0;
@@ -34,6 +35,9 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.wanderDirection = new Phaser.Math.Vector2(0, 0);
         this.items = this.buildDropItems(items);
         this.angleSprite = angleSprite;
+
+        this.healthBarBackground = this.scene.add.graphics().setDepth(100).setVisible(false);
+        this.healthBar = this.scene.add.graphics().setDepth(101).setVisible(false);;
     }
 
     createAnimations(scene) {
@@ -100,6 +104,10 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.createSparks();
 
             this.scene.sound.play(this.damageSound);
+
+            this.healthBarBackground.setVisible(true);
+            this.healthBar.setVisible(true);
+            this.drawHealthBar();
     
             const pushBackVector = new Phaser.Math.Vector2(this.x - attackerX, this.y - attackerY).normalize().scale(200);
             this.knockbackTimer = this.knockbackDuration;
@@ -133,6 +141,9 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     die() {
         this.isDead = true;
+
+        this.healthBar.destroy();
+        this.healthBarBackground.destroy();
         this.setVelocity(0);
         this.play(this.deathAnimation);
         this.dropItems();
@@ -188,5 +199,27 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
             new Item(this.scene, dropX, dropY, itemData.name, itemData.name, itemData.value);
         });
+    }
+
+    preUpdate(time, delta) {
+        super.preUpdate(time, delta);
+        this.drawHealthBar();
+    }
+
+    drawHealthBar() {
+        const width = 16;
+        const height = 1;
+        const x = this.x - width / 2;
+        const y = this.y + this.height / 2 + 4;
+
+        const healthRatio = Phaser.Math.Clamp(this.health / this.maxHealth, 0, 1);
+
+        this.healthBarBackground.clear();
+        this.healthBarBackground.fillStyle(0x000000);
+        this.healthBarBackground.fillRect(x - 1, y - 1, width + 2, height + 2);
+
+        this.healthBar.clear();
+        this.healthBar.fillStyle(0xff0000);
+        this.healthBar.fillRect(x, y, width * healthRatio, height);
     }
 }
