@@ -57,8 +57,18 @@ export class CraftingSlot {
                     strokeThickness: 5,
                 });
 
-                this.craftButtonBackground = this.scene.add.rectangle(22, 0, this.slotWidth / 2, 20, '#008000', 0.3).setDepth(50).setScrollFactor(0).setInteractive();
+                this.craftButtonBackground = this.scene.add.rectangle(28, 0, 35, 20, '#008000').setDepth(50).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
                 this.craftButton = this.scene.add.container(this.x, this.y + 20, [this.craftButtonBackground, this.itemText]).setDepth(52).setScrollFactor(0);
+
+                this.craftButtonBackground.on('pointerover', () => {
+                    this.craftButtonBackground.setAlpha(1).setScale(1.2);
+    
+                });
+
+                this.craftButtonBackground.on('pointerout', () => {
+                    this.craftButtonBackground.setAlpha(0.6).setScale(1);
+        
+                });
 
                 this.craftButtonBackground.on('pointerdown', () => {
                     this.startTransation();
