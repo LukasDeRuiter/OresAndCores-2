@@ -31,6 +31,8 @@ export class SceneTown extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
         this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
+        this.cameras.main.fadeIn(1000);
+
         let playerLevel = 1;
 
         if (this.registry.has("playerLevel")) {
