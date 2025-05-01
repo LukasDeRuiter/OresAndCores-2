@@ -80,22 +80,23 @@ export class CraftingStation extends InteractiveObject {
             itemContainer.y = 160;
             
             let counter = 0;
-            let beginX = 50;
+            let beginX = 100;
             let beginY = 100;
     
             this.craftingRecipes.forEach((recipe, index) => {
-                if (index % 3 === 0) {
-                    beginX += 60;
+                if (index % 3 === 0 && counter !== 0) {
+                    beginX += 100;
+                    beginY = 100;
                     counter = 0;
                 }
     
-                let shopSlot = new CraftingSlot(this.scene, this, 0, 0 + (index * 50), 50, 40, this.isCraftMenuVisible, recipe);
+                let shopSlot = new CraftingSlot(this.scene, this, 0, 0, 50, 40, this.isCraftMenuVisible, recipe);
     
                 shopSlot.updateSlotDisplay();
                 
                 this.slots.push(shopSlot);
     
-                let singleItemContainer = this.scene.add.container(beginX, beginY, [shopSlot.slot, shopSlot.itemImage, shopSlot.craftButton, shopSlot.amountContainer]).setDepth(52).setScrollFactor(0);
+                let singleItemContainer = this.scene.add.container(beginX, beginY + (counter * 50), [shopSlot.slot, shopSlot.itemImage, shopSlot.craftButton, shopSlot.amountContainer]).setDepth(52).setScrollFactor(0);
                 itemContainer.add(singleItemContainer);
     
                 counter += 1;
@@ -111,7 +112,7 @@ export class CraftingStation extends InteractiveObject {
             let result1 = new InventoryItem('copper-bar-item', 5, 1);
             let result2 = new InventoryItem('bronze-bar-item', 10, 1);
             let result3 = new InventoryItem('iron-bar-item', 15, 1);
-            let result4 = new InventoryItem('iron-bar-item', 15, 1);
+            let result4 = new InventoryItem('steel-bar-item', 15, 1);
 
             let materialItem1 = new InventoryItem('coal-item', 5, 1);
             let materialItem2 = new InventoryItem('copper-ore-item', 10, 1);
