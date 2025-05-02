@@ -14,4 +14,13 @@ public class Inventory {
 
     [Required]
     public string Data { get; set; }
+
+    [Required]
+    public string ToolData { get; set; }
+
+    [Required]
+    public int PlayerLevel { get; set; }
+        
+    [Required]
+    public int PlayerMoney { get; set; }
 }
