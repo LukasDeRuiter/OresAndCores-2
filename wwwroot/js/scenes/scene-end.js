@@ -16,6 +16,8 @@ export class SceneEnd extends Phaser.Scene {
         let inventory =  new Inventory(this);     
         
         let playerLevel = 1;
+        let playerMoney = 0;
+        let playerTools = [];
         this.player = new Player(this, 500, 500, inventory, playerLevel);
                 
         if (this.registry.has("playerInventory")) {
@@ -29,9 +31,17 @@ export class SceneEnd extends Phaser.Scene {
         
                 this.player.inventory = inventory;
                     
-        if (this.registry.has("playerInventory")) {
-            const savedInventory = this.registry.get("playerInventory");
-                inventory.restoreInventory(savedInventory)
+        if (this.registry.has("playerMoney")) {
+            playerMoney = this.registry.get("playerMoney");
+        }
+
+        if (this.registry.has("playerTools")) {
+            this.registry.get("playerTools").forEach(tool => {
+                playerTools.push({
+                    type: tool.name,
+                    level: tool.level,
+                })
+            });
         }
 
         this.inventory = inventory;
@@ -56,7 +66,7 @@ export class SceneEnd extends Phaser.Scene {
         })
 
         saveButton.on("pointerdown", async () => {
-            let response = await this.saveInventoryToServer(this.inventory.items);
+            let response = await this.saveInventoryToServer(this.inventory.items, playerLevel, playerMoney, playerTools);
 
             const saveText = this.add.text(
                 400, 
@@ -71,13 +81,18 @@ export class SceneEnd extends Phaser.Scene {
         })
     }
 
-    saveInventoryToServer(inventory) {
+    saveInventoryToServer(inventory, level, money, tools) {
         return fetch('api/mineApi/save', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(inventory)
+            body: JSON.stringify({
+                inventory: inventory,
+                level: level,
+                money: money,
+                tools: tools,
+            })
         })
         .then(response => {
             return response.json();
