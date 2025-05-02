@@ -9,9 +9,6 @@ export class OverlapDetector {
 
     detectOverlap() {
         if (Phaser.Input.Keyboard.JustDown(this.scene.keyR) && this.scene.player.tool !== null) {
-            console.log(this.scene.player.selectedTool.interactsWith);
-            
-
             if (    this.scene.player.selectedTool.interactsWith &&
                 this.scene.player.selectedTool.interactsWith.children) {
                 const hitDetected = this.scene.physics.world.overlap(
@@ -39,8 +36,6 @@ export class OverlapDetector {
     }
 
     onObjectOverlap(tool, object) {
-
-        console.log('test');
         if (object instanceof Enemy) {
             this.damageEnemy(object);
         } 
