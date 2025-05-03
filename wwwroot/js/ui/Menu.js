@@ -13,8 +13,10 @@ export class Menu {
 
         if (this.isVisible) {
             this.scene.physics.world.pause();
+            this.scene.anims.pauseAll();
         } else {
             this.scene.physics.world.resume();
+            this.scene.anims.resumeAll();
         }
     }
 
