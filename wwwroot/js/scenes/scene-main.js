@@ -50,7 +50,7 @@ export class SceneMain extends Phaser.Scene {
 
             this.levelConfiguration = this.levelConfigurations.find(levelConfiguration => levelConfiguration.id === playerLevel);
 
-            this.menu = new Menu(this)
+            this.menu = new Menu(this);
             this.transitionSaver = new TransitionSaver(this);
             this.LevelConfigurationCalculator = new LevelConfigurationCalculator(
                 this, 
@@ -186,7 +186,8 @@ export class SceneMain extends Phaser.Scene {
 
         update(time, delta) {
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
-                this.transitionSaver.transition("SceneEnd",  "Leaving the mine...", this.player.inventory, this.player.level);
+                this.menu.toggleMenu();
+                //this.transitionSaver.transition("SceneEnd",  "Leaving the mine...", this.player.inventory, this.player.level);
             }
 
             const cameraBounds = this.cameras.main.worldView;

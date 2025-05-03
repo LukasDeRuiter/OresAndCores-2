@@ -3,7 +3,7 @@ export class Menu {
         this.scene = scene;
         this.isVisible = false;
 
-        this.ui = this.createUI();
+        this.createUI();
     }
 
     toggleMenu() {
@@ -26,7 +26,7 @@ export class Menu {
             return;
         }
 
-        const background = this.scene.add.rectangle(0, 0, 350, 250, 0X000000, 0.3);
+        const background = this.scene.add.rectangle(0, 0, 150, 250, 0X000000, 0.3);
 
         this.ui = this.scene.add.container(400, 300 , [background]);
         this.ui.setDepth(1000);
@@ -35,6 +35,7 @@ export class Menu {
     }
 
     updateUI(){
+        console.log(this);
         this.ui.setVisible(this.isVisible);
     }
 }
