@@ -20,6 +20,7 @@ import { EnemyParser } from "../utils/enemy-parser.js";
 import { LevelGenerator } from "../utils/level-generator.js";
 import { ControlBinder } from "../utils/control-binder.js";
 import { OverlapDetector } from "../utils/overlap-detector.js";
+import { Menu } from "../ui/Menu.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -49,6 +50,7 @@ export class SceneMain extends Phaser.Scene {
 
             this.levelConfiguration = this.levelConfigurations.find(levelConfiguration => levelConfiguration.id === playerLevel);
 
+            this.menu = new Menu(this)
             this.transitionSaver = new TransitionSaver(this);
             this.LevelConfigurationCalculator = new LevelConfigurationCalculator(
                 this, 
