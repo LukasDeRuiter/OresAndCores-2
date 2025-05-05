@@ -37,7 +37,11 @@ namespace OresAndCores_2.Data
                     RequiredLevel = 1,
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
-                        new ObjectItem {ItemId = 1, Amount = 2, DropChance = 100}
+                        new ObjectItem {ItemId = 1, Amount = 2, DropChance = 100},
+                        new ObjectItem {ItemId = 12, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 13, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 14, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 15, Amount = 1, DropChance = 1},
                     }),
                 },
                 new EnvironmentObject 
@@ -52,6 +56,10 @@ namespace OresAndCores_2.Data
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
                         new ObjectItem {ItemId = 2, Amount = 2, DropChance = 100},
+                        new ObjectItem {ItemId = 12, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 13, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 14, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 15, Amount = 1, DropChance = 1},
                     }),
                 },
                  new EnvironmentObject 
@@ -66,6 +74,10 @@ namespace OresAndCores_2.Data
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
                         new ObjectItem {ItemId = 3, Amount = 2, DropChance = 100},
+                        new ObjectItem {ItemId = 12, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 13, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 14, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 15, Amount = 1, DropChance = 1},
                     }),
                 },
                  new EnvironmentObject 
@@ -80,6 +92,10 @@ namespace OresAndCores_2.Data
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
                         new ObjectItem {ItemId = 4, Amount = 2, DropChance = 100},
+                        new ObjectItem {ItemId = 12, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 13, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 14, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 15, Amount = 1, DropChance = 1},
                     }),
                 },
                 new EnvironmentObject 
@@ -93,6 +109,10 @@ namespace OresAndCores_2.Data
                     Items = JsonSerializer.Serialize(new List<ObjectItem>
                     {
                         new ObjectItem {ItemId = 1, Amount = 5, DropChance = 100},
+                        new ObjectItem {ItemId = 12, Amount = 1, DropChance = 2},
+                        new ObjectItem {ItemId = 13, Amount = 1, DropChance = 2},
+                        new ObjectItem {ItemId = 14, Amount = 1, DropChance = 2},
+                        new ObjectItem {ItemId = 15, Amount = 1, DropChance = 2},
                     }),
                 },
                 new EnvironmentObject 
@@ -120,6 +140,10 @@ namespace OresAndCores_2.Data
                     {
                         new ObjectItem {ItemId = 1, Amount = 1, DropChance = 100},
                         new ObjectItem {ItemId = 7, Amount = 3, DropChance = 60},
+                        new ObjectItem {ItemId = 12, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 13, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 14, Amount = 1, DropChance = 1},
+                        new ObjectItem {ItemId = 15, Amount = 1, DropChance = 1},
                     }),
                 }
             );
@@ -178,7 +202,11 @@ namespace OresAndCores_2.Data
                 new Item { Id = 8, Name = "copper-bar-item", Path = "assets/mine/sprites/items/copper-bar-item.png", Value = 7 },
                 new Item { Id = 9, Name = "bronze-bar-item", Path = "assets/mine/sprites/items/bronze-bar-item.png", Value = 7 },
                 new Item { Id = 10, Name = "iron-bar-item", Path = "assets/mine/sprites/items/iron-bar-item.png", Value = 7 },
-                new Item { Id = 11, Name = "steel-bar-item", Path = "assets/mine/sprites/items/steel-bar-item.png", Value = 7 }
+                new Item { Id = 11, Name = "steel-bar-item", Path = "assets/mine/sprites/items/steel-bar-item.png", Value = 7 },
+                new Item { Id = 12, Name = "sapphire-item", Path = "assets/mine/sprites/items/sapphire-item.png", Value = 30 },
+                new Item { Id = 13, Name = "emerald-bar-item", Path = "assets/mine/sprites/items/emerald-item.png", Value = 40 },
+                new Item { Id = 14, Name = "ruby-bar-item", Path = "assets/mine/sprites/items/ruby-item.png", Value = 50 },
+                new Item { Id = 15, Name = "diamond-bar-item", Path = "assets/mine/sprites/items/diamond-item.png", Value = 60 }
             );
 
              modelBuilder.Entity<LevelConfiguration>().HasData(
