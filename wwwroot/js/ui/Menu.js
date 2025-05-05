@@ -37,7 +37,6 @@ export class Menu {
     }
 
     updateUI(){
-        console.log(this);
         this.ui.setVisible(this.isVisible);
     }
 }
