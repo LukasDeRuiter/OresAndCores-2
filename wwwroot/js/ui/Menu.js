@@ -29,11 +29,7 @@ export class Menu {
         }
 
         const background = this.scene.add.rectangle(0, 0, 150, 250, 0X000000, 0.3);
-        const resumeButton = this.createButton("Resume");
-
-        resumeButton.on('pointerdown', () => {
-            this.toggleMenu();
-        });
+        const resumeButton = this.createButton("Resume", 0, this.toggleMenu.bind(this));
 
         this.ui = this.scene.add.container(400, 300 , [background, resumeButton]);
         this.ui.setDepth(1000);
@@ -41,16 +37,16 @@ export class Menu {
         this.ui.setVisible(this.isVisible);
     }
 
-    createButton(buttonText) {
-        let text = this.scene.add.text(Math.round(10), Math.round(-10), buttonText, {
+    createButton(buttonText, y = 0, callback) {
+        let text = this.scene.add.text(-20, -10, buttonText, {
             fontSize: "10px",
             fill: "#fff",
             stroke: "#000",
             strokeThickness: 5,
         });
 
-       let buttonBackground = this.scene.add.rectangle(100, 100, 30, 20, '0xaaaaaa').setDepth(1010).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
-       let button = this.scene.add.container(0, 0, [buttonBackground, text]).setDepth(1010).setScrollFactor(0);
+       let buttonBackground = this.scene.add.rectangle(0, 0, 130, 20, '0xaaaaaa').setDepth(1010).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
+       let button = this.scene.add.container(0, y - 100, [buttonBackground, text]).setDepth(1010).setScrollFactor(0);
        
        buttonBackground.on('pointerover', () => {
             buttonBackground.setAlpha(1).setScale(1.2);
@@ -59,6 +55,10 @@ export class Menu {
         buttonBackground.on('pointerout', () => {
             buttonBackground.setAlpha(0.6).setScale(1);
         });
+
+        buttonBackground.on('pointerdown',
+            callback
+        );
 
         return button;
     }
