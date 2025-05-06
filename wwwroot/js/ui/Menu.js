@@ -28,7 +28,7 @@ export class Menu {
             return;
         }
 
-        const background = this.scene.add.rectangrele(0, 0, 150, 250, 0X000000, 0.3);
+        const background = this.scene.add.rectangle(0, 0, 150, 250, 0X000000, 0.3);
         const resumeButton = this.createButton("Resume");
 
         resumeButton.on('pointerdown', () => {
