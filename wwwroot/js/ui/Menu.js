@@ -49,11 +49,11 @@ export class Menu {
             strokeThickness: 5,
         });
 
-       let buttonBackground = this.scene.add.rectangle(28, 0, 35, 20, '#008000').setDepth(50).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
-       let button = this.scene.add.container(this.x, this.y + 20, [buttonBackground, text]).setDepth(52).setScrollFactor(0);
+       let buttonBackground = this.scene.add.rectangle(100, 100, 30, 20, '0xaaaaaa').setDepth(1010).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
+       let button = this.scene.add.container(0, 0, [buttonBackground, text]).setDepth(1010).setScrollFactor(0);
        
        buttonBackground.on('pointerover', () => {
-            buttonBackground .setAlpha(1).setScale(1.2);
+            buttonBackground.setAlpha(1).setScale(1.2);
         });
 
         buttonBackground.on('pointerout', () => {
