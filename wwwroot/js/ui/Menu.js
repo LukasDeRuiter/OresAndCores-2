@@ -28,12 +28,39 @@ export class Menu {
             return;
         }
 
-        const background = this.scene.add.rectangle(0, 0, 150, 250, 0X000000, 0.3);
+        const background = this.scene.add.rectangrele(0, 0, 150, 250, 0X000000, 0.3);
+        const resumeButton = this.createButton("Resume");
 
-        this.ui = this.scene.add.container(400, 300 , [background]);
+        resumeButton.on('pointerdown', () => {
+            this.toggleMenu();
+        });
+
+        this.ui = this.scene.add.container(400, 300 , [background, resumeButton]);
         this.ui.setDepth(1000);
         this.ui.setScrollFactor(0);
         this.ui.setVisible(this.isVisible);
+    }
+
+    createButton(buttonText) {
+        let text = this.scene.add.text(Math.round(10), Math.round(-10), buttonText, {
+            fontSize: "10px",
+            fill: "#fff",
+            stroke: "#000",
+            strokeThickness: 5,
+        });
+
+       let buttonBackground = this.scene.add.rectangle(28, 0, 35, 20, '#008000').setDepth(50).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
+       let button = this.scene.add.container(this.x, this.y + 20, [buttonBackground, text]).setDepth(52).setScrollFactor(0);
+       
+       buttonBackground.on('pointerover', () => {
+            buttonBackground .setAlpha(1).setScale(1.2);
+        });
+
+        buttonBackground.on('pointerout', () => {
+            buttonBackground.setAlpha(0.6).setScale(1);
+        });
+
+        return button;
     }
 
     updateUI(){
