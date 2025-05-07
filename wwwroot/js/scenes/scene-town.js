@@ -9,6 +9,7 @@ import { Merchant } from "../entities/Npcs/Merchant.js";
 import { ControlBinder } from "../utils/control-binder.js";
 import { LevelGenerator } from "../utils/level-generator.js";
 import { OverlapDetector } from "../utils/overlap-detector.js";
+import { Menu } from "../ui/Menu.js";
 
 export class SceneTown extends Phaser.Scene {
     constructor() {
@@ -39,6 +40,7 @@ export class SceneTown extends Phaser.Scene {
             playerLevel =  this.registry.get("playerLevel");
         } 
 
+        this.menu = new Menu(this);
         this.transitionSaver = new TransitionSaver(this);
         this.levelGenerator = new LevelGenerator(this);
         this.overlapDetector = new OverlapDetector(this);
@@ -131,8 +133,6 @@ export class SceneTown extends Phaser.Scene {
         interactiveLayer.setCollisionBetween(1, 40);
 
         interactiveLayer.forEachTile(tile => {
-            console.log(tile);
-
             if (tile && tile.properties.type) {
                 const worldX = tile.getCenterX();
                 const worldY = tile.getCenterY();
@@ -146,7 +146,6 @@ export class SceneTown extends Phaser.Scene {
                     tile.properties.value,
                     "Entering the mine..."
                 );
-                console.log(interactiveTile);
 
                 interactiveTile.setOrigin(0.5);
 
