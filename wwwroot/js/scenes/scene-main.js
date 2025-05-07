@@ -185,10 +185,6 @@ export class SceneMain extends Phaser.Scene {
         }
 
         update(time, delta) {
-            if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
-                this.menu.toggleMenu();
-            }
-
             const cameraBounds = this.cameras.main.worldView;
 
             const snappedChunkX = Math.floor(cameraBounds.centerX / (this.chunkSize * this.tileSize));

@@ -95,6 +95,10 @@ export class Player extends Phaser.GameObjects.Sprite {
             this.selectedTool = this.toolBelt.find(tool => tool.name === "axe");
         }
 
+        if (Phaser.Input.Keyboard.JustDown(this.scene.keyESC)) {
+            this.scene.menu.toggleMenu();
+        }
+
         if (this.tool) {
             this.updateToolPosition();
         }
