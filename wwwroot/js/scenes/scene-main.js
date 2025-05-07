@@ -187,7 +187,6 @@ export class SceneMain extends Phaser.Scene {
         update(time, delta) {
             if (Phaser.Input.Keyboard.JustDown(this.keyESC)) {
                 this.menu.toggleMenu();
-                //this.transitionSaver.transition("SceneEnd",  "Leaving the mine...", this.player.inventory, this.player.level);
             }
 
             const cameraBounds = this.cameras.main.worldView;
