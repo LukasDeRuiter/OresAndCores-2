@@ -20,6 +20,10 @@ export class Menu {
         }
     }
 
+    quitGame() {
+        this.scene.transitionSaver.transition("SceneEnd",  "Leaving the mine...", this.scene.player.inventory, this.scene.player.level);
+    }
+
     createUI() {
         if (this.ui) {
             this.ui.destroy();
@@ -30,8 +34,9 @@ export class Menu {
 
         const background = this.scene.add.rectangle(0, 0, 150, 250, 0X000000, 0.3);
         const resumeButton = this.createButton("Resume", 0, this.toggleMenu.bind(this));
+        const quitButton = this.createButton("Quit", 30, this.quitGame.bind(this));
 
-        this.ui = this.scene.add.container(400, 300 , [background, resumeButton]);
+        this.ui = this.scene.add.container(400, 300 , [background, resumeButton, quitButton]);
         this.ui.setDepth(1000);
         this.ui.setScrollFactor(0);
         this.ui.setVisible(this.isVisible);
