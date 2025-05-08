@@ -37,6 +37,7 @@ export class Preloader {
         this.scene.load.image("porthole", "assets/mine/sprites/interactive-objects/porthole.png");
         this.scene.load.image("smelter", "assets/mine/sprites/interactive-objects/smelter.png");
         this.scene.load.image("anvil", "assets/mine/sprites/interactive-objects/anvil.png");
+        this.scene.load.image('upgrade-board', 'assets/mine/sprites/interactive-objects/upgrade-board.png');
     
         this.scene.load.image("item-shadow", "assets/mine/sprites/effects/item-shadow.png");
         this.scene.load.image("spark", "assets/mine/sprites/effects/spark.png");

@@ -6,6 +6,7 @@ import { Porthole } from "../entities/InteractiveObjects/Porthole.js";
 import { CraftingStation } from "../entities/InteractiveObjects/CraftingStation.js";
 import { UpgradeStation } from "../entities/InteractiveObjects/UpgradeStation.js";
 import { Merchant } from "../entities/Npcs/Merchant.js";
+import { UpgradeBoard } from "../entities/InteractiveObjects/UpgradeBoard.js";
 
 export class LevelGenerator {
     constructor(scene, levelConfiguration) {
@@ -187,6 +188,9 @@ export class LevelGenerator {
                 case "anvil":
                     this.fillInAnvil(object);
                     break;
+                case "upgrade-board":
+                    this.fillInUpgradeBoard(object);
+                    break;
                 default: 
                     console.log("No object class found!");
             }
@@ -204,6 +208,11 @@ export class LevelGenerator {
 
         fillInAnvil(object) {
             let npc = new UpgradeStation(this.scene, object.x, object.y, "anvil");
+            this.scene.npcs.add(npc);
+        }
+
+        fillInUpgradeBoard(object) {
+            let npc = new UpgradeBoard(this.scene, object.x, object.y, "upgrade-board");
             this.scene.npcs.add(npc);
         }
 }
