@@ -260,8 +260,8 @@
                  "type":"merchant",
                  "visible":true,
                  "width":0,
-                 "x":407.434388081573,
-                 "y":498.522375589205
+                 "x":407.434,
+                 "y":498.522
                 }, 
                 {
                  "height":0,
@@ -277,8 +277,8 @@
                  "type":"merchant",
                  "visible":true,
                  "width":0,
-                 "x":668.389316363414,
-                 "y":530.526525338869
+                 "x":668.389,
+                 "y":530.527
                 }, 
                 {
                  "height":0,
@@ -294,8 +294,8 @@
                  "type":"smelter",
                  "visible":true,
                  "width":0,
-                 "x":457.902285138601,
-                 "y":483.751502869703
+                 "x":457.902,
+                 "y":483.752
                 }, 
                 {
                  "height":0,
@@ -311,8 +311,25 @@
                  "type":"anvil",
                  "visible":true,
                  "width":0,
-                 "x":628.999880327268,
-                 "y":566.223341922091
+                 "x":629,
+                 "y":566.223
+                }, 
+                {
+                 "height":0,
+                 "id":15,
+                 "name":"upgrade-board",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"upgrade-board"
+                        }],
+                 "rotation":0,
+                 "type":"upgrade-board",
+                 "visible":true,
+                 "width":0,
+                 "x":553.913786787154,
+                 "y":489.905971425082
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -321,7 +338,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":15,
+ "nextobjectid":16,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tiledversion":"1.11.2",
