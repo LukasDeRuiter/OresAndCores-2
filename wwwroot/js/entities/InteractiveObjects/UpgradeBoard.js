@@ -32,7 +32,30 @@ export class UpgradeBoard extends InteractiveObject {
 
         const background = this.scene.add.rectangle(0, 0, 350, 250, 0X000000, 0.3);
 
-        this.ui = this.scene.add.container(400, 300 , [background]);
+        const exitButton = this.scene.add.rectangle(0, 0, 20, 20, 0xFF0000).setDepth(1010).setScrollFactor(0).setAlpha(0.6);
+        exitButton.setInteractive();
+
+        exitButton.on('pointerdown', (pointer) => {
+            if (pointer.button === 0) {
+                this.interact();
+            }
+        })
+
+        exitButton.on('pointerover', () => {
+            exitButton.setAlpha(1).setScale(1.2);
+
+        });
+
+        exitButton.on('pointerout', () => {
+            exitButton.setAlpha(0.6).setScale(1);
+
+        });
+
+        const exitButtonIcon = this.scene.add.image(0, 0, "cancel-button-icon").setDepth(52).setScrollFactor(0);
+
+        const exitButtonContainer = this.scene.add.container(165, -115, [exitButton, exitButtonIcon]).setDepth(1010);
+
+        this.ui = this.scene.add.container(400, 300 , [background, exitButtonContainer]);
         this.ui.setDepth(1000);
         this.ui.setScrollFactor(0);
         this.ui.setVisible(this.isVisible);
