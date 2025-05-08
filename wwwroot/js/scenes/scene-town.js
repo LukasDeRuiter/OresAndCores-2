@@ -10,6 +10,7 @@ import { ControlBinder } from "../utils/control-binder.js";
 import { LevelGenerator } from "../utils/level-generator.js";
 import { OverlapDetector } from "../utils/overlap-detector.js";
 import { Menu } from "../ui/Menu.js";
+import { Town } from "../entities/town/Town.js";
 
 export class SceneTown extends Phaser.Scene {
     constructor() {
@@ -45,33 +46,13 @@ export class SceneTown extends Phaser.Scene {
         this.levelGenerator = new LevelGenerator(this);
         this.overlapDetector = new OverlapDetector(this);
 
-        this.anims.create({
-            key: "walk-down",
-            frames: this.anims.generateFrameNumbers("player", { start: 0, end: 2 }), 
-            frameRate: 8,
-            repeat: -1
-        });
-    
-        this.anims.create({
-            key: "walk-left",
-            frames: this.anims.generateFrameNumbers("player", { start: 1, end: 8 }), 
-            frameRate: 8,
-            repeat: -1
-        });
-    
-        this.anims.create({
-            key: "walk-right",
-            frames: this.anims.generateFrameNumbers("player", { start: 1, end: 8 }), 
-            frameRate: 8,
-            repeat: -1
-        }); 
-    
-        this.anims.create({
-            key: "walk-up",
-            frames: this.anims.generateFrameNumbers("player", { start: 9, end: 11 }), 
-            frameRate: 8,
-            repeat: -1
-        });
+        let townLevel = 1;
+
+        if (this.registry.has("townLevel")) {
+            townLevel = this.registry.get("townLevel");
+        }
+
+        this.town = new Town(this, townLevel);
 
         this.controlBinder = new ControlBinder(this);
 
@@ -120,9 +101,9 @@ export class SceneTown extends Phaser.Scene {
         const map  = this.make.tilemap({ key: 'townMap'});
         const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
 
-        const groundLayer = map.createLayer('Ground', tileset, 0, 0);
+        const groundLayer = map.createLayer('ground-level-1', tileset, 0, 0);
 
-        const collisionLayer = map.createLayer('Collision', tileset, 0, 0);
+        const collisionLayer = map.createLayer('collision-level-1', tileset, 0, 0);
         collisionLayer.setCollisionByProperty({ collides: true });
         this.physics.add.collider(this.player, collisionLayer); 
         collisionLayer.setCollisionBetween(1, 40);
@@ -153,7 +134,7 @@ export class SceneTown extends Phaser.Scene {
             }
         })
 
-        const objectLayer = map.getObjectLayer('Objects');
+        const objectLayer = map.getObjectLayer('objects-level-1');
         
         this.fillInObjects(objectLayer);
     }
