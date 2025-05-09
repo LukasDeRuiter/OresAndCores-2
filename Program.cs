@@ -58,5 +58,21 @@ app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/openapi/v1.json", "Ores and Cores Api");
     });
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        var dbContext1 = services.GetRequiredService<OresAndCores_2Context>();
+        dbContext1.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        // Log or handle exceptions as needed
+        Console.WriteLine($"An error occurred migrating the DB: {ex.Message}");
+    }
+}
     
 app.Run();
