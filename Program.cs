@@ -13,6 +13,14 @@ builder.Services.AddDbContext<OresAndCores_2Context>(options =>
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
+// Health checks
+builder.Services.AddHealthChecks()
+    .AddSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("OresAndCores_2Context"),
+        name: "sql",
+        timeout: TimeSpan.FromSeconds(5),
+        tags: new[] { "db", "sql", "azure" });
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
@@ -42,8 +50,8 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.MapRazorPages();
-
 app.MapControllers();
+app.MapHealthChecks("/health");
 
 app.MapOpenApi();
 app.UseSwaggerUI(options => 
