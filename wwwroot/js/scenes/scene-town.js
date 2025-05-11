@@ -50,6 +50,7 @@ export class SceneTown extends Phaser.Scene {
 
         if (this.registry.has("townLevel")) {
             townLevel = this.registry.get("townLevel");
+            console.log(townLevel);
         }
 
         this.town = new Town(this, townLevel);
