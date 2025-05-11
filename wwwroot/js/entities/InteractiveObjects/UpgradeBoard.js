@@ -1,19 +1,24 @@
+import { TownUpgradeSlot } from "../TownUpgradeSlot.js";
 import { InteractiveObject } from "./InteractiveObject.js";
 
 export class UpgradeBoard extends InteractiveObject {
 
-    constructor(scene, x, y, key) {
+    constructor(scene, x, y, key, town) {
         super(scene, x, y, key);
         this.isVisible = false;
+        this.town = town;
+        this.slots = [];
+
+        this.availableUpgrades = null;
 
         this.bindInput();
-        this.createUI();
     }
 
     interact() {
         this.isVisible = !this.isVisible;
 
-        this.updateUI();
+        this.createUI();
+     
 
         if (this.isVisible) {
             this.scene.physics.world.pause();
@@ -29,6 +34,8 @@ export class UpgradeBoard extends InteractiveObject {
 
             return;
         }
+        
+        this.availableUpgrades = this.upgrades();
 
         const background = this.scene.add.rectangle(0, 0, 350, 250, 0X000000, 0.3);
 
@@ -55,10 +62,54 @@ export class UpgradeBoard extends InteractiveObject {
 
         const exitButtonContainer = this.scene.add.container(165, -115, [exitButton, exitButtonIcon]).setDepth(1010);
 
-        this.ui = this.scene.add.container(400, 300 , [background, exitButtonContainer]);
-        this.ui.setDepth(1000);
+         const itemContainer = this.scene.add.container(0, 0).setDepth(1020).setScrollFactor(0);
+                itemContainer.x = 200;
+                itemContainer.y = 160;
+                
+                let counter = 0;
+                let beginX = 50;
+                let beginY = 100;
+
+                Object.entries(this.availableUpgrades).forEach(([key, value], index) => {
+                    if (index % 3 === 0) {
+                        beginX += 60;
+                        counter = 0;
+                    }
+        
+                    let shopSlot = new TownUpgradeSlot(this.scene, this, 0, 0 + (index * 50), value[0], value[1], key, this.isVisible);
+                    shopSlot.setPrice(value[0]);
+                    shopSlot.setItem(key);
+
+                    this.slots.push(shopSlot);
+
+                    console.log(shopSlot);
+        
+                    let singleItemContainer = this.scene.add.container(beginX, beginY, [shopSlot.slot, shopSlot.craftButton, shopSlot.amountContainer]).setDepth(1030).setScrollFactor(0).setVisible(this.isVisible);
+                    itemContainer.add(singleItemContainer);
+    
+                    counter += 1;
+                })
+
+
+        this.ui = this.scene.add.container(400, 300 , [background, exitButtonContainer, itemContainer]);
+        this.ui.setDepth(1020);
         this.ui.setScrollFactor(0);
         this.ui.setVisible(this.isVisible);
+
+        console.log(this);
+    }
+
+    upgrades() {
+        let returnArray = {};
+
+        const townUpgradeCosts = [0, 0, 100, 200, 300, 400, 500];
+
+        returnArray['town'] = [
+            townUpgradeCosts[this.scene.town.level + 1],
+            this.scene.town.level + 1
+        ];
+
+        return returnArray;
     }
 
     createButton(buttonText, y = 0, callback) {
@@ -87,10 +138,6 @@ export class UpgradeBoard extends InteractiveObject {
         return button;
     }
 
-    updateUI(){
-        this.ui.setVisible(this.isVisible);
-    }
-
     bindInput() {
         this.on('pointerdown', (pointer) => {
 
@@ -98,5 +145,10 @@ export class UpgradeBoard extends InteractiveObject {
                 this.interact();
         }}
     );
+    }
+
+    purchaseUpgrade(entity, level) {
+        this.interact();
+        this.scene.town.upgrade(entity, level);
     }
 }
