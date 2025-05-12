@@ -50,7 +50,6 @@ export class SceneTown extends Phaser.Scene {
 
         if (this.registry.has("townLevel")) {
             townLevel = this.registry.get("townLevel");
-            console.log(townLevel);
         }
 
         this.town = new Town(this, townLevel);
@@ -142,8 +141,11 @@ export class SceneTown extends Phaser.Scene {
 
     fillInObjects(objectLayer) {
         objectLayer.objects.forEach(object => {
+            const requiredLevel = object.properties.find(property => property.name === "minimum-level");
 
-            this.levelGenerator.fillInObject(object);
+            if (this.town.level >= requiredLevel.value) {
+                 this.levelGenerator.fillInObject(object);
+            }
         });
     }
 

@@ -177,7 +177,6 @@ export class LevelGenerator {
         }
 
         fillInObject(object) {
-
             switch (object.type) {
                 case "merchant":
                     this.fillInMerchant(object);
