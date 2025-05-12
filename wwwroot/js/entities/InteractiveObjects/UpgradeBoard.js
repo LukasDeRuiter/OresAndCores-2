@@ -78,23 +78,17 @@ export class UpgradeBoard extends InteractiveObject {
                     shopSlot.setItem(key);
 
                     this.slots.push(shopSlot);
-
-                    console.log(shopSlot);
         
                     let singleItemContainer = this.scene.add.container(beginX, beginY, [shopSlot.slot, shopSlot.craftButton, shopSlot.amountContainer]).setDepth(1030).setScrollFactor(0).setVisible(this.isVisible);
                     itemContainer.add(singleItemContainer);
     
                     counter += 1;
                 })
-                console.log(itemContainer);
-
 
         this.ui = this.scene.add.container(400, 300 , [background, exitButtonContainer, itemContainer]);
         this.ui.setDepth(1020);
         this.ui.setScrollFactor(0);
         this.ui.setVisible(this.isVisible);
-
-        console.log(this);
     }
 
     upgrades() {
