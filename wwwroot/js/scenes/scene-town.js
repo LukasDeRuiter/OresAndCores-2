@@ -24,6 +24,7 @@ export class SceneTown extends Phaser.Scene {
         this.preloader.preloadSceneAssetsFromData();
 
         this.load.image("tileset-1", "assets/mine/sprites/tiles/tileset-1.png")
+        this.load.image("buildings-tileset-1", "assets/mine/sprites/buildings/tent-1.png")
         this.load.tilemapTiledJSON('townMap', 'assets/mine/sprites/tiles/town-tilemap.tmj');
     }
 
@@ -100,10 +101,19 @@ export class SceneTown extends Phaser.Scene {
 
         const map  = this.make.tilemap({ key: 'townMap'});
         const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
+        const buildingsTileset = map.addTilesetImage('tent-1', 'buildings-tileset-1');
 
         const groundLayer = this.getGroundLayer(map, tileset);
         const collisionLayer = this.getCollisionLayer(map, tileset);
+        const buildingsLayer = this.getBuildingsLayer(map, buildingsTileset);
     
+
+        if (buildingsLayer) {
+            buildingsLayer.setCollisionByProperty({ collides: true });
+            this.physics.add.collider(this.player, buildingsLayer); 
+            buildingsLayer.setCollisionBetween(1, 40);
+        }
+
         collisionLayer.setCollisionByProperty({ collides: true });
         this.physics.add.collider(this.player, collisionLayer); 
         collisionLayer.setCollisionBetween(1, 40);
@@ -190,6 +200,20 @@ export class SceneTown extends Phaser.Scene {
                 break;
             default:
                 return map.createLayer('collision-level-1', tileset, 0, 0);
+                break;
+        }
+    }
+
+       getBuildingsLayer(map, tileset) {
+        switch (this.town.level) {
+            case 1:
+                return;
+                break;
+            case 2:      
+                return map.createLayer('buildings-1', tileset, 0, 0);
+                break;
+            default:
+                return;
                 break;
         }
     }
