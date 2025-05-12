@@ -494,6 +494,11 @@
                  "name":"upgrade-board",
                  "properties":[
                         {
+                         "name":"minimum-level",
+                         "type":"string",
+                         "value":"1"
+                        }, 
+                        {
                          "name":"type",
                          "type":"string",
                          "value":"upgrade-board"
