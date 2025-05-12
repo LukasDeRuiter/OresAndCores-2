@@ -24,7 +24,7 @@ export class SceneTown extends Phaser.Scene {
         this.preloader.preloadSceneAssetsFromData();
 
         this.load.image("tileset-1", "assets/mine/sprites/tiles/tileset-1.png")
-        this.load.image("buildings-tileset-1", "assets/mine/sprites/buildings/tent-1.png")
+        this.load.image("buildings-tileset-1", "assets/mine/sprites/buildings/buildings-1.png")
         this.load.tilemapTiledJSON('townMap', 'assets/mine/sprites/tiles/town-tilemap.tmj');
     }
 
@@ -101,7 +101,7 @@ export class SceneTown extends Phaser.Scene {
 
         const map  = this.make.tilemap({ key: 'townMap'});
         const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
-        const buildingsTileset = map.addTilesetImage('tent-1', 'buildings-tileset-1');
+        const buildingsTileset = map.addTilesetImage('buildings-1', 'buildings-tileset-1');
 
         const groundLayer = this.getGroundLayer(map, tileset);
         const collisionLayer = this.getCollisionLayer(map, tileset);
