@@ -102,9 +102,9 @@ export class SceneTown extends Phaser.Scene {
         const map  = this.make.tilemap({ key: 'townMap'});
         const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
 
-        const groundLayer = map.createLayer('ground-level-1', tileset, 0, 0);
-
-        const collisionLayer = map.createLayer('collision-level-1', tileset, 0, 0);
+        const groundLayer = this.getGroundLayer(map, tileset);
+        const collisionLayer = this.getCollisionLayer(map, tileset);
+    
         collisionLayer.setCollisionByProperty({ collides: true });
         this.physics.add.collider(this.player, collisionLayer); 
         collisionLayer.setCollisionBetween(1, 40);
@@ -162,5 +162,33 @@ export class SceneTown extends Phaser.Scene {
         this.player.inventory.levelText.setText(`Current level: ${this.player.level}`);
         this.player.inventory.moneyText.setText(`Money: ${this.player.inventory.money}`);
         this.player.inventory.toggle();
+    }
+
+    getGroundLayer(map, tileset) {
+        switch (this.town.level) {
+            case 1:
+                return map.createLayer('ground-level-1', tileset, 0, 0);
+                break;
+            case 2:      
+                return map.createLayer('ground-level-2', tileset, 0, 0);
+                break;
+            default:
+                return map.createLayer('ground-level-1', tileset, 0, 0);
+                break;
+        }
+    }
+
+      getCollisionLayer(map, tileset) {
+        switch (this.town.level) {
+            case 1:
+                return map.createLayer('collision-level-1', tileset, 0, 0);
+                break;
+            case 2:      
+                return map.createLayer('collision-level-2', tileset, 0, 0);
+                break;
+            default:
+                return map.createLayer('collision-level-1', tileset, 0, 0);
+                break;
+        }
     }
 }
