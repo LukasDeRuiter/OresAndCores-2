@@ -62,13 +62,10 @@ export class UpgradeBoard extends InteractiveObject {
 
         const exitButtonContainer = this.scene.add.container(165, -115, [exitButton, exitButtonIcon]).setDepth(1010);
 
-         const itemContainer = this.scene.add.container(0, 0).setDepth(1020).setScrollFactor(0);
-                itemContainer.x = 200;
-                itemContainer.y = 160;
-                
+         const itemContainer = this.scene.add.container(0, 0).setDepth(1020).setScrollFactor(0);            
                 let counter = 0;
-                let beginX = 50;
-                let beginY = 100;
+                let beginX = 0;
+                let beginY = 0;
 
                 Object.entries(this.availableUpgrades).forEach(([key, value], index) => {
                     if (index % 3 === 0) {
@@ -89,6 +86,7 @@ export class UpgradeBoard extends InteractiveObject {
     
                     counter += 1;
                 })
+                console.log(itemContainer);
 
 
         this.ui = this.scene.add.container(400, 300 , [background, exitButtonContainer, itemContainer]);
@@ -102,7 +100,7 @@ export class UpgradeBoard extends InteractiveObject {
     upgrades() {
         let returnArray = {};
 
-        const townUpgradeCosts = [0, 0, 100, 200, 300, 400, 500];
+        const townUpgradeCosts = [0, 0, 1, 200, 300, 400, 500];
 
         returnArray['town'] = [
             townUpgradeCosts[this.scene.town.level + 1],

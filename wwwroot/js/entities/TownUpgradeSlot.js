@@ -23,7 +23,7 @@ export class TownUpgradeSlot {
         this.craftButtonBackground = null;
         this.amountContainer = null;
 
-        this.purchaseUpgrade = false;
+        this.canPurchaseUpgrade = false;
     }
 
     setItem() {
@@ -80,6 +80,9 @@ export class TownUpgradeSlot {
                     stroke: "#000",
                     strokeThickness: 5,
                 });
+
+                this.updatePriceCheck();
+
                 this.amountContainer = this.scene.add.container(this.x, this.y + 20, [coinBackground, costSprite, this.coinAmount]).setDepth(52).setScrollFactor(0);
             }
         } else {
