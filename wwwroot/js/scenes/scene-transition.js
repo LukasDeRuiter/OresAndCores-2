@@ -51,7 +51,15 @@ export class SceneTransition extends Phaser.Scene {
     }
 
     getRandomTip() {
-        return "test";
+        const tips = [
+            "Don't forget to upgrade your tools at the town",
+            "Use merchants to sell your items",
+            "All toasters toast toast!",
+        ]
+        
+        const randomIndex = Math.floor(Math.random() * tips.length);
+        
+        return tips[randomIndex];
     }
 
     transitionScene() {
