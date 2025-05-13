@@ -162,21 +162,21 @@ export class Merchant extends Npc {
         const text = this.scene.add.text(-boxWidth / 2 + 10, -boxHeight / 2 + 5, "Welcome to my \n shop! What would \n you like?", {
             fontSize: "10px",
             fill: "#fff"
-        })
+        }).setResolution(2);
     
         const buyBtn = this.scene.add.text(-boxWidth / 2 + 10, 10, "Buy", {
             fontSize: "10px",
             fill: "#00ff00",
             backgroundColor: "#003300",
             padding: { x: 5, y: 2 }
-        }).setInteractive();
+        }).setInteractive().setResolution(2);
     
         const sellBtn = this.scene.add.text(15, 10, "Sell", {
             fontSize: "10px",
             fill: "#ffcc00",
             backgroundColor: "#332200",
             padding: { x: 5, y: 2 }
-        }).setInteractive();
+        }).setInteractive().setResolution(2);
     
         buyBtn.on('pointerdown', () => {
             this.isSellMode = false;

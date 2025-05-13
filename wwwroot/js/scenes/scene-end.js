@@ -46,16 +46,18 @@ export class SceneEnd extends Phaser.Scene {
 
         this.inventory = inventory;
 
-        this.add.text(400, 200, "Thank you for playing!", { fontSize: "32px", fill: "#fff"}).setOrigin(0.5);
+        this.add.text(400, 200, "Thank you for playing!", { fontSize: "32px", fill: "#fff"}).setOrigin(0.5).setResolution(2);
 
         let restartButton = this.add.text(300, 300, "restart", { fontSize: "24px", fill: "#fff", backgroundColor: "#444"})
             .setOrigin(0.5)
             .setPadding(10)
+            .setResolution(2)
             .setInteractive();
 
         let saveButton = this.add.text(500, 300, "save progress", { fontSize: "24px", fill: "#fff", backgroundColor: "#444"})
             .setOrigin(0.5)
             .setPadding(10)
+            .setResolution(2)
             .setInteractive();
 
         restartButton.on("pointerdown", () => {
@@ -77,7 +79,8 @@ export class SceneEnd extends Phaser.Scene {
                     fill: response.message === "Inventory successfully saved!" ? "#008000" : "#FF2C2C",
                 }
             )
-            .setOrigin(0.5);
+            .setOrigin(0.5)
+            .setResolution(2);
         })
     }
 

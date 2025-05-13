@@ -18,14 +18,14 @@ export class Inventory {
             fill: "#fff",
             stroke: "#000",
             strokeThickness: 3,
-        }).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+        }).setDepth(52).setScrollFactor(0).setResolution(2).setVisible(this.isVisible);
 
         this.moneyText = this.scene.add.text(280, 360, "Money: 0", {
             fontSize: "16",
             fill: "#fff",
             stroke: "#000",
             strokeThickness: 3,
-        }).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+        }).setDepth(52).setScrollFactor(0).setResolution(2).setVisible(this.isVisible);
 
         this.toolBeltText = null;
 
@@ -111,7 +111,7 @@ export class Inventory {
                 fill: "#fff",
                 stroke: "#000",
                 strokeThickness: 3,
-            }).setDepth(52).setScrollFactor(0).setVisible(this.isVisible);
+            }).setDepth(52).setScrollFactor(0).setResolution(2).setVisible(this.isVisible);
         } else {
             this.toolBeltText.setText(this.renderToolBeltText());
             this.toolBeltText.setVisible(this.isVisible);
@@ -258,7 +258,7 @@ export class Inventory {
             `Collected ${name}!`, {
                 font: '10px Arial',
                 fill: color,
-            }).setOrigin(0.5).setDepth(100);
+            }).setOrigin(0.5).setDepth(100).setResolution(2);
         
         this.scene.tweens.add({
             targets: pickUpText,
@@ -280,7 +280,7 @@ export class Inventory {
             `Lost ${name}!`, {
                 font: '10px Arial',
                 fill: color,
-            }).setOrigin(0.5).setDepth(100);
+            }).setOrigin(0.5).setDepth(100).setResolution(2);
         
         this.scene.tweens.add({
             targets: pickUpText,

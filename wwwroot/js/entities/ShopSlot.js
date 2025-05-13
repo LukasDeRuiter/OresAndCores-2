@@ -72,7 +72,7 @@ export class ShopSlot {
                     fill: "#fff",
                     stroke: "#000",
                     strokeThickness: 5,
-                });
+                }).setResolution(2);
 
                 this.purchaseButtonBackground = this.scene.add.rectangle(22, 0, this.slotWidth / 2, 20, '#008000').setDepth(50).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);;
                 this.purchaseButton = this.scene.add.container(this.x, this.y + 20, [this.purchaseButtonBackground, this.itemText]).setDepth(52).setScrollFactor(0);
@@ -101,7 +101,7 @@ export class ShopSlot {
                     fill: "#fff",
                     stroke: "#000",
                     strokeThickness: 5,
-                });
+                }).setResolution(2);
                 this.amountContainer = this.scene.add.container(this.x, this.y + 20, [coinBackground, costSprite, this.coinAmount]).setDepth(52).setScrollFactor(0);
             }
         } else {

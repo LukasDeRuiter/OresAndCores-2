@@ -4,11 +4,12 @@
         }
 
         create() {
-            this.add.text(400, 200, "Oh no, you died!", { fontSize: "32px", fill: "#fff"}).setOrigin(0.5);
+            this.add.text(400, 200, "Oh no, you died!", { fontSize: "32px", fill: "#fff"}).setOrigin(0.5).setResolution(2);
 
             let restartButton = this.add.text(400, 300, "restart", { fontSize: "24px", fill: "#fff", backgroundColor: "#444"})
                 .setOrigin(0.5)
                 .setPadding(10)
+                .setResolution(2)
                 .setInteractive();
 
             restartButton.on("pointerdown", () => {

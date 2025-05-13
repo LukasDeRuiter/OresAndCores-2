@@ -52,6 +52,7 @@ export class InventorySlot {
                 }).setOrigin(1)
                 .setDepth(56)
                 .setScrollFactor(0)
+                .setResolution(2)
                 .setVisible(this.isVisible);
             }
         } else {

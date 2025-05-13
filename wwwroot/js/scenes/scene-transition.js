@@ -18,7 +18,7 @@ export class SceneTransition extends Phaser.Scene {
         const text = this.add.text(width / 2, 150, this.message, {
             fontSize: "40px",
             fill: "#ffffff",
-        }).setOrigin(0.5);
+        }).setOrigin(0.5).setResolution(2);
 
         const progressBackground = this.add.graphics();
         progressBackground.fillStyle(0x115511, 1);
@@ -47,7 +47,7 @@ export class SceneTransition extends Phaser.Scene {
         const tipText = this.add.text(width / 2, 450, this.tip ? this.tip : this.getRandomTip(), {
             fontSize: "18px",
             fill: "#ffffff",
-        }).setOrigin(0.5);
+        }).setOrigin(0.5).setResolution(2);
     }
 
     getRandomTip() {

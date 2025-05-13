@@ -50,7 +50,7 @@ export class TownUpgradeSlot {
                     fill: "#fff",
                     stroke: "#000",
                     strokeThickness: 5,
-                });
+                }).setResolution(2);
 
                 this.craftButtonBackground = this.scene.add.rectangle(28, 0, 35, 20, '#008000').setDepth(50).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
                 this.craftButton = this.scene.add.container(this.x, this.y + 20, [this.craftButtonBackground, this.itemText]).setDepth(52).setScrollFactor(0);
@@ -79,7 +79,7 @@ export class TownUpgradeSlot {
                     fill: "#fff",
                     stroke: "#000",
                     strokeThickness: 5,
-                });
+                }).setResolution(2);
 
                 this.updatePriceCheck();
 

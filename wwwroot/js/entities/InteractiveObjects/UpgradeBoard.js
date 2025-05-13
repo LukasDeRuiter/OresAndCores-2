@@ -110,7 +110,7 @@ export class UpgradeBoard extends InteractiveObject {
             fill: "#fff",
             stroke: "#000",
             strokeThickness: 5,
-        });
+        }).setResolution(2);
 
        let buttonBackground = this.scene.add.rectangle(0, 0, 130, 20, '0xaaaaaa').setDepth(1010).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
        let button = this.scene.add.container(0, y - 100, [buttonBackground, text]).setDepth(1010).setScrollFactor(0);
