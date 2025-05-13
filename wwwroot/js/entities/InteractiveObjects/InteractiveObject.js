@@ -21,10 +21,12 @@ export class InteractiveObject extends Phaser.GameObjects.Sprite {
     highLight(isHoverOn) {
         if (isHoverOn) {
             if (this.calculateDistanceWithPlayer() <= 32) {
+                this.scene.tooltip.showOutsideOfUI(this.text, this.scene.input.activePointer);
                 this.setTint(0x00ff00);
             }   
         } else {
             this.clearTint();
+                this.scene.tooltip.hide();
         }
     }
 }

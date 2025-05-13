@@ -74,14 +74,14 @@ export class InventorySlot {
         }
     }
 
-    onPointerOver(pointer) {
+    onPointerOver() {
         this.slot.setStrokeStyle(2, 0x00ff00);
         if (this.item) {
-            this.scene.tooltip.show(this.item.name, pointer);
+            this.scene.tooltip.show(this.item.name, this.x, this.y);
         }
     }
 
-    onPointerOut(pointer) {
+    onPointerOut() {
         this.slot.setStrokeStyle(0);
         this.scene.tooltip.hide();
     }
