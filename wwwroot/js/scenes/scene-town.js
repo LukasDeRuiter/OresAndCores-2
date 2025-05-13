@@ -11,6 +11,7 @@ import { LevelGenerator } from "../utils/level-generator.js";
 import { OverlapDetector } from "../utils/overlap-detector.js";
 import { Menu } from "../ui/Menu.js";
 import { Town } from "../entities/town/Town.js";
+import { Tooltip } from "../ui/Tooltip.js";
 
 export class SceneTown extends Phaser.Scene {
     constructor() {
@@ -43,6 +44,7 @@ export class SceneTown extends Phaser.Scene {
         } 
 
         this.menu = new Menu(this);
+        this.tooltip = new Tooltip(this);
         this.transitionSaver = new TransitionSaver(this);
         this.levelGenerator = new LevelGenerator(this);
         this.overlapDetector = new OverlapDetector(this);

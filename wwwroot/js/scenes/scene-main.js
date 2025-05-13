@@ -21,6 +21,7 @@ import { LevelGenerator } from "../utils/level-generator.js";
 import { ControlBinder } from "../utils/control-binder.js";
 import { OverlapDetector } from "../utils/overlap-detector.js";
 import { Menu } from "../ui/Menu.js";
+import { Tooltip } from "../ui/Tooltip.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -51,6 +52,7 @@ export class SceneMain extends Phaser.Scene {
             this.levelConfiguration = this.levelConfigurations.find(levelConfiguration => levelConfiguration.id === playerLevel);
 
             this.menu = new Menu(this);
+            this.tooltip = new Tooltip(this);
             this.transitionSaver = new TransitionSaver(this);
             this.LevelConfigurationCalculator = new LevelConfigurationCalculator(
                 this, 
@@ -93,6 +95,7 @@ export class SceneMain extends Phaser.Scene {
             } 
 
             let npc = new Merchant(this, worldWidth / 2, (worldHeight / 12) + 30, "merchant-1", "merchant-1");
+
             this.npcs.add(npc);
 
             this.levelGenerator.generateInteractiveObjects();
