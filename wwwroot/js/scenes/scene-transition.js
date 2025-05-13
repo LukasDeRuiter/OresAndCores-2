@@ -45,7 +45,7 @@ export class SceneTransition extends Phaser.Scene {
         });
 
         const tipText = this.add.text(width / 2, 450, this.tip ? this.tip : this.getRandomTip(), {
-            fontSize: "18px",
+            fontSize: "20px",
             fill: "#ffffff",
         }).setOrigin(0.5).setResolution(2);
     }
