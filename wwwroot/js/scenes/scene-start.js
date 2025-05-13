@@ -15,6 +15,7 @@ export class SceneStart extends Phaser.Scene {
                 this.scene.start("SceneTransition", {
                     targetScene: "SceneMain",
                     message: "Entering the mine...",
+                    tip: "press ESC to open the main menu and find the controls!"
                 })
             })
     }

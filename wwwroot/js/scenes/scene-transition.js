@@ -6,6 +6,7 @@ export class SceneTransition extends Phaser.Scene {
     init(data) {
         this.targetScene = data.targetScene;
         this.message = data.message || "Loading...";
+        this.tip = data.tip;
     }
 
     create() {
@@ -42,6 +43,15 @@ export class SceneTransition extends Phaser.Scene {
                 }
             },
         });
+
+        const tipText = this.add.text(width / 2, 450, this.tip ? this.tip : this.getRandomTip(), {
+            fontSize: "18px",
+            fill: "#ffffff",
+        }).setOrigin(0.5);
+    }
+
+    getRandomTip() {
+        return "test";
     }
 
     transitionScene() {
