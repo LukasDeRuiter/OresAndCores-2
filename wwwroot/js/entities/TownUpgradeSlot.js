@@ -1,12 +1,12 @@
 export class TownUpgradeSlot {
-    constructor(scene, station, x, y, cost, level, entity, isVisible) {
+    constructor(scene, station, x, y, upgrade, isVisible) {
         this.scene = scene;
         this.station = station;
         this.x = x;
         this.y = y;
-        this.cost = cost;
-        this.level = level;
-        this.entity = entity;
+        this.cost = upgrade.cost;
+        this.level = upgrade.level;
+        this.entity = upgrade.entity;
         this.isVisible = isVisible;
         this.slotWidth = 50;
         this.slotHeight = 40;
@@ -16,12 +16,14 @@ export class TownUpgradeSlot {
         .setDepth(300)
         .setVisible(this.isVisible);
 
-        this.entity = entity;
+        this.background = null;
         this.itemImage = null;
-        this.slotText = `${entity} level ${level}`;
+        this.slotText = `${this.entity} level ${this.level}`;
+        this.description = upgrade.text;
         this.craftButton = null;
         this.craftButtonBackground = null;
         this.amountContainer = null;
+        this.descriptionText = null;
 
         this.canPurchaseUpgrade = false;
     }
@@ -44,16 +46,27 @@ export class TownUpgradeSlot {
             // .setVisible(this.isVisible);
             }
 
+            
+            if (!this.descriptionText) {
+                this.descriptionText = this.scene.add.text(this.x + 45, this.y - 18, this.description, {
+                    fontSize: "8px",
+                    fill: "#fff",   
+                    stroke: "#000",
+                    strokeThickness: 5,
+                    wordWrap: { width: 250, useAdvancedWrap: true } 
+                }).setResolution(2).setDepth(1000).setScrollFactor(0);
+            }
+
             if (!this.craftButton) {
-                this.itemText = this.scene.add.text(Math.round(10), Math.round(-10), 'Craft', {
+                this.itemText = this.scene.add.text(Math.round(10), Math.round(-10), 'Upgrade', {
                     fontSize: "10px",
                     fill: "#fff",
                     stroke: "#000",
                     strokeThickness: 5,
                 }).setResolution(2);
 
-                this.craftButtonBackground = this.scene.add.rectangle(28, 0, 35, 20, '#008000').setDepth(50).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
-                this.craftButton = this.scene.add.container(this.x, this.y + 20, [this.craftButtonBackground, this.itemText]).setDepth(52).setScrollFactor(0);
+                this.craftButtonBackground = this.scene.add.rectangle(28, 0, 45, 20, '#008000').setDepth(50).setScrollFactor(0).setInteractive().setAlpha(0.6).setScale(1);
+                this.craftButton = this.scene.add.container(this.x - 20, this.y + 20, [this.craftButtonBackground, this.itemText]).setDepth(52).setScrollFactor(0);
 
                 this.craftButtonBackground.on('pointerover', () => {
                     this.craftButtonBackground.setAlpha(1).setScale(1.2);
@@ -68,6 +81,10 @@ export class TownUpgradeSlot {
                 this.craftButtonBackground.on('pointerdown', () => {
                     this.startTransation();
                 });
+            }
+
+            if (!this.background) {
+                 this.background = this.scene.add.rectangle(this.x + 120, this.y, 350, 60, 0x858585).setDepth(50).setScrollFactor(0).setAlpha(0.5);
             }
 
             if (!this.amountContainer) {
@@ -85,6 +102,15 @@ export class TownUpgradeSlot {
 
                 this.amountContainer = this.scene.add.container(this.x, this.y + 20, [coinBackground, costSprite, this.coinAmount]).setDepth(52).setScrollFactor(0);
             }
+            if (!this.uiContainer) {
+                this.uiContainer = this.scene.add.container(this.x, this.y + 20, [
+                this.background,
+                this.slot,
+                this.craftButton,
+                this.amountContainer,
+                this.descriptionText
+            ]).setDepth(1030).setScrollFactor(0).setVisible(this.isVisible);
+        }
         } else {
             if (this.itemImage) {
                 this.itemImage.destroy();
@@ -94,6 +120,11 @@ export class TownUpgradeSlot {
             if(this.itemText) {
                 this.itemText.destroy();
                 this.itemText = null;
+            }
+
+            if(this.descriptionText) {
+                this.descriptionText.destroy();
+                this.descriptionText = null;
             }
 
             if(this.purchaseButton) {
@@ -123,8 +154,7 @@ export class TownUpgradeSlot {
         if (this.item) {
             this.updatePriceCheck();
 
-            this.itemImage.setVisible(isVisible);
-            this.itemText.setVisible(isVisible);
+            this.uiContainer.setVisible(this.isVisible);
         }
     }
 
