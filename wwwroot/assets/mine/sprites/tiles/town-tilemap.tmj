@@ -489,7 +489,7 @@
                  "y":544.223
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "id":15,
                  "name":"upgrade-board",
                  "properties":[
@@ -506,9 +506,9 @@
                  "rotation":0,
                  "type":"upgrade-board",
                  "visible":true,
-                 "width":0,
-                 "x":502.914,
-                 "y":485.906
+                 "width":16,
+                 "x":494.914,
+                 "y":478.572666666667
                 }],
          "opacity":1,
          "type":"objectgroup",

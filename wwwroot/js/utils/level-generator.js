@@ -196,22 +196,22 @@ export class LevelGenerator {
         }
 
         fillInMerchant(object) {
-            let npc = new Merchant(this.scene, object.x, object.y, "merchant-1", "merchant-1");
+            let npc = new Merchant(this.scene, object.x, object.y, "merchant-1", "merchant-1").setOrigin(0);
             this.scene.npcs.add(npc);
         }
 
         fillInSmelter(object) {
-            let npc = new CraftingStation(this.scene, object.x, object.y, "smelter");
+            let npc = new CraftingStation(this.scene, object.x, object.y, "smelter").setOrigin(0);
             this.scene.npcs.add(npc);
         }
 
         fillInAnvil(object) {
-            let npc = new UpgradeStation(this.scene, object.x, object.y, "anvil");
+            let npc = new UpgradeStation(this.scene, object.x, object.y, "anvil").setOrigin(0);
             this.scene.npcs.add(npc);
         }
 
         fillInUpgradeBoard(object) {
-            let npc = new UpgradeBoard(this.scene, object.x, object.y, "upgrade-board");
+            let npc = new UpgradeBoard(this.scene, object.x, object.y, "upgrade-board").setOrigin(0);
             this.scene.npcs.add(npc);
         }
 }
