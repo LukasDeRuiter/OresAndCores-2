@@ -24,8 +24,9 @@ export class SceneTown extends Phaser.Scene {
         this.preloader.preloadSceneAssets();
         this.preloader.preloadSceneAssetsFromData();
 
-        this.load.image("tileset-1", "assets/mine/sprites/tiles/tileset-1.png")
-        this.load.image("buildings-tileset-1", "assets/mine/sprites/buildings/buildings-1.png")
+        this.load.image("tiles-tileset-1", "assets/mine/sprites/tiles/tiles-tileset-1.png");
+        this.load.image("doodads-tileset-1", "assets/mine/sprites/tiles/doodads-tileset-1.png");
+        this.load.image("buildings-tileset-1", "assets/mine/sprites/buildings/buildings-1.png");
         this.load.tilemapTiledJSON('townMap', 'assets/mine/sprites/tiles/town-tilemap.tmj');
     }
 
@@ -102,11 +103,12 @@ export class SceneTown extends Phaser.Scene {
         this.physics.add.collider(this.player, this.npcs);
 
         const map  = this.make.tilemap({ key: 'townMap'});
-        const tileset = map.addTilesetImage('tileset-1', 'tileset-1');
+        const tilesTileset = map.addTilesetImage('tiles-tileset-1', 'tiles-tileset-1');
+        const doodadsTileset = map.addTilesetImage('doodads-tileset-1', 'doodads-tileset-1');
         const buildingsTileset = map.addTilesetImage('buildings-1', 'buildings-tileset-1');
 
-        const groundLayer = this.getGroundLayer(map, tileset);
-        const collisionLayer = this.getCollisionLayer(map, tileset);
+        const groundLayer = this.getGroundLayer(map, tilesTileset);
+        const collisionLayer = this.getCollisionLayer(map, [tilesTileset, doodadsTileset]);
         const buildingsLayer = this.getBuildingsLayer(map, buildingsTileset);
     
 
@@ -120,13 +122,14 @@ export class SceneTown extends Phaser.Scene {
         this.physics.add.collider(this.player, collisionLayer); 
         collisionLayer.setCollisionBetween(1, 40);
 
-        const interactiveLayer = map.createLayer('InteractiveTiles', tileset, 0, 0);
+        const interactiveLayer = map.createLayer('InteractiveTiles', doodadsTileset, 0, 0);
         interactiveLayer.setCollisionByProperty({ collides: true });
         this.physics.add.collider(this.player, interactiveLayer); 
         interactiveLayer.setCollisionBetween(1, 40);
 
         interactiveLayer.forEachTile(tile => {
             if (tile && tile.properties.type) {
+                console.log(tile);
                 const worldX = tile.getCenterX();
                 const worldY = tile.getCenterY();
 
