@@ -129,7 +129,6 @@ export class SceneTown extends Phaser.Scene {
 
         interactiveLayer.forEachTile(tile => {
             if (tile && tile.properties.type) {
-                console.log(tile);
                 const worldX = tile.getCenterX();
                 const worldY = tile.getCenterY();
 

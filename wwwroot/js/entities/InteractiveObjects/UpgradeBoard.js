@@ -1,3 +1,4 @@
+import { TownUpgrade } from "../TownUpgrade.js";
 import { TownUpgradeSlot } from "../TownUpgradeSlot.js";
 import { InteractiveObject } from "./InteractiveObject.js";
 
@@ -64,22 +65,20 @@ export class UpgradeBoard extends InteractiveObject {
 
          const itemContainer = this.scene.add.container(0, 0).setDepth(1020).setScrollFactor(0);            
                 let counter = 0;
-                let beginX = 0;
-                let beginY = 0;
+                let beginX = -120;
+                let beginY = -80;
 
-                Object.entries(this.availableUpgrades).forEach(([key, value], index) => {
-                    if (index % 3 === 0) {
-                        beginX += 60;
-                        counter = 0;
-                    }
-        
-                    let shopSlot = new TownUpgradeSlot(this.scene, this, 0, 0 + (index * 50), value[0], value[1], key, this.isVisible);
-                    shopSlot.setPrice(value[0]);
-                    shopSlot.setItem(key);
+                Object.entries(this.availableUpgrades).forEach(([key, upgrade], index) => {    
+                    let shopSlot = new TownUpgradeSlot(this.scene, this, 0, 0, upgrade, this.isVisible);
+                    shopSlot.setPrice(upgrade.cost);
+                    shopSlot.setItem(upgrade.level);
 
                     this.slots.push(shopSlot);
+
+                    console.log(upgrade);
+                    console.log(shopSlot);
         
-                    let singleItemContainer = this.scene.add.container(beginX, beginY, [shopSlot.slot, shopSlot.craftButton, shopSlot.amountContainer]).setDepth(1030).setScrollFactor(0).setVisible(this.isVisible);
+                    let singleItemContainer = this.scene.add.container(beginX, beginY, [shopSlot.uiContainer]).setDepth(1030).setScrollFactor(0).setVisible(this.isVisible);
                     itemContainer.add(singleItemContainer);
     
                     counter += 1;
@@ -92,14 +91,25 @@ export class UpgradeBoard extends InteractiveObject {
     }
 
     upgrades() {
-        let returnArray = {};
+        let returnArray = {
+        };
 
-        const townUpgradeCosts = [0, 0, 1, 200, 300, 400, 500];
-
-        returnArray['town'] = [
-            townUpgradeCosts[this.scene.town.level + 1],
-            this.scene.town.level + 1
+        const townUpgradeCosts = [
+            0, 
+            0,
+            new TownUpgrade(this.scene, 2, 1, "town", "Add the first tents and inhabitants of your new town!"), 
+            new TownUpgrade(this.scene, 3, 2, "town", "More tenants come to inhabit your town, as it grows rapidly."),
+            3, 
+            4, 
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
         ];
+
+        returnArray['town'] = townUpgradeCosts[this.scene.town.level + 1];
 
         return returnArray;
     }
