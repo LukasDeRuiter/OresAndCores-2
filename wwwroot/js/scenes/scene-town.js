@@ -188,6 +188,18 @@ export class SceneTown extends Phaser.Scene {
             case 2:      
                 return map.createLayer('ground-level-2', tileset, 0, 0);
                 break;
+            case 3:      
+                return map.createLayer('ground-level-3', tileset, 0, 0);
+                break;
+            case 4:      
+                return map.createLayer('ground-level-4', tileset, 0, 0);
+                break;
+            case 5:      
+                return map.createLayer('ground-level-5', tileset, 0, 0);
+                break;
+            case 6:      
+                return map.createLayer('ground-level-6', tileset, 0, 0);
+                break;
             default:
                 return map.createLayer('ground-level-1', tileset, 0, 0);
                 break;
@@ -201,6 +213,18 @@ export class SceneTown extends Phaser.Scene {
                 break;
             case 2:      
                 return map.createLayer('collision-level-2', tileset, 0, 0);
+                break;
+            case 3:      
+                return map.createLayer('collision-level-3', tileset, 0, 0);
+                break;
+            case 4:      
+                return map.createLayer('collision-level-4', tileset, 0, 0);
+                break;
+            case 5:      
+                return map.createLayer('collision-level-5', tileset, 0, 0);
+                break;
+            case 6:      
+                return map.createLayer('collision-level-6', tileset, 0, 0);
                 break;
             default:
                 return map.createLayer('collision-level-1', tileset, 0, 0);
