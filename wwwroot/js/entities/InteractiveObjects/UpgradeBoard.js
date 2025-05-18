@@ -74,9 +74,6 @@ export class UpgradeBoard extends InteractiveObject {
                     shopSlot.setItem(upgrade.level);
 
                     this.slots.push(shopSlot);
-
-                    console.log(upgrade);
-                    console.log(shopSlot);
         
                     let singleItemContainer = this.scene.add.container(beginX, beginY, [shopSlot.uiContainer]).setDepth(1030).setScrollFactor(0).setVisible(this.isVisible);
                     itemContainer.add(singleItemContainer);
