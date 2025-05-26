@@ -34,4 +34,35 @@ export class Npc extends Npc {
             this.updateShopUI();
         }
     }
+
+     bindInput() {
+        this.on('pointerdown', (pointer) => {
+
+            if (pointer.button === 0);
+                this.interact();
+        })
+    }
+
+     fadeInText(container, duration = 300) {
+        container.setVisible(true);
+        container.alpha = 0;
+        this.scene.tweens.add({
+            targets: container,
+            alpha: 1,
+            duration: duration,
+            ease: 'Power2'
+        });
+    }
+    
+    fadeOutText(container, duration = 300) {
+        this.scene.tweens.add({
+            targets: container,
+            alpha: 0,
+            duration: duration,
+            ease: 'Power2',
+            onComplete: () => {
+                container.setVisible(false);
+            }
+        });
+    }
 }
