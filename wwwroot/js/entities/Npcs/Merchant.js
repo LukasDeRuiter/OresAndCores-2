@@ -10,7 +10,7 @@ export class Merchant extends Npc {
         this.speechBox = null;
         this.slots = [];
         this.shopUI = null;
-        this.isSpeechBoxVisible = false
+        this.isSpeechBoxVisible = false;
         this.isShopVisible = false;
         this.sellMode = false;
 
