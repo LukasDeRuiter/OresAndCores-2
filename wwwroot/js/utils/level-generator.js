@@ -7,6 +7,7 @@ import { CraftingStation } from "../entities/InteractiveObjects/CraftingStation.
 import { UpgradeStation } from "../entities/InteractiveObjects/UpgradeStation.js";
 import { Merchant } from "../entities/Npcs/Merchant.js";
 import { UpgradeBoard } from "../entities/InteractiveObjects/UpgradeBoard.js";
+import { DialogueNpc } from "../entities/Npcs/DialogueNpc.js";
 
 export class LevelGenerator {
     constructor(scene, levelConfiguration) {
@@ -197,6 +198,11 @@ export class LevelGenerator {
 
         fillInMerchant(object) {
             let npc = new Merchant(this.scene, object.x, object.y, "merchant-1", "merchant-1").setOrigin(0);
+            this.scene.npcs.add(npc);
+        }
+
+        fillInDialogueNpc(object) {
+            let npc = new DialogueNpc(this.scene, object.x, object.y, "merchant-1", "merchant-1", "test123").setOrigin(0);
             this.scene.npcs.add(npc);
         }
 
