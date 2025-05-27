@@ -1,6 +1,6 @@
 import { Npc } from "./Npc.js";
 
-export class Npc extends Npc {
+export class DialogueNpc extends Npc {
     constructor(scene, x, y, name, spritesheet, dialogue) {
         super(scene, x, y, name, spritesheet);
 
