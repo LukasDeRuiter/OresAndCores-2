@@ -182,6 +182,9 @@ export class LevelGenerator {
                 case "merchant":
                     this.fillInMerchant(object);
                     break;
+                case "dialogue-npc":
+                    this.fillInDialogueNpc(object);
+                    break;    
                 case "smelter":
                     this.fillInSmelter(object);
                     break;
