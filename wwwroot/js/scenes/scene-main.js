@@ -22,6 +22,7 @@ import { ControlBinder } from "../utils/control-binder.js";
 import { OverlapDetector } from "../utils/overlap-detector.js";
 import { Menu } from "../ui/Menu.js";
 import { Tooltip } from "../ui/Tooltip.js";
+import { DialogueNpc } from "../entities/Npcs/DialogueNpc.js";
 
 export class SceneMain extends Phaser.Scene {
         constructor() {
@@ -96,7 +97,10 @@ export class SceneMain extends Phaser.Scene {
 
             let npc = new Merchant(this, worldWidth / 2, (worldHeight / 12) + 30, "merchant-1", "merchant-1");
 
+            let npc2 = new DialogueNpc(this, worldWidth / 2, (worldHeight / 12) + 42, "merchant-1", "merchant-1", "test123");
+            
             this.npcs.add(npc);
+            this.npcs.add(npc2);
 
             this.levelGenerator.generateInteractiveObjects();
 

@@ -160,8 +160,6 @@ export class LevelGenerator {
             let x = Phaser.Math.Between(16, worldWidth - 32);
             let y = Phaser.Math.Between(16, worldHeight - 32);
 
-            //this.scene.smelter = new Smelter(this.scene, x + 8, y + 8);
-
             this.scene.smelter = new CraftingStation(this.scene, 400, 50, "smelter");
         }
 
