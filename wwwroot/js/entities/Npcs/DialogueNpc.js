@@ -43,6 +43,28 @@ export class DialogueNpc extends Npc {
         })
     }
 
+    createSpeechBox() {
+        const boxWidth = 120;
+        const boxHeight = 60;
+        const boxX = this.x;
+        const boxY = this.y - 50;
+
+    
+        const background = this.scene.add.rectangle(0, 0, boxWidth, boxHeight,0x222222, 0.5)
+            .setStrokeStyle(2, 0xffffff)
+   
+    
+        const text = this.scene.add.text(-boxWidth / 2 + 10, -boxHeight / 2 + 5, this.dialogue, {
+            fontSize: "10px",
+            fill: "#fff"
+        }).setResolution(2);
+    
+        this.speechBox = this.scene.add.container(boxX, boxY, [background, text])
+            .setDepth(999)
+            .setVisible(true);
+    }
+
+
      fadeInText(container, duration = 300) {
         container.setVisible(true);
         container.alpha = 0;

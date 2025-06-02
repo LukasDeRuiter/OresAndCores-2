@@ -102,10 +102,7 @@ export class Merchant extends Npc {
         });
 
         const exitButtonIcon = this.scene.add.image(0, 0, "cancel-button-icon").setDepth(52).setScrollFactor(0);
-
-        const exitButtonContainer = this.scene.add.container(565, 185, [exitButton, exitButtonIcon]);
-
-            
+        const exitButtonContainer = this.scene.add.container(565, 185, [exitButton, exitButtonIcon]);  
 
         const itemContainer = this.scene.add.container(0, 0).setDepth(51).setScrollFactor(0);
         itemContainer.x = 200;
@@ -153,7 +150,6 @@ export class Merchant extends Npc {
         const boxHeight = 60;
         const boxX = this.x;
         const boxY = this.y - 50;
-
     
         const background = this.scene.add.rectangle(0, 0, boxWidth, boxHeight,0x222222, 0.5)
             .setStrokeStyle(2, 0xffffff)
@@ -194,7 +190,6 @@ export class Merchant extends Npc {
             .setDepth(999)
             .setVisible(true);
     }
-
 
     fadeInText(container, duration = 300) {
         container.setVisible(true);
