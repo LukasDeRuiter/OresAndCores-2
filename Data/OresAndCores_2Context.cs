@@ -212,8 +212,29 @@ namespace OresAndCores_2.Data
              modelBuilder.Entity<LevelConfiguration>().HasData(
                 new LevelConfiguration 
                 { 
+                    Id = 0,
+                    Amount = 15, 
+                    Enemies = JsonSerializer.Serialize(new List<EntityPercentage>
+                    {
+                        new EntityPercentage {EntityId = 1, Percentage = 40},
+                        new EntityPercentage {EntityId = 2, Percentage = 40},
+                        new EntityPercentage {EntityId = 3, Percentage = 20}
+                    }),
+                    EnvironementObjects = JsonSerializer.Serialize(new List<EntityPercentage>
+                    {
+                        new EntityPercentage {EntityId = 0, Percentage = 75},
+                        new EntityPercentage {EntityId = 1, Percentage = 20, Layer = 2},
+                        new EntityPercentage {EntityId = 2, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 3, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 4, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 7, Percentage = 2, Layer = 2},
+                        new EntityPercentage {EntityId = 5, Percentage = 100, Layer = 3},
+                    }),
+                },
+                 new LevelConfiguration
+                {
                     Id = 1,
-                    Amount = 10, 
+                    Amount = 10,
                     Enemies = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
                         new EntityPercentage {EntityId = 1, Percentage = 100}
