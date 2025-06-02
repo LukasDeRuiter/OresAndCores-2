@@ -5,6 +5,8 @@ export class LevelConfigurationCalculator {
     }
 
     calculateEnemiesToSpawn() {
+        this.checklevelConfiguration();
+
         const enemyCount = this.levelConfiguration.amount ? this.levelConfiguration.amount : 10;
 
         const levelEnemyTypes = this.levelConfiguration.enemies;
@@ -31,6 +33,8 @@ export class LevelConfigurationCalculator {
     }
 
     calculateObjectsToSpawn() {
+        this.checklevelConfiguration();
+        
         const enemyCount = this.levelConfiguration.amount ? this.levelConfiguration.amount : 10;
 
         const levelEnemyTypes = this.levelConfiguration.enemies;
@@ -54,5 +58,11 @@ export class LevelConfigurationCalculator {
         }
 
         return enemiesToSpawn;
+    }
+
+    checklevelConfiguration() {
+        if (!this.levelConfiguration) {
+            this.levelConfiguration = this.scene.levelConfigurations.find(levelConfiguration => levelConfiguration.id === 0);
+        }
     }
 }
