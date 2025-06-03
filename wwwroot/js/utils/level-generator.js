@@ -12,7 +12,7 @@ import { DialogueNpc } from "../entities/Npcs/DialogueNpc.js";
 export class LevelGenerator {
     constructor(scene, levelConfiguration) {
         this.scene = scene;
-        this.levelConfiguration = levelConfiguration;
+        this.checklevelConfiguration(levelConfiguration);
     }
 
     generateChunks() {
@@ -221,4 +221,12 @@ export class LevelGenerator {
             let npc = new UpgradeBoard(this.scene, object.x, object.y, "upgrade-board").setOrigin(0);
             this.scene.npcs.add(npc);
         }
+
+    checklevelConfiguration(levelConfiguration) {
+        if (!levelConfiguration) {
+            this.levelConfiguration = this.scene.levelConfigurations.find(levelConfiguration => levelConfiguration.id === 100);
+        } else {
+            this.levelConfiguration = levelConfiguration;
+        }
+    }
 }
