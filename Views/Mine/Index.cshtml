@@ -42,10 +42,13 @@
         EnvironmentObjects = e.GetEnvironementObjects(),
     })))
 
+    window.userId =  @Html.Raw(Json.Serialize(Model.UserId));
+
     console.log("Loaded Levels:", window.levelConfigurations);
     console.log("Loaded Enemies:", window.enemies);
     console.log("Loaded Items:", window.items);
     console.log("Loaded Objects:", window.environmentObjects);
+    console.log("User ID:", window.userId);
 </script>
 
 <script type="module" src="~/js/mine.js"></script>
