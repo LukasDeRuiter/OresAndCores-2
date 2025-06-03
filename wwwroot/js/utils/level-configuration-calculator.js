@@ -62,7 +62,7 @@ export class LevelConfigurationCalculator {
 
     checklevelConfiguration() {
         if (!this.levelConfiguration) {
-            this.levelConfiguration = this.scene.levelConfigurations.find(levelConfiguration => levelConfiguration.id === 0);
+            this.levelConfiguration = this.scene.levelConfigurations.find(levelConfiguration => levelConfiguration.id === 100);
         }
     }
 }

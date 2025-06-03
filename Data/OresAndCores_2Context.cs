@@ -212,7 +212,7 @@ namespace OresAndCores_2.Data
              modelBuilder.Entity<LevelConfiguration>().HasData(
                 new LevelConfiguration 
                 { 
-                    Id = 0,
+                    Id = 100,
                     Amount = 15, 
                     Enemies = JsonSerializer.Serialize(new List<EntityPercentage>
                     {
