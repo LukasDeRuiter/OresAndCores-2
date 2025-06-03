@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,10 +27,13 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav">
-                        <li class="nav-item"></li>
+                        <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Ore" asp-action="Index">Overview</a>
                         </li>
-                        <li class="nav-item dropdown">
+
+                        @if (SignInManager.IsSignedIn(User)) 
+                        {
+                             <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-light" href="testMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Test Menu (development)
                             </a>
@@ -42,16 +50,16 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Item" asp-action="Index">test items</a>
                                 </li>
-                                <li class="nav-item"></li>
+                                <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="LevelConfiguration" asp-action="Index">test level configs</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        }
+                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Mine" asp-action="Index">Go to the mine</a>
                         </li>
-                        
-                    </ul>
+                        </ul>
 
                                             <div>
                              @{ await Html.RenderPartialAsync("_LoginPartial"); }
