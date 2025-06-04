@@ -5,6 +5,7 @@ using OresAndCores_2.Data;
 using OresAndCores_2.Models;
 using Microsoft.EntityFrameworkCore;
 using OresAndCores_2.Dtos;
+using System.Security.Claims;
 
 namespace OresAndCores_2.Controllers;
 
@@ -23,9 +24,9 @@ public class MineApiController : ControllerBase
     [HttpPost("save")]
     public async Task<IActionResult> SaveInventory([FromBody] InventoryDto data) 
     {
-        var UserId = 1;
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var userInventory = await _context.Inventory.FirstOrDefaultAsync(i => i.UserId == UserId);
+        var userInventory = await _context.Inventory.FirstOrDefaultAsync(i => i.UserId == currentUserId);
 
         if (userInventory != null) {
             userInventory.Data = JsonSerializer.Serialize(data.Inventory);
@@ -36,7 +37,7 @@ public class MineApiController : ControllerBase
         } else {
               var inventoryObject = new Inventory
         { 
-            UserId = UserId,
+            UserId = currentUserId,
             Data = JsonSerializer.Serialize(data.Inventory),
             PlayerLevel = data.Level,
             PlayerMoney = data.Money,
